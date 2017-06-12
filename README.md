@@ -5,8 +5,9 @@ A coding standard to check against the ITRocks coding standards.
 ### Composer
 This standard can be installed with Composer dependency manager:
 
-1. Install COmposer
-2. INstall coding standard as a dependcy of your project
+1. Install Composer
+2. Install coding standard as a dependcy of your project
+
 TODO
 ```
 composer require --dev ...
@@ -48,4 +49,15 @@ phpcs -i
 5. Done!
 ```
 phpcs --standard=ITRocks /path/to/code
+```
+
+# Run unit tests
+If you don't have already PHPUnit:
+```
+composer install
+```
+
+Then, run tests as following:
+```
+phpunit /path/to/ITRocks-coding-standards
 ```
