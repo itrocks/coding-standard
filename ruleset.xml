@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<ruleset name="ITRocks">
+	<description>The ITRocks coding standards.</description>
+
+	<rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman"></rule>
+	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent"></rule>
+	<rule ref="Generic.NamingConventions.CamelCapsFunctionName"></rule>
+	<rule ref="Generic.NamingConventions.UpperCaseConstantName"></rule>
+
+	<rule ref="PSR1.Classes.ClassDeclaration"></rule>
+</ruleset>

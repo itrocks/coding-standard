@@ -1,0 +1,22 @@
+{
+    "name": "itrocks/coding_standard",
+    "description": "CodeSniffer ruleset for the ITRocks 2+ coding standard",
+    "type": "phpcodesniffer-standard",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": { "ITRocks\\Coding_Standard\\": ["Sniffs/", "Tests/"] }
+    },
+
+    "authors": [
+        {
+            "name": "Goulven Le Dû",
+            "email": "goulven.ledu@bappli.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.0",
+        "phpunit/phpunit": "~4"
+    }
+}
