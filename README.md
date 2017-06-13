@@ -15,7 +15,7 @@ composer require --dev ...
 
 3. Add the coding standard to the PHP_CodeSniffer install path
 ```
- vendor/bin/phpcs --config-set installed_paths vendor/itrocks/coding_standards
+ vendor/bin/phpcs --config-set installed_paths vendor/itrocks/coding-standards
 ```
 
 4. Check the installed coding standards for "ITRocks"
