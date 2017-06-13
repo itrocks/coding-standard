@@ -5,7 +5,8 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
- * Class ScopeOrderSniff
+ * Class ScopeOrderSniff.
+ * Make sure methods of class/interface are ordered alphabetically.
  */
 class ScopeOrderSniff implements Sniff
 {
@@ -16,11 +17,6 @@ class ScopeOrderSniff implements Sniff
 	{
 		$tokens = $phpcsFile->getTokens();
 		$function = $stackPtr;
-		$scopes = array(
-			0 => T_PUBLIC,
-			1 => T_PROTECTED,
-			2 => T_PRIVATE,
-		);
 
 		while ($function) {
 			$end = null;
