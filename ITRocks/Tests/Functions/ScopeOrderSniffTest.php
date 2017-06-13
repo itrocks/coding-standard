@@ -1,5 +1,5 @@
 <?php
-namespace ITRocks\Tests\Functions;
+namespace ITRocks\Coding_Standard\Tests\Functions;
 
 /**
  * Class ScopeOrderSniffTest

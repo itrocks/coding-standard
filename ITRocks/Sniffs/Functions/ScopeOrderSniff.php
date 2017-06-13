@@ -1,12 +1,13 @@
 <?php
-namespace ITRocks\Sniffs\Functions;
+namespace ITRocks\Coding_Standard\Sniffs\Functions;
 
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
  * Class ScopeOrderSniff
  */
-class ScopeOrderSniff implements \PHP_CodeSniffer\Sniffs\Sniff
+class ScopeOrderSniff implements Sniff
 {
 	/**
 	 * {@inheritdoc}
