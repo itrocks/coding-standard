@@ -6,5 +6,11 @@ namespace ITRocks\Tests\Functions;
  */
 class ScopeOrderSniffTest extends \PHPunit_Framework_TestCase
 {
-	// TODO
+	/**
+	 * A foo test.
+	 */
+	public function testFoo()
+	{
+		$this->assertTrue(true);
+	}
 }
