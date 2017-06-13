@@ -4,7 +4,7 @@
     "type": "phpcodesniffer-standard",
     "license": "MIT",
     "autoload": {
-        "psr-4": { "ITRocks\\Coding_Standard\\": ["Sniffs/", "Tests/"] }
+        "psr-4": { "ITRocks\\Coding_Standard\\": ["ITRocks/Sniffs/", "ITRocks/Tests/"] }
     },
 
     "authors": [
