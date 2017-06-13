@@ -61,3 +61,41 @@ Then, run tests as following:
 ```
 phpunit /path/to/ITRocks-coding-standards
 ```
+
+# Debug CI
+
+* Install container
+
+	```bash
+	sudo docker run -dit --name cs \
+   -v $HOME/.ssh:/root/.ssh \
+   php:7.1.1
+	```
+	
+* Connect to docker
+	```bash
+	sudo docker exec -it cs /bin/bash
+	```
+
+	* Install project
+  	```bash
+  	apt update -yqq && apt install -y git zip
+  	mkdir -p /builds/itrocks
+  	cd /builds/itrocks
+  	git clone git@gitlab.bappli.com:itrocks/coding-standard.git
+  	cd coding-standard
+  	```
+  
+	* Checkout branch required / Modify composer as you want
+
+	* Install
+	```bash
+  curl -sS https://getcomposer.org/installer | php
+  php composer.phar install
+  ```
+  
+  * Run jobs
+  ```bash
+	vendor/bin/phpunit --colors=never
+  ```
+	
