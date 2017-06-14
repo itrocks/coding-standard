@@ -102,3 +102,14 @@ phpunit /path/to/ITRocks-coding-standards
 # TODO
 - Check PHPDoc
 - Check whitespaces before/after methods/functions
+
+# Run unit tests
+First, need to create a simlink in phpcs standards directory:
+```
+ln -s ITRocks/ vendor/squizlabs/php_codesniffer/src/Standards
+```
+
+Then, run unit tests:
+```
+vendor/bin/phpunit --filter ITRocks* vendor/squizlabs/php_codesniffer/tests/AllTests.php
+```
