@@ -18,30 +18,7 @@ class Upper_Snake_Case_Sniff_Test extends \PHPUnit_Framework_TestCase
 	 */
 	private $sniff;
 
-	//----------------------------------------------------------------------------- classNameProvider
-	/**
-	 * Provides class names to test Upper_Snake_Case_Sniff::isValidUpperSnakeCase().
-	 *
-	 * @return array
-	 */
-	public function classNameProvider()
-	{
-		return [
-			['foo', false],
-			['Foo', true],
-			['FooClass', false],
-			['foo_class', false],
-			['Foo_Class', true],
-			['foo_Class', false],
-			['FOO', false],
-			['FOO_CLASS', false],
-			['FoO_ClAsS', false],
-			['F00_Cl455', true],
-			['Foo__Class', false],
-			['Foo_Class_', false],
-			[123, false],
-		];
-	}
+	//----------------------------------------------------------------------- classNameFormatProvider
 	/**
 	 * Provides class names for :testFormatUpperSnakeCase().
 	 *
@@ -64,6 +41,31 @@ class Upper_Snake_Case_Sniff_Test extends \PHPUnit_Framework_TestCase
 			['MixedFoo_Class', 'Mixed_Foo_Class'],
 			['Mixed_FooClass', 'Mixed_Foo_Class'],
 			['Mixed_Fooclass', 'Mixed_Fooclass'],
+		];
+	}
+
+	//----------------------------------------------------------------------------- classNameProvider
+	/**
+	 * Provides class names to test Upper_Snake_Case_Sniff::isValidUpperSnakeCase().
+	 *
+	 * @return array
+	 */
+	public function classNameProvider()
+	{
+		return [
+			['foo', false],
+			['Foo', true],
+			['FooClass', false],
+			['foo_class', false],
+			['Foo_Class', true],
+			['foo_Class', false],
+			['FOO', false],
+			['FOO_CLASS', false],
+			['FoO_ClAsS', false],
+			['F00_Cl455', true],
+			['Foo__Class', false],
+			['Foo_Class_', false],
+			[123, false],
 		];
 	}
 
