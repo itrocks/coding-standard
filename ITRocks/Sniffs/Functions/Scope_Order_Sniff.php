@@ -5,10 +5,10 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
- * Class ScopeOrderSniff.
+ * Class Scope_Order_Sniff.
  * Make sure methods of class/interface are ordered alphabetically.
  */
-class ScopeOrderSniff implements Sniff
+class Scope_Order_Sniff implements Sniff
 {
 	/**
 	 * {@inheritdoc}

@@ -5,10 +5,10 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
- * Class UpperSnakeCaseSniff
+ * Class Upper_Snake_Case_Sniff
  * Make sure class names are in valid upper snake case.
  */
-class UpperSnakeCaseSniff implements Sniff
+class Upper_Snake_Case_Sniff implements Sniff
 {
 
 	//-------------------------------------------------------------------------- formatUpperSnakeCase

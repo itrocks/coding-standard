@@ -2,9 +2,9 @@
 namespace ITRocks\Coding_Standard\Tests\Functions;
 
 /**
- * Class ScopeOrderSniffTest
+ * Class Scope_Order_Sniff_Test
  */
-class ScopeOrderSniffTest extends \PHPunit_Framework_TestCase
+class Scope_Order_Sniff_Test extends \PHPunit_Framework_TestCase
 {
 	/**
 	 * A foo test.
