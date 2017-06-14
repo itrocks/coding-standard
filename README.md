@@ -99,3 +99,6 @@ phpunit /path/to/ITRocks-coding-standards
 	vendor/bin/phpunit --colors=never
   ```
 	
+# TODO
+- Check PHPDoc
+- Check whitespaces before/after methods/functions
