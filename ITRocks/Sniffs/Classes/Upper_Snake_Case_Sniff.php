@@ -71,18 +71,18 @@ class Upper_Snake_Case_Sniff implements Sniff
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(File $phpcsFile, $stackPtr)
+	public function process(File $phpcs_file, $stack_ptr)
 	{
-		$tokens = $phpcsFile->getTokens();
-		if (isset($tokens[$stackPtr]['scope_closer']) === false) {
+		$tokens = $phpcs_file->getTokens();
+		if (isset($tokens[$stack_ptr]['scope_closer']) === false) {
 			return;
 		}
 
-		$class_name = $tokens[$stackPtr+2]['content'];
+		$class_name = $tokens[$stack_ptr+2]['content'];
 
 		if (!$this->isValidUpperSnakeCase($class_name)) {
 			$err_msg = sprintf("Class %s should be %s", $class_name, $this->formatUpperSnakeCase($class_name));
-			$phpcsFile->addError($err_msg, $stackPtr, 'Invalid');
+			$phpcs_file->addError($err_msg, $stack_ptr, 'Invalid');
 		}
 	}
 

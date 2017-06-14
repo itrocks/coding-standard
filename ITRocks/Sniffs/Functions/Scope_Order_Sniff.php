@@ -13,20 +13,20 @@ class Scope_Order_Sniff implements Sniff
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(File $phpcsFile, $stackPtr)
+	public function process(File $phpcs_file, $stack_ptr)
 	{
-		$tokens = $phpcsFile->getTokens();
-		$function = $stackPtr;
+		$tokens = $phpcs_file->getTokens();
+		$function = $stack_ptr;
 
 		while ($function) {
 			$end = null;
-			if (isset($tokens[$stackPtr]['scope_closer'])) {
-				$end = $tokens[$stackPtr]['scope_closer'];
+			if (isset($tokens[$stack_ptr]['scope_closer'])) {
+				$end = $tokens[$stack_ptr]['scope_closer'];
 			}
-			$function = $phpcsFile->findNext(T_FUNCTION, $function + 1, $end);
+			$function = $phpcs_file->findNext(T_FUNCTION, $function + 1, $end);
 
 			if (isset($tokens[$function]['parenthesis_opener'])) {
-				$scope = $phpcsFile->findNext(
+				$scope = $phpcs_file->findNext(
 					T_STRING,
 					$function + 1,
 					$tokens[$function]['parenthesis_opener']
@@ -36,7 +36,7 @@ class Scope_Order_Sniff implements Sniff
 
 				if (isset($previous) && $previous > $current_method_name) {
 					$err_msg = sprintf('Methods must be ordered alphabetically: %s() must declared before %s().', $current_method_name, $previous);
-					$phpcsFile->addError($err_msg, $scope, 'Invalid');
+					$phpcs_file->addError($err_msg, $scope, 'Invalid');
 				}
 
 				$previous = $current_method_name;
