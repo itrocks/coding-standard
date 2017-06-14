@@ -5,9 +5,9 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
- * Class User_Order_Sniff.
+ * Class Use_Order_Sniff.
  */
-class User_Order_Sniff implements Sniff
+class Use_Order_Sniff implements Sniff
 {
 
 	//--------------------------------------------------------------------------------------- process
