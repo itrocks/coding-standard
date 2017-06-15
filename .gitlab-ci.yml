@@ -10,13 +10,12 @@ before_script:
   # Install and run Composer
   - curl -sS https://getcomposer.org/installer | php
   - php composer.phar install
+  - ln -s $CI_PROJECT_DIR/ITRocks vendor/squizlabs/php_codesniffer/src/Standards
 
 coding-standard:
   script:
-    - vendor/bin/phpcs --config-set installed_paths $CI_PROJECT_DIR/ITRocks
-    - vendor/bin/phpcs --standard=ITRocks $CI_PROJECT_DIR/ITRocks/Sniffs
-    - vendor/bin/phpcs --standard=ITRocks $CI_PROJECT_DIR/ITRocks/Tests
+    - vendor/bin/phpcs --standard=ITRocks $CI_PROJECT_DIR/ITRocks
 
 test:
   script:
-    - vendor/bin/phpunit $CI_PROJECT_DIR/ITRocks/Tests --colors=never
+    - vendor/bin/phpunit --filter ITRocks* vendor/squizlabs/php_codesniffer/tests/AllTests.php --colors=never
