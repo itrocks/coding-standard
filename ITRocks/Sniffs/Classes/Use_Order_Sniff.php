@@ -34,7 +34,11 @@ class Use_Order_Sniff implements Sniff
 			$use_statement = trim(preg_replace('#(/\*\*?.+\*/)#sU', '', $use_statement));
 
 			if ($previous > $use_statement) {
-				$error_message = sprintf('Use statement "%s" should be before "%s"', $use_statement, $previous);
+				$error_message = sprintf(
+					'Use statement "%s" should be before "%s"',
+					$use_statement,
+					$previous
+				);
 				$phpcs_file->addError($error_message, $use_position, 'invalid');
 			}
 

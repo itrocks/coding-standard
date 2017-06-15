@@ -81,7 +81,11 @@ class Upper_Snake_Case_Sniff implements Sniff
 		$class_name = $tokens[$stack_ptr+2]['content'];
 
 		if (!$this->isValidUpperSnakeCase($class_name)) {
-			$err_msg = sprintf("Class %s should be %s", $class_name, $this->formatUpperSnakeCase($class_name));
+			$err_msg = sprintf(
+				"Class %s should be %s",
+				$class_name,
+				$this->formatUpperSnakeCase($class_name)
+			);
 			$phpcs_file->addError($err_msg, $stack_ptr, 'Invalid');
 		}
 	}

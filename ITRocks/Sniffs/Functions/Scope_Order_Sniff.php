@@ -35,7 +35,11 @@ class Scope_Order_Sniff implements Sniff
 				$current_method_name = $tokens[$scope]['content'];
 
 				if (isset($previous) && $previous > $current_method_name) {
-					$err_msg = sprintf('Methods must be ordered alphabetically: %s() must declared before %s().', $current_method_name, $previous);
+					$err_msg = sprintf(
+						'Methods must be ordered alphabetically: %s() must declared before %s().',
+						$current_method_name,
+						$previous
+					);
 					$phpcs_file->addError($err_msg, $scope, 'Invalid');
 				}
 
