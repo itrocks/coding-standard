@@ -51,17 +51,6 @@ phpcs -i
 phpcs --standard=ITRocks /path/to/code
 ```
 
-# Run unit tests
-If you don't have already PHPUnit:
-```
-composer install
-```
-
-Then, run tests as following:
-```
-phpunit /path/to/ITRocks-coding-standards
-```
-
 # Debug CI
 
 * Install container
@@ -98,18 +87,21 @@ phpunit /path/to/ITRocks-coding-standards
   ```bash
 	vendor/bin/phpunit --colors=never
   ```
-	
-# TODO
-- Check PHPDoc
-- Check whitespaces before/after methods/functions
 
 # Run unit tests
-First, need to create a simlink in phpcs standards directory:
+From project's root, create a simlink in phpcs standards directory:
 ```
 ln -s ITRocks/ vendor/squizlabs/php_codesniffer/src/Standards
 ```
 
-Then, run unit tests:
+Then, run unit tests as following:
 ```
 vendor/bin/phpunit --filter ITRocks* vendor/squizlabs/php_codesniffer/tests/AllTests.php
 ```
+
+	
+# TODO
+- Check PHPDoc
+- Check class's constants order
+- Check class's attributes order
+- Check whitespaces before/after methods/functions
