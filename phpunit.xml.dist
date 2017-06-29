@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<phpunit
+	bootstrap="vendor/squizlabs/php_codesniffer/tests/AllTests.php"
+	colors="false"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	verbose="true"
+	stopOnFailure="false"
+	processIsolation="false"
+	backupGlobals="false"
+	syntaxCheck="true"
+>
+	<filter>
+		<whitelist addUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">ITRocks</directory>
+		</whitelist>
+	</filter>
+	<testsuite name="ITRocks">
+		<directory>ITRocks</directory>
+	</testsuite>
+</phpunit>

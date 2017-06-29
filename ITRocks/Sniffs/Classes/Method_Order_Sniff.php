@@ -1,5 +1,5 @@
 <?php
-namespace ITRocks\Coding_Standard\Sniffs\Functions;
+namespace ITRocks\Coding_Standard\Sniffs\Classes;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
@@ -8,15 +8,17 @@ use PHP_CodeSniffer\Sniffs\Sniff;
  * Class Scope_Order_Sniff.
  * Make sure methods of class/interface are ordered alphabetically.
  */
-class Scope_Order_Sniff implements Sniff
+class Method_Order_Sniff implements Sniff
 {
 	/**
 	 * {@inheritdoc}
 	 */
 	public function process(File $phpcs_file, $stack_ptr)
 	{
-		$tokens = $phpcs_file->getTokens();
-		$function = $stack_ptr;
+		$tokens            = $phpcs_file->getTokens();
+		$function          = $stack_ptr;
+		$correct_methods   = [];
+		$misplaced_methods = [];
 
 		while ($function) {
 			$end = null;
@@ -34,16 +36,26 @@ class Scope_Order_Sniff implements Sniff
 
 				$current_method_name = $tokens[$scope]['content'];
 
-				if (isset($previous) && $previous > $current_method_name) {
+				if ($current_method_name < end($correct_methods)) {
+					$misplaced_methods[$current_method_name] = $scope;
+				}
+				else {
+					$correct_methods[] = $current_method_name;
+				}
+			}
+		}
+
+		foreach ($misplaced_methods as $method_name => $scope) {
+			foreach ($correct_methods as $correct_method_name) {
+				if ($method_name < $correct_method_name) {
 					$err_msg = sprintf(
 						'Methods must be ordered alphabetically: %s() must declared before %s().',
-						$current_method_name,
-						$previous
+						$method_name,
+						$correct_method_name
 					);
 					$phpcs_file->addError($err_msg, $scope, 'Invalid');
+					break;
 				}
-
-				$previous = $current_method_name;
 			}
 		}
 	}
