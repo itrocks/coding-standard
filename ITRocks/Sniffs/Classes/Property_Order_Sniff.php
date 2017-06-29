@@ -22,10 +22,11 @@ class Property_Order_Sniff implements Sniff
 	 */
 	public function process(File $phpcs_file, $stack_ptr)
 	{
-		$wanted_tokens     = [T_PUBLIC, T_PROTECTED, T_PRIVATE, T_STATIC];
-		$previous_property = '';
-		$scope             = $phpcs_file->findNext($wanted_tokens, $stack_ptr);
-		$tokens            = $phpcs_file->getTokens();
+		$wanted_tokens        = [T_PUBLIC, T_PROTECTED, T_PRIVATE, T_STATIC];
+		$correct_properties   = [];
+		$misplaced_properties = [];
+		$scope                = $phpcs_file->findNext($wanted_tokens, $stack_ptr);
+		$tokens               = $phpcs_file->getTokens();
 
 		while($scope) {
 			if ($tokens[$scope + 2]['code'] == T_VARIABLE || $tokens[$scope + 4]['code'] == T_VARIABLE) {
@@ -35,15 +36,25 @@ class Property_Order_Sniff implements Sniff
 					$property = $tokens[$scope + 4]['content'];
 				}
 
-				if ($property < $previous_property) {
-					$err_msg = sprintf('Property %s must be declared before %s.', $property, $previous_property);
-					$phpcs_file->addError($err_msg, $scope, 'Invalid');
+				if ($property < end($correct_properties)) {
+					$misplaced_properties[$property] = $scope;
 				}
-
-				$previous_property = $property;
+				else {
+					$correct_properties[] = $property;
+				}
 			}
 
 			$scope = $phpcs_file->findNext($wanted_tokens, $scope+1);
+		}
+
+		foreach ($misplaced_properties as $property => $scope){
+			foreach ($correct_properties as $correct_property){
+				if ($property < $correct_property){
+					$err_msg = sprintf('Property %s must be declared before %s.', $property, $correct_property);
+					$phpcs_file->addError($err_msg, $scope, 'Invalid');
+					break;
+				}
+			}
 		}
 	}
 
