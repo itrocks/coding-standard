@@ -55,6 +55,9 @@ class Property_Order_Sniff implements Sniff
 	 */
 	public function register()
 	{
-		return [T_CLASS];
+		return [
+			T_CLASS,
+			T_TRAIT,
+		];
 	}
 }
