@@ -57,6 +57,7 @@ class Scope_Order_Sniff implements Sniff
 		return [
 			T_CLASS,
 			T_INTERFACE,
+			T_TRAIT,
 		];
 	}
 
