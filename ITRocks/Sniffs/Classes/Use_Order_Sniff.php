@@ -17,10 +17,11 @@ class Use_Order_Sniff implements Sniff
 	 */
 	public function process(File $phpcs_file, $stack_ptr)
 	{
-		$previous     = '';
-		$tokens       = $phpcs_file->getTokens();
-		$use_position = $stack_ptr;
-		$very_end     = $phpcs_file->findNext(T_CLASS, $use_position+1);
+		$previous      = '';
+		$tokens        = $phpcs_file->getTokens();
+		$use_position  = $stack_ptr;
+		$wanted_tokens = [T_CLASS, T_INTERFACE, T_TRAIT];
+		$very_end      = $phpcs_file->findNext($wanted_tokens, $use_position+1);
 
 		while($use_position && $use_position < $very_end) {
 			$end_of_line   = $phpcs_file->findNext(T_SEMICOLON, $use_position+1);
