@@ -82,7 +82,8 @@ class Upper_Snake_Case_Sniff implements Sniff
 
 		if (!$this->isValidUpperSnakeCase($class_name)) {
 			$err_msg = sprintf(
-				"Class %s should be %s",
+				"%s %s should be %s",
+				ucfirst($tokens[$stack_ptr]['content']),
 				$class_name,
 				$this->formatUpperSnakeCase($class_name)
 			);
@@ -99,6 +100,7 @@ class Upper_Snake_Case_Sniff implements Sniff
 		return [
 			T_CLASS,
 			T_INTERFACE,
+			T_TRAIT,
 		];
 	}
 
