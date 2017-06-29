@@ -48,6 +48,7 @@ class Const_Order_Sniff implements Sniff
 	{
 		return [
 			T_CLASS,
+			T_INTERFACE,
 		];
 	}
 
