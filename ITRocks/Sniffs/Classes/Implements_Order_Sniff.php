@@ -9,6 +9,8 @@ use PHP_CodeSniffer\Sniffs\Sniff;
  */
 class Implements_Order_Sniff implements Sniff
 {
+
+	//--------------------------------------------------------------------------------------- process
 	/**
 	 * {@inheritdoc}
 	 */
@@ -31,6 +33,7 @@ class Implements_Order_Sniff implements Sniff
 		}
 	}
 
+	//-------------------------------------------------------------------------------------- register
 	/**
 	 * {@inheritdoc}
 	 */

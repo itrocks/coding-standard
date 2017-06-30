@@ -10,6 +10,8 @@ use PHP_CodeSniffer\Sniffs\Sniff;
  */
 class Method_Order_Sniff implements Sniff
 {
+
+	//--------------------------------------------------------------------------------------- process
 	/**
 	 * {@inheritdoc}
 	 */

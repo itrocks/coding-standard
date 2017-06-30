@@ -29,7 +29,7 @@ abstract class Sniff_Test_Case extends \PHPUnit_Framework_TestCase
 	 */
 	public static $tested_file;
 
-	//-------------------------------------------------------------------------------- expectedErrors
+	//----------------------------------------------------------------------------- getExpectedErrors
 	/**
 	 * @return array
 	 */

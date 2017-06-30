@@ -9,8 +9,11 @@ use ITRocks\Coding_Standard\Tests\Sniff_Test_Case;
  */
 class Method_Order_Sniff_Test extends Sniff_Test_Case
 {
+
+	//----------------------------------------------------------------------------------------- SNIFF
 	const SNIFF = Method_Order_Sniff::class;
 
+	//----------------------------------------------------------------------------- getExpectedErrors
 	/**
 	 * {@inheritdoc}
 	 */
@@ -47,4 +50,5 @@ class Method_Order_Sniff_Test extends Sniff_Test_Case
 			]
 		];
 	}
+
 }
