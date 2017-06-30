@@ -2,6 +2,8 @@
 <ruleset name="ITRocks">
 	<description>The ITRocks coding standards.</description>
 
+	<exclude-pattern>*/Tests/*</exclude-pattern>
+
 	<rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman"></rule>
 	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent"></rule>
 	<rule ref="Generic.NamingConventions.CamelCapsFunctionName"></rule>
