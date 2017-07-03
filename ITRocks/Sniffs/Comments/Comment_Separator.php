@@ -1,13 +1,13 @@
 <?php
 namespace ITRocks\Coding_Standard\Sniffs\Comments;
 
+use ITRocks\Coding_Standard\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
-use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
  * Class Comment_Separator.
  */
-abstract class Comment_Separator implements Sniff
+abstract class Comment_Separator extends Sniff
 {
 
 	//------------------------------------------------------------------------------- INVALID_MESSAGE
@@ -39,6 +39,9 @@ abstract class Comment_Separator implements Sniff
 
 		if ($type == 'function') {
 			$name .= '()';
+		}
+		elseif ($type == 'variable') {
+			$type = 'property';
 		}
 
 		switch ($error_type) {
