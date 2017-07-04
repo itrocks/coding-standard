@@ -10,26 +10,55 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 class Implements_Order_Sniff implements Sniff
 {
 
+	//-------------------------------------------------------------------------- getInterfaceFullName
+	/**
+	 * Get the full name of an interface, even if its declared using full namespace.
+	 *
+	 * @param $file  File    The current file.
+	 * @param $start integer
+	 *
+	 * @return string
+	 */
+	private function getInterfaceFullName(File $file, &$start)
+	{
+		$interface = '';
+		$tokens    = $file->getTokens();
+		$types     = [T_STRING, T_NS_SEPARATOR];
+		$start     = $file->findNext($types, $start);
+
+		while (in_array($tokens[$start]['code'], $types)) {
+			$interface .= $tokens[$start]['content'];
+			$start++;
+		}
+
+		return $interface;
+	}
+
 	//--------------------------------------------------------------------------------------- process
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(File $phpcs_file, $stack_ptr)
+	public function process(File $file, $stack_ptr)
 	{
-		$end       = $phpcs_file->findNext(T_OPEN_CURLY_BRACKET, $stack_ptr);
-		$interface = $phpcs_file->findNext(T_STRING, $stack_ptr, $end);
-		$previous  = '';
-		$tokens    = $phpcs_file->getTokens();
+		$end        = $file->findNext(T_OPEN_CURLY_BRACKET, $stack_ptr+2);
+		$interfaces = [];
+		$scope      = $stack_ptr;
 
-		while ($interface) {
-			if ($tokens[$interface]['content'] < $previous) {
-				$error_message = 'Implemented interfaces must be listed alphabetically';
-				$phpcs_file->addError($error_message, $interface, 'invalid');
-				break;
+		while ($scope < $end) {
+			$interface = $this->getInterfaceFullName($file, $scope);
+
+			if (!empty($interface)) {
+				$interfaces[] = $interface;
 			}
+			$scope++;
+		}
 
-			$previous  = $tokens[$interface]['content'];
-			$interface = $phpcs_file->findNext(T_STRING, $interface+1, $end);
+		$sorted = $interfaces;
+		asort($interfaces);
+
+		if ($sorted !== $interfaces) {
+			$error_message = 'Implemented interfaces must be listed alphabetically';
+			$file->addError($error_message, $stack_ptr, 'invalid');
 		}
 	}
 
@@ -41,4 +70,5 @@ class Implements_Order_Sniff implements Sniff
 	{
 		return [T_IMPLEMENTS];
 	}
+
 }
