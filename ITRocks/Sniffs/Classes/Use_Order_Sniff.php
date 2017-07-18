@@ -34,7 +34,7 @@ class Use_Order_Sniff implements Sniff
 			// Remove potential comments.
 			$use_statement = trim(preg_replace('#(/\*\*?.+\*/)#sU', '', $use_statement));
 
-			if ($previous > $use_statement) {
+			if (strtolower($previous) > strtolower($use_statement)) {
 				$error_message = sprintf(
 					'Use statement "%s" should be before "%s"',
 					$use_statement,
