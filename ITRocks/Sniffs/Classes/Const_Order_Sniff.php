@@ -27,7 +27,7 @@ class Const_Order_Sniff implements Sniff
 
 			if ($constant < $previous) {
 				$error_message = sprintf(
-					'Constant %s must declared before constant %s',
+					'Constant %s must be declared before constant %s',
 					$constant,
 					$previous
 				);
