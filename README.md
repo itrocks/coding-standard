@@ -99,6 +99,29 @@ Then, run unit tests as following:
 vendor/bin/phpunit --filter ITRocks* vendor/squizlabs/php_codesniffer/tests/AllTests.php
 ```
 
+
+# PhpStorm integration
+After having cloned this project on your disk, you're able to integrate coding standards rules directly in PhpStorm:
+Go in PhpStorm settings:
+`Languages & Framework > PHP > Code Sniffer`
+
+Then, add a new configuration:
+```
+PHP Code Sniffer (phpcs path): /home/your_name/coding-standard/vendor/bin/phpcs
+Maximum number of messages per file [1...100]: 50
+Tool process timeout, sec [1...30]: 5
+```
+
+Click on Apply button.
+
+Now, go to: `Editor > Inspections > PHP > PHP Code Sniffer validation`, check the checkbox and configure as following:
+```
+Severity: Error | In All Scopes
+Show warning as: Warning
+Coding standard: ITRocks
+```
+
+That's it ! To inspect a file/directory, just right click on it in the project windows, select "Inspect Code...", then OK !
 	
 # TODO
 - Check PHPDoc
