@@ -102,6 +102,5 @@ vendor/bin/phpunit --filter ITRocks* vendor/squizlabs/php_codesniffer/tests/AllT
 	
 # TODO
 - Check PHPDoc
-- Check class's constants order
-- Check class's attributes order
 - Check whitespaces before/after methods/functions
+- Check brakets position after methods/functions
