@@ -121,4 +121,55 @@ abstract class Comment_Separator extends Sniff
 		return '//' . str_repeat('-', self::LENGTH - strlen($name)) . ' ' . $name . chr(10);
 	}
 
+	//------------------------------------------------------------------------------- getConstantName
+	/**
+	 * Get the constant name starting search from $start position.
+	 * A class constant declaration always ends by a semicolon.
+	 *
+	 * @param $file  File
+	 * @param $start integer
+	 * @return string
+	 */
+	public function getConstantName(File $file, $start)
+	{
+		return $this->getElementName($file, $start, T_SEMICOLON);
+	}
+
+	//-------------------------------------------------------------------------------- getElementName
+	/**
+	 * Get the name of an element starting search from $start.
+	 *
+	 * @param $file      File
+	 * @param $start     integer
+	 * @param $stop_type mixed The element type ending the declaration of the searched element.
+	 * @return string
+	 */
+	private function getElementName(File $file, $start, $stop_type)
+	{
+		$element_name = '';
+		$end           = $file->findNext($stop_type, $start);
+		$position      = $file->findNext(T_STRING, $start, $end);
+
+		if ($position) {
+			$element_name = $file->getTokens()[$position]['content'];
+		}
+
+		return $element_name;
+
+	}
+
+	//------------------------------------------------------------------------------- getFunctionName
+	/**
+	 * Get the function name starting search from $start position.
+	 * A function declaration is always followed by an opening bracket.
+	 *
+	 * @param $file  File
+	 * @param $start integer
+	 * @return string
+	 */
+	public function getFunctionName(File $file, $start)
+	{
+		return $this->getElementName($file, $start, T_CLOSE_CURLY_BRACKET);
+	}
+
 }
