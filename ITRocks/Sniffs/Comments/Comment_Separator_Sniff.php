@@ -18,7 +18,19 @@ class Comment_Separator_Sniff extends Comment_Separator
 	public function process(File $file, $stack_ptr)
 	{
 		$comment = $this->findPreviousComment($file, $stack_ptr);
-		$name    = $file->getTokens()[$stack_ptr+2]['content'];
+
+		switch ($file->getTokens()[$stack_ptr]['type']) {
+			case 'T_FUNCTION':
+				$name = $this->getFunctionName($file, $stack_ptr);
+				break;
+
+			case 'T_CONST':
+				$name = $this->getConstantName($file, $stack_ptr);
+				break;
+
+			default:
+				$name = '';
+		}
 
 		if (empty($comment)) {
 			$this->errorMissingComment($file, $stack_ptr, $name);
