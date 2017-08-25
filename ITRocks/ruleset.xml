@@ -8,11 +8,11 @@
 	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent"></rule>
 	<rule ref="Generic.NamingConventions.CamelCapsFunctionName"></rule>
 	<rule ref="Generic.NamingConventions.UpperCaseConstantName"></rule>
-	<rule ref="Squiz.Strings.ConcatenationSpacing">
+<!--	<rule ref="Squiz.Strings.ConcatenationSpacing">
 		<properties>
 			<property name="spacing" value="1" />
 		</properties>
-	</rule>
+	</rule>-->
 
 	<rule ref="PSR1.Classes.ClassDeclaration"></rule>
 
