@@ -1,13 +1,13 @@
 <?php
 namespace ITRocks\Coding_Standard\Sniffs\Classes;
 
-use ITRocks\Coding_Standard\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
  * Class Namespace_Sniff.
  */
-class Namespace_Sniff extends Sniff
+class Namespace_Sniff implements Sniff
 {
 
 	//--------------------------------------------------------------------------------------- process
