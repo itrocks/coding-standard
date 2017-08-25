@@ -12,10 +12,10 @@
 	<rule ref="PSR1.Classes.ClassDeclaration"></rule>
 
 	<!-- Warn about lines longer than 98 chars, and error for lines longer than 118 chars. -->
-	<rule ref="Generic.Files.LineLength">
+	<!--<rule ref="Generic.Files.LineLength">
 		<properties>
 			<property name="lineLimit" value="98" />
 			<property name="absoluteLineLimit" value="118" />
 		</properties>
-	</rule>
+	</rule>-->
 </ruleset>
