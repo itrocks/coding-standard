@@ -2,12 +2,14 @@
 namespace ITRocks\Coding_Standard\Sniffs\Comments;
 
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
  * Class Comment_Separator_Sniff.
  */
-class Comment_Separator_Sniff extends Comment_Separator
+class Comment_Separator_Sniff implements Sniff
 {
+	use Comment_Separator;
 
 	//--------------------------------------------------------------------------------------- process
 	/**

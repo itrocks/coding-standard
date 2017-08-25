@@ -1,23 +1,21 @@
 <?php
 namespace ITRocks\Coding_Standard\Sniffs\Comments;
 
-use ITRocks\Coding_Standard\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
 
 /**
- * Class Comment_Separator.
+ * Trait Comment_Separator.
  */
-abstract class Comment_Separator extends Sniff
+trait Comment_Separator
 {
+	//------------------------------------------------------------------------------ $invalid_message
+	public $invalid_message = 'Comment separator for %s %s is invalid';
 
-	//------------------------------------------------------------------------------- INVALID_MESSAGE
-	const INVALID_MESSAGE = 'Comment separator for %s %s is invalid';
+	//--------------------------------------------------------------------------------------- $length
+	public $length = 94;
 
-	//---------------------------------------------------------------------------------------- LENGTH
-	const LENGTH = 94;
-
-	//------------------------------------------------------------------------------- MISSING_MESSAGE
-	const MISSING_MESSAGE = 'Comment separator is missing for %s %s';
+	//------------------------------------------------------------------------------ $missing_message
+	public $missing_message = 'Comment separator is missing for %s %s';
 
 	//---------------------------------------------------------------------------------------- $types
 	protected $types = [T_SEMICOLON, T_CLOSE_CURLY_BRACKET, T_OPEN_CURLY_BRACKET];
@@ -46,11 +44,11 @@ abstract class Comment_Separator extends Sniff
 
 		switch ($error_type) {
 			case 'invalid':
-				$error_message = sprintf(self::INVALID_MESSAGE, $type, $name);
+				$error_message = sprintf($this->invalid_message, $type, $name);
 				break;
 
 			case 'missing':
-				$error_message = sprintf(self::MISSING_MESSAGE, $type, $name);
+				$error_message = sprintf($this->missing_message, $type, $name);
 				break;
 
 			default:
@@ -116,9 +114,9 @@ abstract class Comment_Separator extends Sniff
 	 *
 	 * @return string
 	 */
-	public static function getCommentSeparator($name)
+	public function getCommentSeparator($name)
 	{
-		return '//' . str_repeat('-', self::LENGTH - strlen($name)) . ' ' . $name . chr(10);
+		return '//' . str_repeat('-', $this->length - strlen($name)) . ' ' . $name . chr(10);
 	}
 
 	//------------------------------------------------------------------------------- getConstantName
@@ -171,5 +169,4 @@ abstract class Comment_Separator extends Sniff
 	{
 		return $this->getElementName($file, $start, T_CLOSE_CURLY_BRACKET);
 	}
-
 }

@@ -8,6 +8,9 @@ use ITRocks\Coding_Standard\Sniffs\Comments\Comment_Separator;
  */
 class Comment_Separator_Test extends \PHPUnit_Framework_TestCase
 {
+	// Use the trait to be able to test its methods.
+	use Comment_Separator;
+
 	//---------------------------------------------------------------------------------- nameProvider
 	/**
 	 * Provides test data for testGetCommentSeparator().
@@ -35,7 +38,7 @@ class Comment_Separator_Test extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetCommentSeparator($name, $expected)
 	{
-		$actual = Comment_Separator::getCommentSeparator($name);
+		$actual = $this->getCommentSeparator($name);
 		$this->assertEquals($expected, $actual);
 	}
 

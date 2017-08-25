@@ -2,46 +2,54 @@
 namespace ITRocks\Coding_Standard\Sniffs\Comments;
 
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\AbstractVariableSniff;
 
-/**
- * Special behavior for class properties.
- */
-class Property_Comment_Separator_Sniff extends Comment_Separator
+class Property_Comment_Separator_Sniff extends AbstractVariableSniff
 {
+	use Comment_Separator;
 
-	//--------------------------------------------------------------------------------------- process
+	//------------------------------------------------------------------------------ processMemberVar
 	/**
-	 * Makes sure all class properties have a comment separator.
+	 * Called to process class member vars.
 	 *
 	 * {@inheritdoc}
 	 */
-	public function process(File $file, $stack_ptr)
+	protected function processMemberVar(File $phpcs_file, $stack_ptr)
 	{
-		$scope  = $stack_ptr;
+		$tokens   = $phpcs_file->getTokens();
+		$property = $tokens[$stack_ptr]['content'];
 
-		while ($scope = $this->findNextClassProperty($file, $scope)) {
-			$comment  = $this->findPreviousComment($file, $scope);
-			$property = $file->getTokens()[$scope]['content'];
+		$comment_separator = $this->getCommentSeparator($property);
+		$actual = $this->findPreviousComment($phpcs_file, $stack_ptr);
 
-			if (empty($comment)) {
-				$this->errorMissingComment($file, $scope, $property);
-			}
-			elseif ($comment != $this->getCommentSeparator($property)) {
-				$this->errorInvalidComment($file, $scope, $property);
-			}
+		if (is_null($actual)) {
+			$this->errorMissingComment($phpcs_file, $stack_ptr, $property);
+		}
+		elseif ($actual != $comment_separator) {
+			$this->errorInvalidComment($phpcs_file, $stack_ptr, $property);
 		}
 	}
 
-	//-------------------------------------------------------------------------------------- register
+	//------------------------------------------------------------------------------- processVariable
 	/**
+	 * Called to process normal member vars.
+	 *
 	 * {@inheritdoc}
 	 */
-	public function register()
+	protected function processVariable(File $phpcs_file, $stack_ptr)
 	{
-		return [
-			T_CLASS,
-			T_TRAIT
-		];
+		// Don't care about normal variables.
+	}
+
+	//----------------------------------------------------------------------- processVariableInString
+	/**
+	 * Called to process variables found in double quoted strings or heredocs.
+	 *
+	 * {@inheritdoc}
+	 */
+	protected function processVariableInString(File $phpcs_file, $stack_ptr)
+	{
+		// Don't care about variables in double quotes.
 	}
 
 }
