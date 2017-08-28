@@ -98,9 +98,15 @@ trait Comment_Separator
 	{
 		$end     = $file->findPrevious($this->types, $stack_ptr);
 		$comment = $file->findPrevious(T_COMMENT, $stack_ptr, $end);
+		$tokens  = $file->getTokens();
 
 		if (!empty($comment)) {
-			return $file->getTokens()[$comment]['content'];
+			if (substr($tokens[$comment]['content'], 0, 2) == '//') {
+				return $tokens[$comment]['content'];
+			}
+			elseif (substr($tokens[$comment]['content'], 0, 2) == '/*') {
+				return $this->findPreviousComment($file, $comment-1);
+			}
 		}
 
 		return null;
