@@ -6,6 +6,7 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
  * Class Comment_Separator_Sniff.
+ * Make sure class's methods & constants have a valid comment separator.
  */
 class Comment_Separator_Sniff implements Sniff
 {

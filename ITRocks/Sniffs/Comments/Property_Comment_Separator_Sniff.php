@@ -4,6 +4,10 @@ namespace ITRocks\Coding_Standard\Sniffs\Comments;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\AbstractVariableSniff;
 
+/**
+ * Class Property_Comment_Separator_Sniff.
+ * Make sure class's properties have a valid comment separator.
+ */
 class Property_Comment_Separator_Sniff extends AbstractVariableSniff
 {
 	use Comment_Separator;
