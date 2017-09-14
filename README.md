@@ -1,8 +1,8 @@
 # ITRocks PHP CodeSNiffer Codeing Standard
 A coding standard to check against the ITRocks coding standards.
 
-## Installation
-### Composer
+## 1. Installation
+### 1.1 Composer
 This standard can be installed with Composer dependency manager:
 
 1. Install Composer
@@ -28,7 +28,7 @@ vendor/bin/phpcs -i
 vendor/bin/phpcs --standard=ITRocks /path/to/code
 ```
 
-### Stand-alone
+### 1.2 Stand-alone
 1. Install PHP_CodeSniffer
 2. Checkout this repository
 ```
@@ -51,7 +51,7 @@ phpcs -i
 phpcs --standard=ITRocks /path/to/code
 ```
 
-# Debug CI
+## 2. Debug CI
 
 * Install container
 
@@ -88,7 +88,7 @@ phpcs --standard=ITRocks /path/to/code
 	vendor/bin/phpunit --colors=never
   ```
 
-# Run unit tests
+## 3. Run unit tests
 From project's root, create a simlink in phpcs standards directory:
 ```
 ln -s ITRocks/ vendor/squizlabs/php_codesniffer/src/Standards
@@ -100,7 +100,7 @@ vendor/bin/phpunit --filter ITRocks* vendor/squizlabs/php_codesniffer/tests/AllT
 ```
 
 
-# PhpStorm integration
+## 4. PhpStorm integration
 After having cloned this project on your disk, you're able to integrate coding standards rules directly in PhpStorm.
 
 Go in PhpStorm settings `Languages & Framework > PHP > Code Sniffer` and configure as following:
@@ -118,8 +118,3 @@ Now, go to: `Editor > Inspections > PHP > PHP Code Sniffer validation`, check th
 That's it !
 
 To inspect a file/directory, just right click on it in the project windows, select "Inspect Code...", then OK !
-	
-# TODO
-- Check PHPDoc
-- Check whitespaces before/after methods/functions
-- Check brakets position after methods/functions
