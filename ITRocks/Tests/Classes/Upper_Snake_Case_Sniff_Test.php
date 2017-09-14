@@ -1,5 +1,4 @@
 <?php
-
 namespace ITRocks\Coding_Standard\Tests\Classes;
 
 use ITRocks\Coding_Standard\Sniffs\Classes\Upper_Snake_Case_Sniff;
