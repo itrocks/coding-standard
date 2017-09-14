@@ -24,7 +24,7 @@ class Property_Comment_Separator_Sniff extends AbstractVariableSniff
 		$property = $tokens[$stack_ptr]['content'];
 
 		$comment_separator = $this->getCommentSeparator($property);
-		$actual = $this->findPreviousComment($phpcs_file, $stack_ptr);
+		$actual            = $this->findPreviousComment($phpcs_file, $stack_ptr);
 
 		if (is_null($actual)) {
 			$this->errorMissingComment($phpcs_file, $stack_ptr, $property);
