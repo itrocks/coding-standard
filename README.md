@@ -35,19 +35,24 @@ vendor/bin/phpcs --standard=ITRocks /path/to/code
 git clone https://gitlab.bappli.com/itrocks/coding-standard
 ```
 
-3. Add the coding standard to the PHP_CodeSniffer install path
+3. Install dependencies
+```bash
+composer install
 ```
+
+4. Add the coding standard to the PHP_CodeSniffer install path
+```bash
  phpcs --config-set installed_paths path/to/ITRocks-coding-standards
 ```
 
 
-4. Check the installed coding standards for "ITRocks"
-```
+5. Check the installed coding standards for "ITRocks"
+```bash
 phpcs -i
 ```
 
-5. Done!
-```
+6. Done!
+```bash
 phpcs --standard=ITRocks /path/to/code
 ```
 
@@ -101,7 +106,7 @@ vendor/bin/phpunit --filter ITRocks* vendor/squizlabs/php_codesniffer/tests/AllT
 
 
 ## 4. PhpStorm integration
-After having cloned this project on your disk, you're able to integrate coding standards rules directly in PhpStorm.
+After having [cloned this project on your disk](#12-stand-alone), you're able to integrate coding standards rules directly in PhpStorm.
 
 Go in PhpStorm settings `Languages & Framework > PHP > Code Sniffer` and configure as following:
 
