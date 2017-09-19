@@ -91,7 +91,6 @@ trait Comment_Separator
 	 *
 	 * @param $file       File    The current parsed file object.
 	 * @param $stack_ptr  integer The current pointer position.
-	 *
 	 * @return null|string
 	 */
 	protected function findPreviousComment(File $file, $stack_ptr)
@@ -117,7 +116,6 @@ trait Comment_Separator
 	 * Generates a comment separator for the given name.
 	 *
 	 * @param $name string
-	 *
 	 * @return string
 	 */
 	public function getCommentSeparator($name)

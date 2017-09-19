@@ -21,7 +21,6 @@ class Property_Order_Sniff extends AbstractVariableSniff
 	 * @param \PHP_CodeSniffer\Files\File $phpcs_file The PHP_CodeSniffer file where this
 	 *                                               token was found.
 	 * @param int                         $stack_ptr  The position where the token was found.
-	 *
 	 * @return void
 	 */
 	protected function processMemberVar(File $phpcs_file, $stack_ptr)
@@ -65,7 +64,6 @@ class Property_Order_Sniff extends AbstractVariableSniff
 	 * @param \PHP_CodeSniffer\Files\File $phpcs_file The PHP_CodeSniffer file where this
 	 *                                               token was found.
 	 * @param int                         $stack_ptr  The position where the token was found.
-	 *
 	 * @return void
 	 */
 	protected function processVariable(File $phpcs_file, $stack_ptr)
@@ -84,7 +82,6 @@ class Property_Order_Sniff extends AbstractVariableSniff
 	 *                                               token was found.
 	 * @param int                         $stack_ptr  The position where the double quoted
 	 *                                               string was found.
-	 *
 	 * @return void
 	 */
 	protected function processVariableInString(File $phpcs_file, $stack_ptr)

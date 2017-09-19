@@ -16,7 +16,6 @@ class Implements_Order_Sniff implements Sniff
 	 *
 	 * @param $file  File    The current file.
 	 * @param $start integer
-	 *
 	 * @return string
 	 */
 	private function getInterfaceFullName(File $file, &$start)
