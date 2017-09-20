@@ -173,4 +173,5 @@ trait Comment_Separator
 	{
 		return $this->getElementName($file, $start, T_CLOSE_CURLY_BRACKET);
 	}
+
 }

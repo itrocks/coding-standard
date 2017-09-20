@@ -54,4 +54,5 @@ class Comment_Separator_Sniff implements Sniff
 			T_CONST,
 		];
 	}
+
 }
