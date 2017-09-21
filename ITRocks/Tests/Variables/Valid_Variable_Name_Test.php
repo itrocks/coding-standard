@@ -48,6 +48,42 @@ class Valid_Variable_Name_Test extends \PHPUnit_Framework_TestCase
 		$this->assertEquals($expected, $actual, $name);
 	}
 
+	//------------------------------------------------------------------------------- testIsUpperCase
+	/**
+	 * Test Valid_Variable_Name_Sniff::isUpperCase() in several cases.
+	 *
+	 * @dataProvider uppercaseProvider
+	 * @param $name	 string
+	 * @param $expected string
+	 */
+	public function testIsUpperCase($name, $expected)
+	{
+		$actual = $this->sniff->isUpperCase($name);
+
+		$this->assertEquals($expected, $actual, $name);
+	}
+
+	//----------------------------------------------------------------------------- uppercaseProvider
+	/**
+	 * Provides several variable names for ::testIsUpperCase().
+	 *
+	 * @return array
+	 */
+	public function uppercaseProvider()
+	{
+		return [
+			['', false],
+			['$foo', false],
+			['$Foo', false],
+			['$fOo', false],
+			['$FOO', true],
+			['$FOO_BAR', true],
+			['$foo_bar', false],
+			['$foo_Bar', false],
+			['$foo__bar', false],
+		];
+	}
+
 	//-------------------------------------------------------------------------- variableNameProvider
 	/**
 	 * Provides several variables names for ::testIsSnakeCase().
