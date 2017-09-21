@@ -31,10 +31,9 @@ class Comment_Separator_Test extends \PHPUnit_Framework_TestCase
 	/**
 	 * Tests Comment_Separator::getCommentSeparator() with several test parameters.
 	 *
+	 * @dataProvider nameProvider
 	 * @param $name     string
 	 * @param $expected string
-	 *
-	 * @dataProvider nameProvider
 	 */
 	public function testGetCommentSeparator($name, $expected)
 	{

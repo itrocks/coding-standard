@@ -89,7 +89,6 @@ class Upper_Snake_Case_Sniff_Test extends \PHPUnit_Framework_TestCase
 	//---------------------------------------------------------------------- testFormatUpperSnakeCase
 	/**
 	 * @dataProvider classNameFormatProvider
-	 *
 	 * @param $class_name
 	 * @param $expected
 	 */

@@ -84,4 +84,5 @@ abstract class Sniff_Test_Case extends \PHPUnit_Framework_TestCase
 		}
 		$this->assertEquals($this->getExpectedErrors(), $errors);
 	}
+
 }

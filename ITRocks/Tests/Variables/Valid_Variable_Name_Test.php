@@ -8,6 +8,8 @@ use ITRocks\Coding_Standard\Sniffs\Variables\Valid_Variable_Name_Sniff;
  */
 class Valid_Variable_Name_Test extends \PHPUnit_Framework_TestCase
 {
+
+	//---------------------------------------------------------------------------------------- $sniff
 	/**
 	 * Instance of the sniff to test.
 	 *
