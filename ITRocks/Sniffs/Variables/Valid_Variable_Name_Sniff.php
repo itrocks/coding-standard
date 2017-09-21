@@ -66,7 +66,7 @@ class Valid_Variable_Name_Sniff extends AbstractVariableSniff
 
 	//------------------------------------------------------------------------------ isUsedStatically
 	/**
-	 * Returns true if variable is used like self::$FOO or static::$FOO, false otherwise.
+	 * Returns true if variable is used like something::$FOO, false otherwise.
 	 *
 	 * @param $tokens    array   The list of tokens for the current parsed document.
 	 * @param $stack_ptr integer The token number of the current variable.
@@ -76,10 +76,7 @@ class Valid_Variable_Name_Sniff extends AbstractVariableSniff
 	{
 		$used_statically = false;
 
-		if (isset($tokens[$stack_ptr-1]) && isset($tokens[$stack_ptr-2])
-			&& $tokens[$stack_ptr-1]['type'] == 'T_DOUBLE_COLON'
-			&& in_array($tokens[$stack_ptr-2]['type'], ['T_SELF', 'T_STATIC'])
-		) {
+		if (isset($tokens[$stack_ptr-1]) && $tokens[$stack_ptr-1]['type'] == 'T_DOUBLE_COLON') {
 			$used_statically = true;
 		}
 
