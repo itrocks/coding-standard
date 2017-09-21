@@ -126,7 +126,7 @@ class Valid_Variable_Name_Sniff extends AbstractVariableSniff
 	private function processSimpleVariable(File $file, $stack_ptr, $type = 'Variable')
 	{
 		$tokens        = $file->getTokens();
-		$variable_name = $tokens[$stack_ptr]['content'];
+		$variable_name = preg_replace('#.*(\$[a-zA-Z0-9_]+).*#', '$1', $tokens[$stack_ptr]['content']);
 
 		if (!in_array($variable_name, $this->white_list) && !$this->isSnakeCase($variable_name)
 			&& !$this->isUsedStatically($tokens, $stack_ptr)
