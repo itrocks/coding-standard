@@ -64,6 +64,18 @@ class Valid_Variable_Name_Sniff extends AbstractVariableSniff
 		return $is_static;
 	}
 
+	//----------------------------------------------------------------------------------- isUpperCase
+	/**
+	 * Returns whether the variable is in upper case.
+	 *
+	 * @param $name string The name of the variable.
+	 * @return bool
+	 */
+	public function isUpperCase($name)
+	{
+		return (bool) preg_match( '#^\$[A-Z0-9_]+$#', $name );
+	}
+
 	//------------------------------------------------------------------------------ isUsedStatically
 	/**
 	 * Returns true if variable is used like something::$FOO, false otherwise.
@@ -92,10 +104,11 @@ class Valid_Variable_Name_Sniff extends AbstractVariableSniff
 		$tokens        = $file->getTokens();
 		$variable_name = $tokens[$stack_ptr]['content'];
 
-		// Do not check case of static class properties: they are allowed to be uppercase.
+		// Static members of a class must be either snake case or uppercase.
 		if (!in_array($variable_name, $this->white_list)
-			&& !$this->isStatic($file, $stack_ptr)
 			&& !$this->isSnakeCase($variable_name)
+			&& $this->isStatic($file, $stack_ptr)
+			&& !$this->isUpperCase($variable_name)
 		) {
 			$error_message = sprintf(self::INVALID_FORMAT, 'Property', $variable_name);
 			$file->addError($error_message, $stack_ptr, 'Invalid');
