@@ -2,8 +2,6 @@
 <ruleset name="ITRocks">
 	<description>The ITRocks coding standards.</description>
 
-	<exclude-pattern>*/Tests/*</exclude-pattern>
-
 	<rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman"></rule>
 	<rule ref="Squiz.Commenting.DocCommentAlignment"></rule>
 	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent"></rule>
