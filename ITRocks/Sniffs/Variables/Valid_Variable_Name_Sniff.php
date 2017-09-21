@@ -2,13 +2,16 @@
 namespace ITRocks\Coding_Standard\Sniffs\Variables;
 
 use PHP_CodeSniffer\Files\File;
-use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Sniffs\AbstractVariableSniff;
 
 /**
  * Class Valid_Variable_Name_Sniff.
  */
-class Valid_Variable_Name_Sniff implements Sniff
+class Valid_Variable_Name_Sniff extends AbstractVariableSniff
 {
+
+	//-------------------------------------------------------------------------------- INVALID_FORMAT
+	const INVALID_FORMAT = '%s %s is not in valid snake case format.';
 
 	//----------------------------------------------------------------------------------- $white_list
 	/**
@@ -32,7 +35,7 @@ class Valid_Variable_Name_Sniff implements Sniff
 	/**
 	 * Returns whether the variable is in snake_case.
 	 *
-	 * @param $name string
+	 * @param $name string The variable name.
 	 * @return bool
 	 */
 	public function isSnakeCase($name)
@@ -40,30 +43,105 @@ class Valid_Variable_Name_Sniff implements Sniff
 		return (bool) preg_match( '#^\$[a-z0-9_]+$#', $name );
 	}
 
-	//--------------------------------------------------------------------------------------- process
+	//-------------------------------------------------------------------------------------- isStatic
+	/**
+	 * Returns true if property is defined as static, false otherwise.
+	 *
+	 * @param $file      File    The processed file.
+	 * @param $stack_ptr integer The token number of the current variable.
+	 * @return boolean
+	 */
+	public function isStatic(File $file, $stack_ptr)
+	{
+		$is_static = false;
+		$tokens    = $file->getTokens();
+		$static    = $file->findPrevious(T_STATIC, $stack_ptr);
+
+		if ($static && $tokens[$static]['line'] == $tokens[$stack_ptr]['line']) {
+			$is_static = true;
+		}
+
+		return $is_static;
+	}
+
+	//------------------------------------------------------------------------------ isUsedStatically
+	/**
+	 * Returns true if variable is used like self::$FOO or static::$FOO, false otherwise.
+	 *
+	 * @param $tokens    array   The list of tokens for the current parsed document.
+	 * @param $stack_ptr integer The token number of the current variable.
+	 * @return boolean
+	 */
+	public function isUsedStatically(array $tokens, $stack_ptr)
+	{
+		$used_statically = false;
+
+		if (isset($tokens[$stack_ptr-1]) && isset($tokens[$stack_ptr-2])
+			&& $tokens[$stack_ptr-1]['type'] == 'T_DOUBLE_COLON'
+			&& in_array($tokens[$stack_ptr-2]['type'], ['T_SELF', 'T_STATIC'])
+		) {
+			$used_statically = true;
+		}
+
+		return $used_statically;
+	}
+
+	//------------------------------------------------------------------------------ processMemberVar
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(File $phpcs_file, $stack_ptr)
+	public function processMemberVar(File $file, $stack_ptr)
 	{
-		$tokens = $phpcs_file->getTokens();
+		$tokens        = $file->getTokens();
 		$variable_name = $tokens[$stack_ptr]['content'];
 
-		if (!in_array($variable_name, $this->white_list) && !$this->isSnakeCase($variable_name)) {
-			$error_message = sprintf('Variable %s is not in valid snake case format.', $variable_name);
-			$phpcs_file->addError($error_message, $stack_ptr, 'Invalid');
+		// Do not check case of static class properties: they are allowed to be uppercase.
+		if (!in_array($variable_name, $this->white_list)
+			&& !$this->isStatic($file, $stack_ptr)
+			&& !$this->isSnakeCase($variable_name)
+		) {
+			$error_message = sprintf(self::INVALID_FORMAT, 'Property', $variable_name);
+			$file->addError($error_message, $stack_ptr, 'Invalid');
 		}
 	}
 
-	//-------------------------------------------------------------------------------------- register
+	//------------------------------------------------------------------------- processSimpleVariable
+	/**
+	 * Called to process normal member vars.
+	 *
+	 * @param $file      File    The processed file.
+	 * @param $stack_ptr integer The token number of the current variable.
+	 * @param $type      string  Type to display in error message.
+	 */
+	private function processSimpleVariable(File $file, $stack_ptr, $type = 'Variable')
+	{
+		$tokens        = $file->getTokens();
+		$variable_name = $tokens[$stack_ptr]['content'];
+
+		if (!in_array($variable_name, $this->white_list) && !$this->isSnakeCase($variable_name)
+			&& !$this->isUsedStatically($tokens, $stack_ptr)
+		) {
+			$error_message = sprintf(self::INVALID_FORMAT, $type, $variable_name);
+			$file->addError($error_message, $stack_ptr, 'Invalid');
+		}
+	}
+
+	//------------------------------------------------------------------------------- processVariable
 	/**
 	 * {@inheritdoc}
 	 */
-	public function register()
+	public function processVariable(File $file, $stack_ptr)
 	{
-		return [
-			T_VARIABLE,
-		];
+		$this->processSimpleVariable($file, $stack_ptr);
+	}
+
+	//----------------------------------------------------------------------- processVariableInString
+	/**
+	 * {@inheritdoc}
+	 */
+	public function processVariableInString(File $file, $stack_ptr)
+	{
+		$this->processSimpleVariable($file, $stack_ptr, 'Double quoted variable');
 	}
 
 }
