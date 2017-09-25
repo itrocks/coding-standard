@@ -58,7 +58,8 @@ class Upper_Snake_Case_Sniff implements Sniff
 		$is_valid = true;
 
 		foreach ($words as $word) {
-			if (empty($word) || $word !== ucfirst(strtolower($word))) {
+			// Each word must be in full capital letters OR first letter capital followed by lower case letters.
+			if (empty($word) || ($word !== ucfirst(strtolower($word)) && $word !== strtoupper($word))) {
 				$is_valid = false;
 				break;
 			}
