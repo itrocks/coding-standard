@@ -51,7 +51,6 @@ class Comment_Separator_Sniff implements Sniff
 	{
 		return [
 			T_FUNCTION,
-			T_CONST,
 		];
 	}
 
