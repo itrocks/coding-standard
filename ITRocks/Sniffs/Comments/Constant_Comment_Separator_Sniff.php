@@ -6,7 +6,7 @@ use PHP_CodeSniffer\Files\File;
 /**
  * Ensures that not grouped constants have a valid comment separator.
  */
-class Constant_Comment_Sniff extends Comment_Separator_Sniff
+class Constant_Comment_Separator_Sniff extends Comment_Separator_Sniff
 {
 
 	//------------------------------------------------------------------------------------- isGrouped
