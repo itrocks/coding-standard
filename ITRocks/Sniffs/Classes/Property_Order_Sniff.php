@@ -18,15 +18,15 @@ class Property_Order_Sniff extends AbstractVariableSniff
 	/**
 	 * Called to process class member vars.
 	 *
-	 * @param \PHP_CodeSniffer\Files\File $phpcs_file The PHP_CodeSniffer file where this
+	 * @param \PHP_CodeSniffer\Files\File $file The PHP_CodeSniffer file where this
 	 *                                               token was found.
 	 * @param int                         $stack_ptr  The position where the token was found.
 	 * @return void
 	 */
-	protected function processMemberVar(File $phpcs_file, $stack_ptr)
+	protected function processMemberVar(File $file, $stack_ptr)
 	{
-		$filename = $phpcs_file->path;
-		$tokens   = $phpcs_file->getTokens();
+		$filename = $file->path;
+		$tokens   = $file->getTokens();
 		$property = $tokens[$stack_ptr]['content'];
 
 		// If key doesn't exist, that means we are processing a new file.
@@ -45,7 +45,7 @@ class Property_Order_Sniff extends AbstractVariableSniff
 		if (isset($properties[$i-1]) && $properties[$i-1] > $property) {
 			$previous_property = $properties[$i-1];
 
-			$phpcs_file->addError(
+			$file->addError(
 				sprintf(
 					'Property %s must be declared before %s',
 					$property,
@@ -61,12 +61,12 @@ class Property_Order_Sniff extends AbstractVariableSniff
 	/**
 	 * Called to process normal member vars.
 	 *
-	 * @param \PHP_CodeSniffer\Files\File $phpcs_file The PHP_CodeSniffer file where this
+	 * @param \PHP_CodeSniffer\Files\File $file The PHP_CodeSniffer file where this
 	 *                                               token was found.
 	 * @param int                         $stack_ptr  The position where the token was found.
 	 * @return void
 	 */
-	protected function processVariable(File $phpcs_file, $stack_ptr)
+	protected function processVariable(File $file, $stack_ptr)
 	{
 		// Don't care about normal variables.
 	}
@@ -78,13 +78,13 @@ class Property_Order_Sniff extends AbstractVariableSniff
 	 * Note that there may be more than one variable in the string, which will
 	 * result only in one call for the string or one call per line for heredocs.
 	 *
-	 * @param \PHP_CodeSniffer\Files\File $phpcs_file The PHP_CodeSniffer file where this
-	 *                                               token was found.
+	 * @param \PHP_CodeSniffer\Files\File $file The PHP_CodeSniffer file where this
+	 *                                          token was found.
 	 * @param int                         $stack_ptr  The position where the double quoted
 	 *                                               string was found.
 	 * @return void
 	 */
-	protected function processVariableInString(File $phpcs_file, $stack_ptr)
+	protected function processVariableInString(File $file, $stack_ptr)
 	{
 		// Don't care about variables in double quotes.
 	}

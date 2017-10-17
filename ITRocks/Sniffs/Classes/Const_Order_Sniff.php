@@ -16,11 +16,11 @@ class Const_Order_Sniff implements Sniff
 	 *
 	 * {@inheritdoc}
 	 */
-	public function process(File $phpcs_file, $stack_ptr)
+	public function process(File $file, $stack_ptr)
 	{
-		$const_position = $phpcs_file->findNext(T_CONST, $stack_ptr + 1);
+		$const_position = $file->findNext(T_CONST, $stack_ptr + 1);
 		$previous       = '';
-		$tokens         = $phpcs_file->getTokens();
+		$tokens         = $file->getTokens();
 
 		while ($const_position) {
 			$constant = $tokens[$const_position + 2]['content'];
@@ -32,10 +32,10 @@ class Const_Order_Sniff implements Sniff
 					$previous
 				);
 
-				$phpcs_file->addError($error_message, $const_position, 'invalid');
+				$file->addError($error_message, $const_position, 'invalid');
 			}
 
-			$const_position = $phpcs_file->findNext(T_CONST, $const_position + 1);
+			$const_position = $file->findNext(T_CONST, $const_position + 1);
 			$previous       = $constant;
 		}
 	}
