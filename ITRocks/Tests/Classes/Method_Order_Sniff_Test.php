@@ -20,34 +20,34 @@ class Method_Order_Sniff_Test extends Sniff_Test_Case
 	public function getExpectedErrors()
 	{
 		return [
-			19 => [
-				[
-					'source'  => 'Coding_Standard.Classes.Method_Order_.Invalid',
-					'message' => 'Methods must be ordered alphabetically:'
-						. ' method_02_misplaced() must declared before method_03().'
-				]
-			],
 			20 => [
 				[
 					'source'  => 'Coding_Standard.Classes.Method_Order_.Invalid',
 					'message' => 'Methods must be ordered alphabetically:'
-						. ' method_03_misplaced() must declared before method_04().'
+						. ' method_02_misplaced() must declared before meThod_02_MisPlacedBis().'
 				]
 			],
 			21 => [
 				[
 					'source'  => 'Coding_Standard.Classes.Method_Order_.Invalid',
 					'message' => 'Methods must be ordered alphabetically:'
-						. ' method_043_misplaced() must declared before method_05().'
+						. ' method_03_misplaced() must declared before method_04().'
 				]
 			],
 			22 => [
 				[
 					'source'  => 'Coding_Standard.Classes.Method_Order_.Invalid',
 					'message' => 'Methods must be ordered alphabetically:'
+						. ' method_043_misplaced() must declared before method_05().'
+				]
+			],
+			23 => [
+				[
+					'source'  => 'Coding_Standard.Classes.Method_Order_.Invalid',
+					'message' => 'Methods must be ordered alphabetically:'
 						. ' method_04_misplaced() must declared before method_05().'
 				]
-			]
+			],
 		];
 	}
 

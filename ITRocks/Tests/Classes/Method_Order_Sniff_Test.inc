@@ -5,6 +5,7 @@ class Foo
 {
 	function method_01() { }
 	public function method_02() { }
+	public function meThod_02_MisPlacedBis() { }
 	protected function method_03() { }
 	private function method_04() { }
 

@@ -15,9 +15,9 @@ class Method_Order_Sniff implements Sniff
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(File $phpcs_file, $stack_ptr)
+	public function process(File $file, $stack_ptr)
 	{
-		$tokens            = $phpcs_file->getTokens();
+		$tokens            = $file->getTokens();
 		$function          = $stack_ptr;
 		$correct_methods   = [];
 		$misplaced_methods = [];
@@ -27,10 +27,10 @@ class Method_Order_Sniff implements Sniff
 			if (isset($tokens[$stack_ptr]['scope_closer'])) {
 				$end = $tokens[$stack_ptr]['scope_closer'];
 			}
-			$function = $phpcs_file->findNext(T_FUNCTION, $function + 1, $end);
+			$function = $file->findNext(T_FUNCTION, $function + 1, $end);
 
 			if (isset($tokens[$function]['parenthesis_opener'])) {
-				$scope = $phpcs_file->findNext(
+				$scope = $file->findNext(
 					T_STRING,
 					$function + 1,
 					$tokens[$function]['parenthesis_opener']
@@ -38,7 +38,7 @@ class Method_Order_Sniff implements Sniff
 
 				$current_method_name = $tokens[$scope]['content'];
 
-				if ($current_method_name < end($correct_methods)) {
+				if (strcasecmp($current_method_name, end($correct_methods)) < 0) {
 					$misplaced_methods[$current_method_name] = $scope;
 				}
 				else {
@@ -49,13 +49,13 @@ class Method_Order_Sniff implements Sniff
 
 		foreach ($misplaced_methods as $method_name => $scope) {
 			foreach ($correct_methods as $correct_method_name) {
-				if ($method_name < $correct_method_name) {
+				if (strcasecmp($method_name, $correct_method_name) < 0) {
 					$err_msg = sprintf(
 						'Methods must be ordered alphabetically: %s() must declared before %s().',
 						$method_name,
 						$correct_method_name
 					);
-					$phpcs_file->addError($err_msg, $scope, 'Invalid');
+					$file->addError($err_msg, $scope, 'Invalid');
 					break;
 				}
 			}
