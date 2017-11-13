@@ -72,9 +72,9 @@ class Upper_Snake_Case_Sniff implements Sniff
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(File $phpcs_file, $stack_ptr)
+	public function process(File $file, $stack_ptr)
 	{
-		$tokens = $phpcs_file->getTokens();
+		$tokens = $file->getTokens();
 		if (isset($tokens[$stack_ptr]['scope_closer']) === false) {
 			return;
 		}
@@ -83,7 +83,7 @@ class Upper_Snake_Case_Sniff implements Sniff
 
 		if (!$this->isValidUpperSnakeCase($class_name)) {
 			$err_msg = sprintf("%s is not in valid Upper_Snake_Case format", $class_name);
-			$phpcs_file->addError($err_msg, $stack_ptr, 'Invalid');
+			$file->addError($err_msg, $stack_ptr, 'Invalid');
 		}
 	}
 
