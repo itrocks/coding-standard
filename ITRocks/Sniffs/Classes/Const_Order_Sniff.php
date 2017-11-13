@@ -25,7 +25,7 @@ class Const_Order_Sniff implements Sniff
 		while ($const_position) {
 			$constant = $tokens[$const_position + 2]['content'];
 
-			if ($constant < $previous) {
+			if (strcasecmp($constant, $previous) < 0) {
 				$error_message = sprintf(
 					'Constant %s must be declared before constant %s',
 					$constant,
