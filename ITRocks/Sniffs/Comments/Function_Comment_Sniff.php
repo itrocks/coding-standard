@@ -18,12 +18,12 @@ class Function_Comment_Sniff implements Sniff
 	{
 		$tokens = $file->getTokens();
 
-		if ($tokens[$stack_ptr]['content'] == '@param' &&
-			!preg_match('#^\$#', $tokens[$stack_ptr+2]['content'])
+		if ($tokens[$stack_ptr]['content'] == '@param'
+			&& !$this->validateDocFormat($tokens[$stack_ptr+2]['content'])
 		) {
 			$file->addError(
-				'PHPdoc param must begin by the variable followed by its type',
-				$stack_ptr+2,
+				'PHPdoc param must begin with the variable name followed by its type',
+				$stack_ptr + 2,
 				'Invalid'
 			);
 		}
@@ -36,6 +36,22 @@ class Function_Comment_Sniff implements Sniff
 	public function register()
 	{
 		return [T_DOC_COMMENT_TAG];
+	}
+
+	//----------------------------------------------------------------------------- validateDocFormat
+	/**
+	 * Validate given PHPDoc comment.
+	 * It must start with the variable name followed by its type hint.
+	 *
+	 * @param $phpdoc string
+	 * @return boolean
+	 */
+	public function validateDocFormat($phpdoc)
+	{
+		// Must begin with the variable name followed by its type hint.
+		$pattern = '#^\$#';
+
+		return (bool)preg_match($pattern, $phpdoc);
 	}
 
 }
