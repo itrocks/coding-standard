@@ -1,7 +1,7 @@
 <?php
 namespace ITRocks\Coding_Standard\Tests\Classes;
 
-use ITRocks\Coding_Standard\Sniffs\Classes\Const_Order_Sniff;
+use ITRocks\Coding_Standard\Sniffs\Classes\Constant_Order\Const_Order_Sniff;
 use ITRocks\Coding_Standard\Tests\Sniff_Test_Case;
 
 /**
@@ -22,9 +22,15 @@ class Const_Order_Sniff_Test extends Sniff_Test_Case
 		return [
 			12 => [
 				[
-					'source'  => 'Coding_Standard.Classes.Const_Order_.invalid',
-					'message' => 'Constant _CALLABLE must be declared before constant BOOLEAN',
+					'source'  => 'Sniffs.Constant_Order.Const_Order_.Invalid',
+					'message' => 'This group of constants must be declared before constant BOOLEAN',
 				],
+			],
+			17 => [
+				[
+					'source'  => 'Sniffs.Constant_Order.Const_Order_.Invalid',
+					'message' => 'This constant must be declared before constant DAA',
+				]
 			],
 		];
 	}
