@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <phpunit
-	bootstrap="vendor/squizlabs/php_codesniffer/tests/AllTests.php"
+	backupGlobals="false"
+	bootstrap="vendor/squizlabs/php_codesniffer/tests/bootstrap.php"
 	colors="false"
 	convertErrorsToExceptions="true"
 	convertNoticesToExceptions="true"
 	convertWarningsToExceptions="true"
-	verbose="true"
-	stopOnFailure="false"
 	processIsolation="false"
-	backupGlobals="false"
+	stopOnFailure="false"
 	syntaxCheck="true"
+	verbose="true"
 >
 	<filter>
 		<whitelist addUncoveredFilesFromWhitelist="true">

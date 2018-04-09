@@ -6,12 +6,19 @@ use PHP_CodeSniffer\Files\DummyFile;
 use PHP_CodeSniffer\Ruleset;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use ReflectionClass;
+use ReflectionException;
 
 /**
  * Class Sniff_TestCase
  */
 abstract class Sniff_Test_Case extends \PHPUnit_Framework_TestCase
 {
+
+	//-------------------------------------------------------------------------------------- EXPECTED
+	const EXPECTED = 'expected';
+
+	//--------------------------------------------------------------------------------------- MESSAGE
+	const MESSAGE = 'message';
 
 	//----------------------------------------------------------------------------------------- SNIFF
 	/**
@@ -21,6 +28,9 @@ abstract class Sniff_Test_Case extends \PHPUnit_Framework_TestCase
 	 */
 	const SNIFF = '';
 
+	//---------------------------------------------------------------------------------------- SOURCE
+	const SOURCE = 'source';
+
 	//---------------------------------------------------------------------------------- $tested_file
 	/**
 	 * The PHP_CodeSniffer_File object containing parsed contents of the test case file.
@@ -29,9 +39,24 @@ abstract class Sniff_Test_Case extends \PHPUnit_Framework_TestCase
 	 */
 	public static $tested_file;
 
+	//------------------------------------------------------------------------ expectedErrorsProvider
+	/**
+	 * @return array
+	 * @see testExpectedErrors
+	 */
+	public function expectedErrorsProvider()
+	{
+		$errors = [];
+		foreach ($this->getExpectedErrors() as $line => $expected_error) {
+			$errors['line ' . $line] = ['line' => $line, static::EXPECTED => $expected_error];
+		}
+		return $errors;
+	}
+
 	//----------------------------------------------------------------------------- getExpectedErrors
 	/**
 	 * @return array
+	 * @see testExpectedErrors
 	 */
 	abstract public function getExpectedErrors();
 
@@ -42,6 +67,8 @@ abstract class Sniff_Test_Case extends \PHPUnit_Framework_TestCase
 	 * directory and with the same name, using the .inc extension.
 	 *
 	 * @return void
+	 * @throws ReflectionException
+	 * @throws \PHP_CodeSniffer\Exceptions\RuntimeException
 	 */
 	public static function setUpBeforeClass()
 	{
@@ -64,25 +91,51 @@ abstract class Sniff_Test_Case extends \PHPUnit_Framework_TestCase
 		}
 	}
 
-	//------------------------------------------------------------------------------------- testError
+	//---------------------------------------------------------------------------- testExpectedErrors
 	/**
-	 * Test error after process
+	 * Tests all expected errors
+	 *
+	 * @dataProvider expectedErrorsProvider
+	 * @param $line            integer
+	 * @param $expected_errors array
 	 */
-	public function testError()
+	public function testExpectedErrors($line, $expected_errors)
+	{
+		$this->assertArrayHaskey($line, static::$tested_file->getErrors());
+
+		$errors = [];
+		foreach (static::$tested_file->getErrors()[$line] as $colum_errors) {
+			foreach ($colum_errors as $error) {
+				$errors[] = [
+					self::MESSAGE => $error[self::MESSAGE],
+					self::SOURCE  => $error[self::SOURCE],
+				];
+			}
+		}
+
+		$this->assertEquals($expected_errors, $errors);
+	}
+
+	//------------------------------------------------------------------------ testOnlyExpectedErrors
+	/**
+	 * Exact match of keys (no errors missing or excess)
+	 */
+	public function testOnlyExpectedErrors()
 	{
 		$errors = [];
 		foreach (static::$tested_file->getErrors() as $line => $line_errors) {
-			$errors[$line] = [];
-			foreach ($line_errors as $colum_errors) {
-				foreach ($colum_errors as $error) {
-					$errors[$line][] = [
-						'message' => $error['message'],
-						'source'  => $error['source'],
-					];
+			if (!array_key_exists($line, $this->getExpectedErrors())) {
+				foreach ($line_errors as $colum_errors) {
+					foreach ($colum_errors as $error) {
+						$errors[$line] = [
+							self::MESSAGE => $error[self::MESSAGE],
+							self::SOURCE  => $error[self::SOURCE],
+						];
+					}
 				}
 			}
 		}
-		$this->assertEquals($this->getExpectedErrors(), $errors);
+		$this->assertEquals([], $errors);
 	}
 
 }

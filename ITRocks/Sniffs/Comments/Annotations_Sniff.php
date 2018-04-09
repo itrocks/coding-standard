@@ -74,6 +74,20 @@ class Annotations_Sniff implements Sniff
 				);
 			}
 		}
+
+		$start    = $phpcs_file->findPrevious(T_DOC_COMMENT_OPEN_TAG, $stack_ptr);
+		$prev_tag = $phpcs_file->findPrevious(T_DOC_COMMENT_TAG, $stack_ptr - 1, $start);
+		$prev_str = $phpcs_file->findPrevious(T_DOC_COMMENT_STRING, $stack_ptr - 1, $start);
+
+		// Check if blank line exist below description
+		if ($prev_str && !$prev_tag
+			&& $tokens[$prev_str]['line'] === ($tokens[$stack_ptr]['line'] - 1)) {
+			$phpcs_file->addError(
+				'There must be a blank lines between description and annotations',
+				$stack_ptr,
+				'Invalid'
+			);
+		}
 	}
 
 	//-------------------------------------------------------------------------------------- register

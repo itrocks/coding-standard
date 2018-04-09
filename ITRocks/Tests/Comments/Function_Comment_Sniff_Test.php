@@ -13,6 +13,9 @@ class Function_Comment_Sniff_Test extends Sniff_Test_Case
 	//----------------------------------------------------------------------------------------- SNIFF
 	const SNIFF = Function_Comment_Sniff::class;
 
+	//---------------------------------------------------------------------------------------- SOURCE
+	const SOURCE = 'Coding_Standard.Comments.Function_Comment_.Invalid';
+
 	//----------------------------------------------------------------------------- getExpectedErrors
 	/**
 	 * {@inheritdoc}
@@ -22,13 +25,13 @@ class Function_Comment_Sniff_Test extends Sniff_Test_Case
 		return [
 			6  => [
 				[
-					'source'  => 'Coding_Standard.Comments.Function_Comment_.Invalid',
+					'source'  => self::SOURCE,
 					'message' => 'PHPdoc param must begin with the variable name followed by its type',
 				],
 			],
 			18 => [
 				[
-					'source'  => 'Coding_Standard.Comments.Function_Comment_.Invalid',
+					'source'  => self::SOURCE,
 					'message' => 'PHPdoc param must begin with the variable name followed by its type',
 				]
 			],

@@ -13,6 +13,9 @@ class Method_Order_Sniff_Test extends Sniff_Test_Case
 	//----------------------------------------------------------------------------------------- SNIFF
 	const SNIFF = Method_Order_Sniff::class;
 
+	//---------------------------------------------------------------------------------------- SOURCE
+	const SOURCE = 'Coding_Standard.Classes.Method_Order_.Invalid';
+
 	//----------------------------------------------------------------------------- getExpectedErrors
 	/**
 	 * {@inheritdoc}
@@ -22,28 +25,28 @@ class Method_Order_Sniff_Test extends Sniff_Test_Case
 		return [
 			20 => [
 				[
-					'source'  => 'Coding_Standard.Classes.Method_Order_.Invalid',
+					'source'  => self::SOURCE,
 					'message' => 'Methods must be ordered alphabetically:'
 						. ' method_02_misplaced() must declared before meThod_02_MisPlacedBis().'
 				]
 			],
 			21 => [
 				[
-					'source'  => 'Coding_Standard.Classes.Method_Order_.Invalid',
+					'source'  => self::SOURCE,
 					'message' => 'Methods must be ordered alphabetically:'
 						. ' method_03_misplaced() must declared before method_04().'
 				]
 			],
 			22 => [
 				[
-					'source'  => 'Coding_Standard.Classes.Method_Order_.Invalid',
+					'source'  => self::SOURCE,
 					'message' => 'Methods must be ordered alphabetically:'
 						. ' method_043_misplaced() must declared before method_05().'
 				]
 			],
 			23 => [
 				[
-					'source'  => 'Coding_Standard.Classes.Method_Order_.Invalid',
+					'source'  => self::SOURCE,
 					'message' => 'Methods must be ordered alphabetically:'
 						. ' method_04_misplaced() must declared before method_05().'
 				]

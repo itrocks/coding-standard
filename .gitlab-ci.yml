@@ -10,13 +10,26 @@ before_script:
   # Install and run Composer
   - curl -sS https://getcomposer.org/installer | php
   - php composer.phar install
+  - if [ ! -L vendor/squizlabs/php_codesniffer/src/Standards/ITRocks ]; then ln -s $CI_PROJECT_DIR/ITRocks vendor/squizlabs/php_codesniffer/src/Standards; fi
+
+code-coverage:
+  stage: quality
+  script:
+    - pecl install xdebug
+    - docker-php-ext-enable xdebug
+    - vendor/bin/phpunit --configuration $CI_PROJECT_DIR/phpunit.xml.dist --coverage-text --colors=never
 
 coding-standard:
+  stage: test
   script:
     - vendor/bin/phpcs --config-set installed_paths $CI_PROJECT_DIR/ITRocks
     - vendor/bin/phpcs --standard=ITRocks --extensions=php $CI_PROJECT_DIR/ITRocks
 
 test:
+  stage: test
   script:
-    - if [ ! -L vendor/squizlabs/php_codesniffer/src/Standards/ITRocks ]; then ln -s $CI_PROJECT_DIR/ITRocks vendor/squizlabs/php_codesniffer/src/Standards; fi
     - vendor/bin/phpunit --configuration $CI_PROJECT_DIR/phpunit.xml.dist
+
+stages:
+  - test
+  - quality
