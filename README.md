@@ -39,18 +39,12 @@ git clone https://gitlab.bappli.com/itrocks/coding-standard
 cd coding-standards && composer install
 ```
 
-3. Add the coding standard to the PHP_CodeSniffer install path
-```bash
- vendor/bin/phpcs --config-set installed_paths ./ITRocks
-```
-
-
-4. Check the installed coding standards for "ITRocks"
+3. Check the installed coding standards for "ITRocks"
 ```bash
 vendor/bin/phpcs -i
 ```
 
-5. Usage
+4. Usage
 ```bash
 vendor/bin/phpcs --standard=ITRocks /path/to/code
 ```

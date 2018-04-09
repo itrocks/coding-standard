@@ -18,5 +18,13 @@
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.0",
         "phpunit/phpunit": "5.*"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php vendor/bin/phpcs --config-set installed_paths `realpath ./ITRocks`"
+        ],
+        "post-update-cmd": [
+            "php vendor/bin/phpcs --config-set installed_paths `realpath ./ITRocks`"
+        ]
     }
 }
