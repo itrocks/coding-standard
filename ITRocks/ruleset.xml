@@ -2,6 +2,9 @@
 <ruleset name="ITRocks">
 	<description>The ITRocks coding standards.</description>
 
+	<!-- PHP code MUST use only UTF-8 without BOM. -->
+	<rule ref="Generic.Files.ByteOrderMark"></rule>
+
 	<rule ref="Squiz.Commenting.DocCommentAlignment"></rule>
 	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent"></rule>
 	<rule ref="Generic.NamingConventions.CamelCapsFunctionName"></rule>
