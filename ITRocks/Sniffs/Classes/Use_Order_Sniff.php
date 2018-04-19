@@ -21,13 +21,13 @@ class Use_Order_Sniff implements Sniff
 		$tokens        = $phpcs_file->getTokens();
 		$use_position  = $stack_ptr;
 		$wanted_tokens = [T_CLASS, T_INTERFACE, T_TRAIT];
-		$very_end      = $phpcs_file->findNext($wanted_tokens, $use_position+1);
+		$very_end      = $phpcs_file->findNext($wanted_tokens, $use_position + 1);
 
-		while($use_position && $use_position < $very_end) {
-			$end_of_line   = $phpcs_file->findNext(T_SEMICOLON, $use_position+1);
+		while ($use_position && $use_position < $very_end) {
+			$end_of_line   = $phpcs_file->findNext(T_SEMICOLON, $use_position + 1);
 			$use_statement = '';
 
-			for ($i = $use_position+1; $i < $end_of_line; $i++) {
+			for ($i = $use_position + 1; $i < $end_of_line; $i++) {
 				$use_statement .= $tokens[$i]['content'];
 			}
 
@@ -44,12 +44,13 @@ class Use_Order_Sniff implements Sniff
 			}
 
 			$previous     = $use_statement;
-			$use_position = $phpcs_file->findNext(T_USE, $use_position+1);
+			$use_position = $phpcs_file->findNext(T_USE, $use_position + 1);
 		}
 	}
 
 	//-------------------------------------------------------------------------------------- register
 	/**
+	 * @codeCoverageIgnore
 	 * {@inheritdoc}
 	 */
 	public function register()

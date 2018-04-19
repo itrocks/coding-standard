@@ -80,12 +80,12 @@ class Const_Order_Sniff implements Sniff
 
 		// Find all constants of the class and group them.
 		while ($const_position) {
-			$name = $tokens[$const_position+2]['content'];
+			$name = $tokens[$const_position + 2]['content'];
 			$line = $tokens[$const_position]['line'];
 
 			$constant = new Const_Object($name, $line, $const_position);
 
-			if ($previous instanceof Const_Object && ($constant->line-1 == $previous->line)) {
+			if ($previous instanceof Const_Object && ($constant->line - 1 == $previous->line)) {
 				$group[] = $constant;
 			}
 			// New group.
@@ -135,6 +135,7 @@ class Const_Order_Sniff implements Sniff
 
 	//-------------------------------------------------------------------------------------- register
 	/**
+	 * @codeCoverageIgnore
 	 * {@inheritdoc}
 	 */
 	public function register()

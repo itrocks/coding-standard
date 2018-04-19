@@ -19,7 +19,7 @@ class Constant_Comment_Separator_Sniff extends Comment_Separator_Sniff
 	 */
 	private function isGrouped(File $file, $stack_ptr)
 	{
-		$previous = $file->findPrevious(T_CONST, $stack_ptr-1);
+		$previous = $file->findPrevious(T_CONST, $stack_ptr - 1);
 		$tokens   = $file->getTokens();
 
 		if (isset($tokens[$previous]['line'])
@@ -28,7 +28,7 @@ class Constant_Comment_Separator_Sniff extends Comment_Separator_Sniff
 			return true;
 		}
 
-		$next = $file->findNext(T_CONST, $stack_ptr+1);
+		$next = $file->findNext(T_CONST, $stack_ptr + 1);
 
 		if (isset($tokens[$next]['line'])
 			&& $tokens[$stack_ptr]['line'] == ($tokens[$next]['line'] - 1)
@@ -47,7 +47,7 @@ class Constant_Comment_Separator_Sniff extends Comment_Separator_Sniff
 	{
 		if ($this->isGrouped($file, $stack_ptr)) {
 			// Skip validation for grouped constants.
-			return ;
+			return;
 		}
 
 		parent::process($file, $stack_ptr);
@@ -55,6 +55,7 @@ class Constant_Comment_Separator_Sniff extends Comment_Separator_Sniff
 
 	//-------------------------------------------------------------------------------------- register
 	/**
+	 * @codeCoverageIgnore
 	 * {@inheritdoc}
 	 */
 	public function register()

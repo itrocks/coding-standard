@@ -1,6 +1,7 @@
 <?php
 namespace ITRocks\Coding_Standard\Sniffs\Comments;
 
+use ITRocks\Coding_Standard\Sniffs\Tools\Token_Navigator;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
@@ -10,6 +11,14 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 class Annotations_Sniff implements Sniff
 {
 
+	//----------------------------------------------------------------------- ERROR_ANNOTATIONS_ORDER
+	const ERROR_ANNOTATIONS_ORDER = 'Annotations must be ordered alphabetically';
+	//------------------------------------------------------------------ ERROR_BLANK_LINE_ANNOTATIONS
+	const ERROR_BLANK_LINE_ANNOTATIONS = 'There must be no blank lines between annotations';
+
+	//------------------------------------------------------------ ERROR_BLANK_LINE_BELOW_DESCRIPTION
+	const ERROR_BLANK_LINE_BELOW_DESCRIPTION = 'There must be a blank lines between description and annotations';
+
 	//-------------------------------------------------------------------------------- findBlankLines
 	/**
 	 * Returns true if there is at least one blank line between 2 annotations.
@@ -17,7 +26,7 @@ class Annotations_Sniff implements Sniff
 	 * @param $tokens array   The token list.
 	 * @param $start  integer Where to start search for.
 	 * @param $stop   integer Where to stop search for.
-	 * @return bool
+	 * @return boolean
 	 */
 	private function findBlankLines(array $tokens, $start, $stop)
 	{
@@ -49,6 +58,7 @@ class Annotations_Sniff implements Sniff
 	 */
 	public function process(File $phpcs_file, $stack_ptr)
 	{
+		$token_navigator = new Token_Navigator($phpcs_file, $stack_ptr);
 		$tokens = $phpcs_file->getTokens();
 		$closer = $phpcs_file->findNext(T_DOC_COMMENT_CLOSE_TAG, $stack_ptr);
 
@@ -58,7 +68,7 @@ class Annotations_Sniff implements Sniff
 
 			if ($first > $second) {
 				$phpcs_file->addError(
-					'Annotations must be ordered alphabetically',
+					self::ERROR_ANNOTATIONS_ORDER,
 					$stack_ptr,
 					'Invalid'
 				);
@@ -68,7 +78,7 @@ class Annotations_Sniff implements Sniff
 				&& $this->findBlankLines($tokens, $stack_ptr, $next)
 			) {
 				$phpcs_file->addError(
-					'There must be no blank lines between annotations',
+					self::ERROR_BLANK_LINE_ANNOTATIONS,
 					$next,
 					'Invalid'
 				);
@@ -82,16 +92,23 @@ class Annotations_Sniff implements Sniff
 		// Check if blank line exist below description
 		if ($prev_str && !$prev_tag
 			&& $tokens[$prev_str]['line'] === ($tokens[$stack_ptr]['line'] - 1)) {
-			$phpcs_file->addError(
-				'There must be a blank lines between description and annotations',
+			$fix = $phpcs_file->addFixableError(
+				self::ERROR_BLANK_LINE_BELOW_DESCRIPTION,
 				$stack_ptr,
 				'Invalid'
 			);
+			if($fix){
+				$first_token = $phpcs_file->findPrevious(T_DOC_COMMENT_STAR, $stack_ptr);
+				$phpcs_file->fixer->addContentBefore($first_token, '*'.$phpcs_file->eolChar);
+			}
 		}
 	}
 
 	//-------------------------------------------------------------------------------------- register
 	/**
+	 * efefef
+	 *
+	 * @codeCoverageIgnore
 	 * {@inheritdoc}
 	 */
 	public function register()

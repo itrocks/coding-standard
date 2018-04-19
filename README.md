@@ -116,3 +116,18 @@ Now, go to: `Editor > Inspections > PHP > PHP Code Sniffer validation`, check th
 That's it !
 
 To inspect a file/directory, just right click on it in the project windows, select "Inspect Code...", then OK !
+
+## 5. PhpStorm AutoFix
+
+* Go to Settings -> Tools -> External tools
+* Configure the following
+  * Name : Coding Standard
+  * Program : ```/home/thomas/PhpStorm/itrocks/coding-standard/vendor/bin/phpcbf``` (Replace thomas by your $HOME)
+  * Arguments : ```-vvv --standard=ITRocks --extensions=php,fixed.inc $FilePath$```
+  * Project directory : ```$ProjectFileDir$```
+    ![PhpStorm External Tool](doc/external-tool.png "PhpStorm External Tool")
+3 Go to Settings -> Keymap -> External Tools -> Coding Standard
+  * Right click -> Add Keyboard Shortcut
+  * Add : Ctrl+<
+  
+Now you can auto-fix your php files

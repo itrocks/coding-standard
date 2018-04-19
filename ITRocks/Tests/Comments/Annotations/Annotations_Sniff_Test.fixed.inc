@@ -3,6 +3,7 @@ namespace ITRocks\Coding_Standard\Tests\Comments\Annotations;
 
 /**
  * Class Dummy_Class
+ *
  * @foo1 test
  * @bar1 toto
  *
@@ -26,6 +27,7 @@ class Dummy_Class
 	/**
 	 * I should have written a blank line
 	 * below this one
+	 *
 	 * @param $a string
 	 */
 	public function foo($a)

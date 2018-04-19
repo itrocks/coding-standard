@@ -4,32 +4,21 @@ namespace ITRocks\Coding_Standard\Tests;
 use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Files\DummyFile;
 use PHP_CodeSniffer\Ruleset;
-use PHP_CodeSniffer\Sniffs\Sniff;
+use PHPUnit_Framework_TestCase;
 use ReflectionClass;
 use ReflectionException;
 
 /**
  * Class Sniff_TestCase
  */
-abstract class Sniff_Test_Case extends \PHPUnit_Framework_TestCase
+abstract class Sniff_Test_Case extends PHPUnit_Framework_TestCase
 {
 
-	//-------------------------------------------------------------------------------------- EXPECTED
-	const EXPECTED = 'expected';
-
-	//--------------------------------------------------------------------------------------- MESSAGE
-	const MESSAGE = 'message';
-
-	//----------------------------------------------------------------------------------------- SNIFF
+	//--------------------------------------------------------------------------- $path_to_fixed_file
 	/**
-	 * Class of the sniff to test.
-	 *
-	 * @var Sniff
+	 * @var string
 	 */
-	const SNIFF = '';
-
-	//---------------------------------------------------------------------------------------- SOURCE
-	const SOURCE = 'source';
+	private $path_to_fixed_file;
 
 	//---------------------------------------------------------------------------------- $tested_file
 	/**
@@ -37,30 +26,33 @@ abstract class Sniff_Test_Case extends \PHPUnit_Framework_TestCase
 	 *
 	 * @var \PHP_CodeSniffer\Files\File
 	 */
-	public static $tested_file;
+	public $tested_file;
 
-	//------------------------------------------------------------------------ expectedErrorsProvider
+	//------------------------------------------------------------------------------------- getErrors
 	/**
-	 * @return array
-	 * @see testExpectedErrors
+	 * @return Error[]
 	 */
-	public function expectedErrorsProvider()
+	public function getErrors()
 	{
-		$errors = [];
-		foreach ($this->getExpectedErrors() as $line => $expected_error) {
-			$errors['line ' . $line] = ['line' => $line, static::EXPECTED => $expected_error];
+		$parsed_errors = [];
+		foreach ($this->tested_file->getErrors() as $line => $line_errors) {
+			foreach ($line_errors as $column_errors) {
+				foreach ($column_errors as $error) {
+					$parsed_errors[] = new Error($line, $error['message'], $error['source']);
+				}
+			}
 		}
-		return $errors;
+		return $parsed_errors;
 	}
 
 	//----------------------------------------------------------------------------- getExpectedErrors
 	/**
-	 * @return array
+	 * @return Error[]
 	 * @see testExpectedErrors
 	 */
 	abstract public function getExpectedErrors();
 
-	//------------------------------------------------------------------------------ setUpBeforeClass
+	//----------------------------------------------------------------------------------------- setUp
 	/**
 	 * Initialize & tokenize \PHP_CodeSniffer\Files\File with code from the test case file.
 	 * Methods used for these tests can be found in a test case file in the same
@@ -70,72 +62,73 @@ abstract class Sniff_Test_Case extends \PHPUnit_Framework_TestCase
 	 * @throws ReflectionException
 	 * @throws \PHP_CodeSniffer\Exceptions\RuntimeException
 	 */
-	public static function setUpBeforeClass()
+	public function setUp()
 	{
-		$reflection_tester        = new ReflectionClass(static::class);
-		$reflection_class_to_test = new ReflectionClass(static::SNIFF);
-		$path_to_test_file        = dirname($reflection_tester->getFileName())
-			. '/' . basename($reflection_tester->getFileName(), '.php')
-			. '.inc';
-		if (is_file($path_to_test_file)) {
-			$config            = new Config();
-			$config->standards = ['ITRocks'];
+		$config            = new Config();
+		$config->standards = [__DIR__ . '/../../ITRocks'];
+		$ruleset           = new Ruleset($config);
+		$ruleset->populateTokenListeners();
 
-			$ruleset = new Ruleset($config);
-			$ruleset->registerSniffs([$reflection_class_to_test->getFileName()], [], []);
-			$ruleset->populateTokenListeners();
-			static::$tested_file = new DummyFile(
-				file_get_contents($path_to_test_file), $ruleset, $config
-			);
-			static::$tested_file->process();
+		$reflection_tester = new ReflectionClass(static::class);
+		$path_to_test_file =
+			dirname($reflection_tester->getFileName()) . '/' . basename($reflection_tester->getFileName(),
+				'.php') . '.inc';
+		if (!is_file($path_to_test_file)) {
+			$this->fail('Missing test file ' . $path_to_test_file);
 		}
+		$this->tested_file = new DummyFile(file_get_contents($path_to_test_file), $ruleset, $config);
+
+		$this->path_to_fixed_file =
+			dirname($reflection_tester->getFileName()) . '/' . basename($reflection_tester->getFileName(),
+				'.php') . '.fixed.inc';
 	}
 
-	//---------------------------------------------------------------------------- testExpectedErrors
+	//------------------------------------------------------------------------------------ sortErrors
+	/**
+	 * @param $errors Error[]
+	 * @return Error[]
+	 */
+	public static function sortErrors(array $errors)
+	{
+		usort($errors, function ($a, $b) {
+			$r = $a->line - $b->line;
+			if ($r === 0) {
+				$r = strcmp($a->source, $b->source);
+			}
+
+			if ($r === 0) {
+				$r = strcmp($a->message, $b->message);
+			}
+			return $r;
+		});
+		return $errors;
+	}
+
+	//----------------------------------------------------------------------------------- testAutoFix
+	/**
+	 * Tests auto fixed file
+	 */
+	public function testAutoFix()
+	{
+		if (!is_file($this->path_to_fixed_file)) {
+			$this->markTestSkipped('Missing fixed file ' . $this->path_to_fixed_file);
+		}
+		$this->tested_file->process();
+		$this->tested_file->fixer->fixFile();
+		$diff = $this->tested_file->fixer->generateDiff($this->path_to_fixed_file);
+		$this->assertEquals('',$diff);
+	}
+
+	//------------------------------------------------------------------------------------ testErrors
 	/**
 	 * Tests all expected errors
-	 *
-	 * @dataProvider expectedErrorsProvider
-	 * @param $line            integer
-	 * @param $expected_errors array
 	 */
-	public function testExpectedErrors($line, $expected_errors)
+	public function testErrors()
 	{
-		$this->assertArrayHaskey($line, static::$tested_file->getErrors());
-
-		$errors = [];
-		foreach (static::$tested_file->getErrors()[$line] as $colum_errors) {
-			foreach ($colum_errors as $error) {
-				$errors[] = [
-					self::MESSAGE => $error[self::MESSAGE],
-					self::SOURCE  => $error[self::SOURCE],
-				];
-			}
-		}
-
-		$this->assertEquals($expected_errors, $errors);
-	}
-
-	//------------------------------------------------------------------------ testOnlyExpectedErrors
-	/**
-	 * Exact match of keys (no errors missing or excess)
-	 */
-	public function testOnlyExpectedErrors()
-	{
-		$errors = [];
-		foreach (static::$tested_file->getErrors() as $line => $line_errors) {
-			if (!array_key_exists($line, $this->getExpectedErrors())) {
-				foreach ($line_errors as $colum_errors) {
-					foreach ($colum_errors as $error) {
-						$errors[$line] = [
-							self::MESSAGE => $error[self::MESSAGE],
-							self::SOURCE  => $error[self::SOURCE],
-						];
-					}
-				}
-			}
-		}
-		$this->assertEquals([], $errors);
+		$this->tested_file->process();
+		$errors   = static::sortErrors(static::getErrors());
+		$expected = static::sortErrors($this->getExpectedErrors());
+		$this->assertEquals($expected, $errors);
 	}
 
 }

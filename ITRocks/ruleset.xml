@@ -1,27 +1,32 @@
 <?xml version="1.0"?>
 <ruleset name="ITRocks">
-	<description>The ITRocks coding standards.</description>
+    <description>The ITRocks coding standards.</description>
 
-	<!-- PHP code MUST use only UTF-8 without BOM. -->
-	<rule ref="Generic.Files.ByteOrderMark"></rule>
+    <!-- PHP code MUST use only UTF-8 without BOM. -->
+    <rule ref="Generic.Files.ByteOrderMark"/>
 
-	<rule ref="Squiz.Commenting.DocCommentAlignment"></rule>
-	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent"></rule>
-	<rule ref="Generic.NamingConventions.CamelCapsFunctionName"></rule>
-	<rule ref="Generic.NamingConventions.UpperCaseConstantName"></rule>
-<!--	<rule ref="Squiz.Strings.ConcatenationSpacing">
-		<properties>
-			<property name="spacing" value="1" />
-		</properties>
-	</rule>-->
+    <!-- Tabs should represent 4 spaces. -->
+    <arg name="tab-width" value="4"/>
 
-	<rule ref="PSR1.Classes.ClassDeclaration"></rule>
+    <!-- Indent using tabs. -->
+    <rule ref="Generic.WhiteSpace.ScopeIndent">
+        <properties>
+            <property name="tabIndent" value="true"/>
+        </properties>
+    </rule>
 
-	<!-- Warn about lines longer than 98 chars, and error for lines longer than 118 chars. -->
-	<!--<rule ref="Generic.Files.LineLength">
-		<properties>
-			<property name="lineLimit" value="98" />
-			<property name="absoluteLineLimit" value="118" />
-		</properties>
-	</rule>-->
+    <rule ref="Squiz.Commenting.DocCommentAlignment"/>
+    <rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
+    <rule ref="Generic.NamingConventions.CamelCapsFunctionName"/>
+    <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+
+    <rule ref="PSR1.Classes.ClassDeclaration"/>
+
+    <!-- Warn about lines longer than 98 chars, and error for lines longer than 118 chars. -->
+    <!--<rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="98" />
+            <property name="absoluteLineLimit" value="118" />
+        </properties>
+    </rule>-->
 </ruleset>

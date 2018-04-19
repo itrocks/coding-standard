@@ -26,9 +26,10 @@ class Multiple_Blank_Lines_Sniff implements Sniff
 
 		foreach ($blank_lines as $line => $token) {
 			// If there is a blank line right after the current one.
-			if (isset($blank_lines[$line+1])) {
+			if (isset($blank_lines[$line + 1])) {
 				$error = true;
-			} else {
+			}
+			else {
 				if ($error) {
 					// The current line is the last one of a group of blank lines.
 					$position = array_search($token, $tokens);
@@ -84,6 +85,7 @@ class Multiple_Blank_Lines_Sniff implements Sniff
 
 	//-------------------------------------------------------------------------------------- register
 	/**
+	 * @codeCoverageIgnore
 	 * {@inheritdoc}
 	 */
 	public function register()

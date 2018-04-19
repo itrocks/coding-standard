@@ -2,11 +2,12 @@
 namespace ITRocks\Coding_Standard\Tests\Comments;
 
 use ITRocks\Coding_Standard\Sniffs\Comments\Comment_Separator;
+use PHPUnit_Framework_TestCase;
 
 /**
  * Class Comment_Separator_Test.
  */
-class Comment_Separator_Test extends \PHPUnit_Framework_TestCase
+class Comment_Separator_Test extends PHPUnit_Framework_TestCase
 {
 	// Use the trait to be able to test its methods.
 	use Comment_Separator;
@@ -20,10 +21,10 @@ class Comment_Separator_Test extends \PHPUnit_Framework_TestCase
 	public function nameProvider()
 	{
 		return [
-			['foo', '//' .  str_repeat('-', 91) . " foo\n"],
-			['fooBar', '//' .  str_repeat('-', 88) . " fooBar\n"],
-			['foo bar', '//' .  str_repeat('-', 87) . " foo bar\n"],
-			['very long string', '//' .  str_repeat('-', 78) . " very long string\n"],
+			['foo', '//' . str_repeat('-', 91) . " foo\n"],
+			['fooBar', '//' . str_repeat('-', 88) . " fooBar\n"],
+			['foo bar', '//' . str_repeat('-', 87) . " foo bar\n"],
+			['very long string', '//' . str_repeat('-', 78) . " very long string\n"],
 		];
 	}
 

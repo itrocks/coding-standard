@@ -3,7 +3,7 @@ namespace ITRocks\Coding_Standard\Tests\Comments;
 
 //------------------------------------------------------------------------------------------- foo
 /**
- * @param mixed $a
+ * @param $a mixed
  * @param $b string
  * @param $c
  */
@@ -16,15 +16,15 @@ class Dummy_Class
 {
 	//------------------------------------------------------------------------------------------ $str
 	/**
-	 * @var String
+	 * @var $c string
 	 */
 	public $str;
 
 	//--------------------------------------------------------------------------------------- boolean
 	/**
-	 * @param $a bool
-	 * @param $b Bool
-	 * @param $c Boolean
+	 * @param $a boolean
+	 * @param $b boolean
+	 * @param $c boolean
 	 * @param $d boolean
 	 */
 	public function boolean($a, $b, $c, $d)
@@ -34,7 +34,7 @@ class Dummy_Class
 
 	//------------------------------------------------------------------------------------------- foo
 	/**
-	 * @param string $a
+	 * @param $a string
 	 * @param $b string
 	 * @param $c
 	 */
@@ -45,9 +45,9 @@ class Dummy_Class
 
 	//--------------------------------------------------------------------------------------- integer
 	/**
-	 * @param $a int
-	 * @param $b Int
-	 * @param $c Integer
+	 * @param $a integer
+	 * @param $b integer
+	 * @param $c integer
 	 * @param $d integer
 	 * @return
 	 */
@@ -58,7 +58,7 @@ class Dummy_Class
 
 	//---------------------------------------------------------------------------------------- string
 	/**
-	 * @param $a String
+	 * @param $a string
 	 * @param $b string
 	 * @param
 	 */

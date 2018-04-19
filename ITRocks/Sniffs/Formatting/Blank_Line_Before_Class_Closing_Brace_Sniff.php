@@ -36,6 +36,7 @@ class Blank_Line_Before_Class_Closing_Brace_Sniff implements Sniff
 
 	//-------------------------------------------------------------------------------------- register
 	/**
+	 * @codeCoverageIgnore
 	 * {@inheritdoc}
 	 */
 	public function register()

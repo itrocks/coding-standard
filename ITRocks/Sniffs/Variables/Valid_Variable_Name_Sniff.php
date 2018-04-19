@@ -36,11 +36,11 @@ class Valid_Variable_Name_Sniff extends AbstractVariableSniff
 	 * Returns whether the variable is in snake_case.
 	 *
 	 * @param $name string The variable name.
-	 * @return bool
+	 * @return $name boolean
 	 */
 	public function isSnakeCase($name)
 	{
-		return (bool) preg_match( '#^\$[a-z0-9_]+$#', $name );
+		return (bool)preg_match('#^\$[a-z0-9_]+$#', $name);
 	}
 
 	//-------------------------------------------------------------------------------------- isStatic
@@ -69,11 +69,11 @@ class Valid_Variable_Name_Sniff extends AbstractVariableSniff
 	 * Returns whether the variable is in upper case.
 	 *
 	 * @param $name string The name of the variable.
-	 * @return bool
+	 * @return $name boolean
 	 */
 	public function isUpperCase($name)
 	{
-		return (bool) preg_match( '#^\$[A-Z0-9_]+$#', $name );
+		return (bool)preg_match('#^\$[A-Z0-9_]+$#', $name);
 	}
 
 	//------------------------------------------------------------------------------ isUsedStatically
@@ -88,7 +88,7 @@ class Valid_Variable_Name_Sniff extends AbstractVariableSniff
 	{
 		$used_statically = false;
 
-		if (isset($tokens[$stack_ptr-1]) && $tokens[$stack_ptr-1]['type'] == 'T_DOUBLE_COLON') {
+		if (isset($tokens[$stack_ptr - 1]) && $tokens[$stack_ptr - 1]['type'] == 'T_DOUBLE_COLON') {
 			$used_statically = true;
 		}
 

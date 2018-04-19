@@ -63,6 +63,7 @@ class Implements_Order_Sniff implements Sniff
 
 	//-------------------------------------------------------------------------------------- register
 	/**
+	 * @codeCoverageIgnore
 	 * {@inheritdoc}
 	 */
 	public function register()

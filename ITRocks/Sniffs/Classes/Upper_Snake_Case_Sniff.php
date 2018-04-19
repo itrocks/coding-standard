@@ -25,11 +25,11 @@ class Upper_Snake_Case_Sniff implements Sniff
 			return "";
 		}
 
-		$class_name = preg_replace_callback($pattern, function(array $matches) {
+		$class_name = preg_replace_callback($pattern, function (array $matches) {
 			return '_' . $matches[0];
 		}, $class_name);
 
-		$words = explode('_', $class_name);
+		$words       = explode('_', $class_name);
 		$output_name = '';
 
 		foreach ($words as $word) {
@@ -46,7 +46,7 @@ class Upper_Snake_Case_Sniff implements Sniff
 	 * Returns true if given class name is a well formed upper snake case, false otherwise.
 	 *
 	 * @param $class_name string
-	 * @return bool
+	 * @return $class_name boolean
 	 */
 	public function isValidUpperSnakeCase($class_name)
 	{
@@ -79,7 +79,7 @@ class Upper_Snake_Case_Sniff implements Sniff
 			return;
 		}
 
-		$class_name = $tokens[$stack_ptr+2]['content'];
+		$class_name = $tokens[$stack_ptr + 2]['content'];
 
 		if (!$this->isValidUpperSnakeCase($class_name)) {
 			$err_msg = sprintf("%s is not in valid Upper_Snake_Case format", $class_name);
@@ -89,6 +89,7 @@ class Upper_Snake_Case_Sniff implements Sniff
 
 	//-------------------------------------------------------------------------------------- register
 	/**
+	 * @codeCoverageIgnore
 	 * {@inheritdoc}
 	 */
 	public function register()

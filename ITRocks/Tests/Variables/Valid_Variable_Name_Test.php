@@ -40,7 +40,7 @@ class Valid_Variable_Name_Test extends \PHPUnit_Framework_TestCase
 	 * Test Valid_Variable_Name_Sniff::isSnakeCase() in several cases.
 	 *
 	 * @dataProvider variableNameProvider
-	 * @param $name	 string
+	 * @param $name     string
 	 * @param $expected string
 	 */
 	public function testIsSnakeCase($name, $expected)
@@ -55,7 +55,7 @@ class Valid_Variable_Name_Test extends \PHPUnit_Framework_TestCase
 	 * Test Valid_Variable_Name_Sniff::isUpperCase() in several cases.
 	 *
 	 * @dataProvider uppercaseProvider
-	 * @param $name	 string
+	 * @param $name     string
 	 * @param $expected string
 	 */
 	public function testIsUpperCase($name, $expected)

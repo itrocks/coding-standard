@@ -2,6 +2,7 @@
 namespace ITRocks\Coding_Standard\Tests\Classes;
 
 use ITRocks\Coding_Standard\Sniffs\Classes\Method_Order_Sniff;
+use ITRocks\Coding_Standard\Tests\Error;
 use ITRocks\Coding_Standard\Tests\Sniff_Test_Case;
 
 /**
@@ -23,34 +24,18 @@ class Method_Order_Sniff_Test extends Sniff_Test_Case
 	public function getExpectedErrors()
 	{
 		return [
-			20 => [
-				[
-					'source'  => self::SOURCE,
-					'message' => 'Methods must be ordered alphabetically:'
-						. ' method_02_misplaced() must declared before meThod_02_MisPlacedBis().'
-				]
-			],
-			21 => [
-				[
-					'source'  => self::SOURCE,
-					'message' => 'Methods must be ordered alphabetically:'
-						. ' method_03_misplaced() must declared before method_04().'
-				]
-			],
-			22 => [
-				[
-					'source'  => self::SOURCE,
-					'message' => 'Methods must be ordered alphabetically:'
-						. ' method_043_misplaced() must declared before method_05().'
-				]
-			],
-			23 => [
-				[
-					'source'  => self::SOURCE,
-					'message' => 'Methods must be ordered alphabetically:'
-						. ' method_04_misplaced() must declared before method_05().'
-				]
-			],
+			new Error(51,
+				'Methods must be ordered alphabetically: method02misplaced() must declared before meThod02MisPlacedBis().',
+				self::SOURCE),
+			new Error(55,
+				'Methods must be ordered alphabetically: method03misplaced() must declared before method04().',
+				self::SOURCE),
+			new Error(59,
+				'Methods must be ordered alphabetically: method043misplaced() must declared before method05().',
+				self::SOURCE),
+			new Error(63,
+				'Methods must be ordered alphabetically: method04misplaced() must declared before method05().',
+				self::SOURCE)
 		];
 	}
 

@@ -20,8 +20,6 @@ class Comment_Separator_Sniff implements Sniff
 	 */
 	public function process(File $file, $stack_ptr)
 	{
-		$comment = $this->findPreviousComment($file, $stack_ptr);
-
 		switch ($file->getTokens()[$stack_ptr]['type']) {
 			case 'T_FUNCTION':
 				$name = $this->getFunctionName($file, $stack_ptr);
@@ -35,16 +33,12 @@ class Comment_Separator_Sniff implements Sniff
 				$name = '';
 		}
 
-		if (empty($comment)) {
-			$this->errorMissingComment($file, $stack_ptr, $name);
-		}
-		elseif ($comment != $this->getCommentSeparator($name)) {
-			$this->errorInvalidComment($file, $stack_ptr, $name);
-		}
+		$this->findError($file, $stack_ptr, $name);
 	}
 
 	//-------------------------------------------------------------------------------------- register
 	/**
+	 * @codeCoverageIgnore
 	 * {@inheritdoc}
 	 */
 	public function register()
