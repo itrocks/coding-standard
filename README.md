@@ -1,4 +1,6 @@
-# ITRocks PHP CodeSNiffer Codeing Standard
+# ITRocks PHP CodeSNiffer Codeing Standard 
+[![pipeline status](https://gitlab.bappli.com/itrocks/coding-standard/badges/master/pipeline.svg)](https://gitlab.bappli.com/itrocks/coding-standard/commits/master)
+[![coverage report](https://gitlab.bappli.com/itrocks/coding-standard/badges/master/coverage.svg)](https://gitlab.bappli.com/itrocks/coding-standard/commits/master)
 A coding standard to check against the ITRocks coding standards.
 
 ## 1. Installation
