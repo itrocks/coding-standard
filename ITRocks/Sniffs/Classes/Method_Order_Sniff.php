@@ -11,6 +11,7 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 class Method_Order_Sniff implements Sniff
 {
 
+	//----------------------------------------------------------------------------------------- ERROR
 	const ERROR = 'Methods must be ordered alphabetically: %s() must declared before %s().';
 
 	//--------------------------------------------------------------------------------------- process
