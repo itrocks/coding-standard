@@ -41,8 +41,8 @@ class Use_Order_Sniff implements Sniff
 			$use_statement = trim(preg_replace('#(/\*\*?.+\*/)#sU', '', $use_statement));
 
 			if ($previous_line && strtolower($uses[$previous_line]) > strtolower($use_statement)) {
-				$error_message = sprintf(self::ERROR, $use_statement, $uses[$previous_line]);
-				$fix           |= $phpcs_file->addFixableError($error_message, $use_position, 'Invalid');
+				$fix |= $phpcs_file->addFixableError(self::ERROR, $use_position, 'Invalid',
+					[$use_statement, $uses[$previous_line]]);
 			}
 
 			$previous_line        = $tokens[$end_of_line]['line'];

@@ -11,6 +11,8 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 class Method_Order_Sniff implements Sniff
 {
 
+	const ERROR = 'Methods must be ordered alphabetically: %s() must declared before %s().';
+
 	//--------------------------------------------------------------------------------------- process
 	/**
 	 * {@inheritdoc}
@@ -50,12 +52,7 @@ class Method_Order_Sniff implements Sniff
 		foreach ($misplaced_methods as $method_name => $scope) {
 			foreach ($correct_methods as $correct_method_name) {
 				if (strcasecmp($method_name, $correct_method_name) < 0) {
-					$err_msg = sprintf(
-						'Methods must be ordered alphabetically: %s() must declared before %s().',
-						$method_name,
-						$correct_method_name
-					);
-					$file->addError($err_msg, $scope, 'Invalid');
+					$file->addError(self::ERROR, $scope, 'Invalid', [$method_name, $correct_method_name]);
 					break;
 				}
 			}

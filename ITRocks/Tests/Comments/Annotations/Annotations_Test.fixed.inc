@@ -15,10 +15,11 @@ class Dummy_Class
 	 * @foo2 test
 	 * @bar2 toto
 	 * @last2
+	 * @return null
 	 */
 	public function bar($a, $b, $c)
 	{
-
+		return;
 	}
 
 	//------------------------------------------------------------------------------------------- foo

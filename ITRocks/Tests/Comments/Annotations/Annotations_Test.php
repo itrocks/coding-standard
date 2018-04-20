@@ -27,7 +27,8 @@ class Annotations_Test extends Sniff_Test_Case
 			new Error(9, Annotations_Sniff::ERROR_BLANK_LINE_ANNOTATIONS, static::SOURCE),
 			new Error(15, Annotations_Sniff::ERROR_ANNOTATIONS_ORDER, static::SOURCE),
 			new Error(18, Annotations_Sniff::ERROR_BLANK_LINE_ANNOTATIONS, static::SOURCE),
-			new Error(29, Annotations_Sniff::ERROR_BLANK_LINE_BELOW_DESCRIPTION, static::SOURCE)
+			new Error(20, Annotations_Sniff::ERROR_BLANK_LINE_ANNOTATIONS, static::SOURCE),
+			new Error(31, Annotations_Sniff::ERROR_BLANK_LINE_BELOW_DESCRIPTION, static::SOURCE)
 		];
 	}
 

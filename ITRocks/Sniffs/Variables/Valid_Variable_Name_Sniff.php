@@ -110,8 +110,7 @@ class Valid_Variable_Name_Sniff extends AbstractVariableSniff
 			&& $this->isStatic($file, $stack_ptr)
 			&& !$this->isUpperCase($variable_name)
 		) {
-			$error_message = sprintf(self::INVALID_FORMAT, 'Property', $variable_name);
-			$file->addError($error_message, $stack_ptr, 'Invalid');
+			$file->addError(self::INVALID_FORMAT, $stack_ptr, 'Invalid', ['Property', $variable_name]);
 		}
 	}
 
@@ -131,8 +130,7 @@ class Valid_Variable_Name_Sniff extends AbstractVariableSniff
 		if (!in_array($variable_name, $this->white_list) && !$this->isSnakeCase($variable_name)
 			&& !$this->isUsedStatically($tokens, $stack_ptr)
 		) {
-			$error_message = sprintf(self::INVALID_FORMAT, $type, $variable_name);
-			$file->addError($error_message, $stack_ptr, 'Invalid');
+			$file->addError(self::INVALID_FORMAT, $stack_ptr, 'Invalid', [$type, $variable_name]);
 		}
 	}
 

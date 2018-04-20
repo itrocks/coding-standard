@@ -13,8 +13,9 @@ class Annotations_Sniff implements Sniff
 
 	//----------------------------------------------------------------------- ERROR_ANNOTATIONS_ORDER
 	const ERROR_ANNOTATIONS_ORDER = 'Annotations must be ordered alphabetically';
+
 	//------------------------------------------------------------------ ERROR_BLANK_LINE_ANNOTATIONS
-	const ERROR_BLANK_LINE_ANNOTATIONS = 'There must be no blank lines between annotations';
+	const ERROR_BLANK_LINE_ANNOTATIONS = 'AutoFixable : There must be no blank lines between annotations';
 
 	//------------------------------------------------------------ ERROR_BLANK_LINE_BELOW_DESCRIPTION
 	const ERROR_BLANK_LINE_BELOW_DESCRIPTION = 'AutoFixable : There must be a blank lines between description and annotations';
@@ -73,7 +74,7 @@ class Annotations_Sniff implements Sniff
 			if ($tokens[$next]['line'] - $tokens[$stack_ptr]['line'] != 1 && $this->findBlankLines($tokens,
 					$stack_ptr, $next)
 			) {
-				$fix = $phpcs_file->addError(self::ERROR_BLANK_LINE_ANNOTATIONS, $next, 'Invalid');
+				$fix = $phpcs_file->addFixableError(self::ERROR_BLANK_LINE_ANNOTATIONS, $next, 'Invalid');
 				if ($fix) {
 					$token_navigator->cleanLine($tokens[$stack_ptr]['line'] + 1, $tokens[$next]['line'] - 1);
 				}

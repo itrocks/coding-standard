@@ -152,11 +152,8 @@ class Function_Comment_Sniff implements Sniff
 	 */
 	public function shortPrimitiveError(File $file, $stack_ptr)
 	{
-		$fix        = $file->addFixableError(
-			sprintf(self::ERROR_PRIMITIVE, $this->type, static::PRIMITIVES[$this->type]),
-			$stack_ptr + 2,
-			'Invalid'
-		);
+		$fix        = $file->addFixableError(self::ERROR_PRIMITIVE, $stack_ptr + 2, 'Invalid',
+			[$this->type, static::PRIMITIVES[$this->type]]);
 		$this->type = strtolower(static::PRIMITIVES[$this->type]);
 		$this->fixPhpDoc($file, $stack_ptr, $fix);
 	}

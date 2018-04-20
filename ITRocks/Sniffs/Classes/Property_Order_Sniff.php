@@ -41,12 +41,7 @@ class Property_Order_Sniff extends AbstractVariableSniff
 		// Check if previous property is alphabetically ordered.
 		if (isset(static::$properties[$i - 1]) && static::$properties[$i - 1] > $property) {
 			$previous_property = static::$properties[$i - 1];
-
-			$file->addError(
-				sprintf('' . self::ERROR_PROPERTY_ORDER, $property, $previous_property),
-				$stack_ptr,
-				'Invalid'
-			);
+			$file->addError(self::ERROR_PROPERTY_ORDER, $stack_ptr, 'Invalid', [$property, $previous_property]);
 		}
 	}
 

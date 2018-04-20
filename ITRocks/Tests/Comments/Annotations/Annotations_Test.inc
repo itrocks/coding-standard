@@ -16,10 +16,12 @@ class Dummy_Class
 	 * @bar2 toto
 	 *
 	 * @last2
+	 *
+	 * @return null
 	 */
 	public function bar($a, $b, $c)
 	{
-
+		return;
 	}
 
 	//------------------------------------------------------------------------------------------- foo

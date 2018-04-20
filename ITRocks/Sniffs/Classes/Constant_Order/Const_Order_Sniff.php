@@ -30,11 +30,7 @@ class Const_Order_Sniff implements Sniff
 
 		foreach ($elements as $const_object) {
 			if (strcasecmp($const_object->name, $previous_constant) < 0) {
-				$file->addError(
-					sprintf(self::ERR_MESSAGE, $type, $previous_constant),
-					$const_object->stack_ptr,
-					'Invalid'
-				);
+				$file->addError(self::ERR_MESSAGE, $const_object->stack_ptr, 'Invalid', [$type, $previous_constant]);
 				break;
 			}
 
