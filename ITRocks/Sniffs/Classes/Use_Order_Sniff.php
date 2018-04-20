@@ -1,6 +1,7 @@
 <?php
 namespace ITRocks\Coding_Standard\Sniffs\Classes;
 
+use ITRocks\Coding_Standard\Sniffs\Tools\Token_Navigator;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
@@ -9,6 +10,8 @@ use PHP_CodeSniffer\Sniffs\Sniff;
  */
 class Use_Order_Sniff implements Sniff
 {
+	//----------------------------------------------------------------------------------------- ERROR
+	const ERROR = 'AutoFixable : Use statement "%s" should be before "%s"';
 
 	//--------------------------------------------------------------------------------------- process
 	/**
@@ -17,11 +20,14 @@ class Use_Order_Sniff implements Sniff
 	 */
 	public function process(File $phpcs_file, $stack_ptr)
 	{
-		$previous      = '';
-		$tokens        = $phpcs_file->getTokens();
-		$use_position  = $stack_ptr;
-		$wanted_tokens = [T_CLASS, T_INTERFACE, T_TRAIT];
-		$very_end      = $phpcs_file->findNext($wanted_tokens, $use_position + 1);
+		$fix             = false;
+		$token_navigator = new Token_Navigator($phpcs_file, $stack_ptr);
+		$tokens          = $phpcs_file->getTokens();
+		$previous_line   = 0;
+		$use_position    = $stack_ptr;
+		$uses            = [];
+		$wanted_tokens   = [T_CLASS, T_INTERFACE, T_TRAIT];
+		$very_end        = $phpcs_file->findNext($wanted_tokens, $use_position + 1);
 
 		while ($use_position && $use_position < $very_end) {
 			$end_of_line   = $phpcs_file->findNext(T_SEMICOLON, $use_position + 1);
@@ -34,18 +40,31 @@ class Use_Order_Sniff implements Sniff
 			// Remove potential comments.
 			$use_statement = trim(preg_replace('#(/\*\*?.+\*/)#sU', '', $use_statement));
 
-			if (strtolower($previous) > strtolower($use_statement)) {
-				$error_message = sprintf(
-					'Use statement "%s" should be before "%s"',
-					$use_statement,
-					$previous
-				);
-				$phpcs_file->addError($error_message, $use_position, 'invalid');
+			if ($previous_line && strtolower($uses[$previous_line]) > strtolower($use_statement)) {
+				$error_message = sprintf(self::ERROR, $use_statement, $uses[$previous_line]);
+				$fix           |= $phpcs_file->addFixableError($error_message, $use_position, 'Invalid');
 			}
 
-			$previous     = $use_statement;
-			$use_position = $phpcs_file->findNext(T_USE, $use_position + 1);
+			$previous_line        = $tokens[$end_of_line]['line'];
+			$uses[$previous_line] = $use_statement;
+			$use_position         = $phpcs_file->findNext(T_USE, $use_position + 1);
 		}
+
+		if ($fix) {
+			$lines = array_keys($uses);
+			$uses  = array_values($uses);
+			asort($uses);
+			$content = '';
+			foreach ($uses as $use) {
+				$content .= "use $use;\n";
+			}
+			$phpcs_file->fixer->replaceToken($stack_ptr, $content);
+			foreach ($lines as $line) {
+				$token_navigator->cleanLine($line);
+			}
+		}
+
+		return $very_end;
 	}
 
 	//-------------------------------------------------------------------------------------- register

@@ -11,6 +11,9 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 class Upper_Snake_Case_Sniff implements Sniff
 {
 
+	//----------------------------------------------------------------------------------------- ERROR
+	const ERROR = "%s is not in valid Upper_Snake_Case format";
+
 	//-------------------------------------------------------------------------- formatUpperSnakeCase
 	/**
 	 * Format the given class name is upper snake case.
@@ -46,7 +49,7 @@ class Upper_Snake_Case_Sniff implements Sniff
 	 * Returns true if given class name is a well formed upper snake case, false otherwise.
 	 *
 	 * @param $class_name string
-	 * @return $class_name boolean
+	 * @return  boolean
 	 */
 	public function isValidUpperSnakeCase($class_name)
 	{
@@ -75,14 +78,10 @@ class Upper_Snake_Case_Sniff implements Sniff
 	public function process(File $file, $stack_ptr)
 	{
 		$tokens = $file->getTokens();
-		if (isset($tokens[$stack_ptr]['scope_closer']) === false) {
-			return;
-		}
-
 		$class_name = $tokens[$stack_ptr + 2]['content'];
 
 		if (!$this->isValidUpperSnakeCase($class_name)) {
-			$err_msg = sprintf("%s is not in valid Upper_Snake_Case format", $class_name);
+			$err_msg = sprintf(self::ERROR, $class_name);
 			$file->addError($err_msg, $stack_ptr, 'Invalid');
 		}
 	}

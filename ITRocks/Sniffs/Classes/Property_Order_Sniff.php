@@ -11,6 +11,9 @@ use PHP_CodeSniffer\Sniffs\AbstractVariableSniff;
 class Property_Order_Sniff extends AbstractVariableSniff
 {
 
+	//-------------------------------------------------------------------------- ERROR_PROPERTY_ORDER
+	const ERROR_PROPERTY_ORDER = 'Property %s must be declared before %s';
+
 	//--------------------------------------------------------------------------------- $current_file
 	private static $current_file;
 
@@ -36,15 +39,11 @@ class Property_Order_Sniff extends AbstractVariableSniff
 		$i                    = array_search($property, static::$properties);
 
 		// Check if previous property is alphabetically ordered.
-		if (isset($properties[$i - 1]) && static::$properties[$i - 1] > $property) {
+		if (isset(static::$properties[$i - 1]) && static::$properties[$i - 1] > $property) {
 			$previous_property = static::$properties[$i - 1];
 
 			$file->addError(
-				sprintf(
-					'Property %s must be declared before %s',
-					$property,
-					$previous_property
-				),
+				sprintf('' . self::ERROR_PROPERTY_ORDER, $property, $previous_property),
 				$stack_ptr,
 				'Invalid'
 			);

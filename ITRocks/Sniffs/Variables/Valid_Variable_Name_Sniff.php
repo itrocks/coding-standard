@@ -88,7 +88,7 @@ class Valid_Variable_Name_Sniff extends AbstractVariableSniff
 	{
 		$used_statically = false;
 
-		if (isset($tokens[$stack_ptr - 1]) && $tokens[$stack_ptr - 1]['type'] == 'T_DOUBLE_COLON') {
+		if (isset($tokens[$stack_ptr - 1]) && $tokens[$stack_ptr - 1]['code'] == T_DOUBLE_COLON) {
 			$used_statically = true;
 		}
 

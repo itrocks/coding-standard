@@ -2,12 +2,19 @@
 namespace ITRocks\Coding_Standard\Tests\Classes;
 
 use ITRocks\Coding_Standard\Sniffs\Classes\Upper_Snake_Case_Sniff;
+use ITRocks\Coding_Standard\Tests\Error;
+use ITRocks\Coding_Standard\Tests\Sniff_Test_Case;
 
 /**
  * Class Upper_Snake_Case_Sniff_Test
+ *
+ * @see Upper_Snake_Case_Sniff
  */
-class Upper_Snake_Case_Sniff_Test extends \PHPUnit_Framework_TestCase
+class Upper_Snake_Case_Test extends Sniff_Test_Case
 {
+
+	//---------------------------------------------------------------------------------------- SOURCE
+	const SOURCE = 'Coding_Standard.Classes.Upper_Snake_Case_.Invalid';
 
 	//---------------------------------------------------------------------------------------- $sniff
 	/**
@@ -26,6 +33,7 @@ class Upper_Snake_Case_Sniff_Test extends \PHPUnit_Framework_TestCase
 	public function classNameFormatProvider()
 	{
 		return [
+			[null, ''],
 			['foo', 'Foo'],
 			['Foo', 'Foo'],
 			['fOo', 'F_Oo'],
@@ -68,22 +76,36 @@ class Upper_Snake_Case_Sniff_Test extends \PHPUnit_Framework_TestCase
 		];
 	}
 
+	//----------------------------------------------------------------------------- getExpectedErrors
+	/**
+	 * @return Error[]
+	 * @see testExpectedErrors
+	 */
+	public function getExpectedErrors()
+	{
+		return [
+			new Error(7, sprintf(Upper_Snake_Case_Sniff::ERROR, 'oFo'), static::SOURCE)
+		];
+	}
+
 	//----------------------------------------------------------------------------------------- setUp
 	/**
-	 * Before each test.
+	 * {@inheritdoc}
 	 */
 	public function setUp()
 	{
+		parent::setUp();
 		$this->sniff = new Upper_Snake_Case_Sniff();
 	}
 
 	//-------------------------------------------------------------------------------------- tearDown
 	/**
-	 * After each test.
+	 * {@inheritdoc}
 	 */
 	public function tearDown()
 	{
 		$this->sniff = null;
+		parent::tearDown();
 	}
 
 	//---------------------------------------------------------------------- testFormatUpperSnakeCase
@@ -95,7 +117,6 @@ class Upper_Snake_Case_Sniff_Test extends \PHPUnit_Framework_TestCase
 	public function testFormatUpperSnakeCase($class_name, $expected)
 	{
 		$actual = $this->sniff->formatUpperSnakeCase($class_name);
-
 		$this->assertEquals($expected, $actual, $class_name);
 	}
 
@@ -108,7 +129,6 @@ class Upper_Snake_Case_Sniff_Test extends \PHPUnit_Framework_TestCase
 	public function testIsValidUpperSnakeCase($class_name, $expected)
 	{
 		$actual = $this->sniff->isValidUpperSnakeCase($class_name);
-
 		$this->assertEquals($expected, $actual, $class_name);
 	}
 

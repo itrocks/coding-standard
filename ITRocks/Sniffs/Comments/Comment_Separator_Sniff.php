@@ -20,19 +20,7 @@ class Comment_Separator_Sniff implements Sniff
 	 */
 	public function process(File $file, $stack_ptr)
 	{
-		switch ($file->getTokens()[$stack_ptr]['type']) {
-			case 'T_FUNCTION':
-				$name = $this->getFunctionName($file, $stack_ptr);
-				break;
-
-			case 'T_CONST':
-				$name = $this->getConstantName($file, $stack_ptr);
-				break;
-
-			default:
-				$name = '';
-		}
-
+		$name = $this->getFunctionName($file, $stack_ptr);
 		$this->findError($file, $stack_ptr, $name);
 	}
 
@@ -43,9 +31,7 @@ class Comment_Separator_Sniff implements Sniff
 	 */
 	public function register()
 	{
-		return [
-			T_FUNCTION,
-		];
+		return [T_FUNCTION];
 	}
 
 }

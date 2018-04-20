@@ -77,6 +77,7 @@ abstract class Sniff_Test_Case extends PHPUnit_Framework_TestCase
 			$this->fail('Missing test file ' . $path_to_test_file);
 		}
 		$this->tested_file = new DummyFile(file_get_contents($path_to_test_file), $ruleset, $config);
+		$this->tested_file->path = $path_to_test_file;
 
 		$this->path_to_fixed_file =
 			dirname($reflection_tester->getFileName()) . '/' . basename($reflection_tester->getFileName(),
@@ -116,7 +117,7 @@ abstract class Sniff_Test_Case extends PHPUnit_Framework_TestCase
 		$this->tested_file->process();
 		$this->tested_file->fixer->fixFile();
 		$diff = $this->tested_file->fixer->generateDiff($this->path_to_fixed_file);
-		$this->assertEquals('',$diff);
+		$this->assertEquals('', $diff);
 	}
 
 	//------------------------------------------------------------------------------------ testErrors

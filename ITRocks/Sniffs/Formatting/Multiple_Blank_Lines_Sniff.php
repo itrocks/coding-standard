@@ -12,6 +12,9 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 class Multiple_Blank_Lines_Sniff implements Sniff
 {
 
+	//----------------------------------------------------------------------------------------- ERROR
+	const ERROR = 'AutoFixable : Multiple blank lines are not allowed';
+
 	//------------------------------------------------------------------- contiguousBlankLinesToError
 	/**
 	 * Add error on contiguous blank lines.
@@ -33,7 +36,10 @@ class Multiple_Blank_Lines_Sniff implements Sniff
 				if ($error) {
 					// The current line is the last one of a group of blank lines.
 					$position = array_search($token, $tokens);
-					$file->addError('Multiple blank lines are not allowed', $position, 'invalid');
+					$fix      = $file->addFixableError(self::ERROR, $position, 'Invalid');
+					if ($fix) {
+						$file->fixer->replaceToken($position, null);
+					}
 				}
 
 				// Reset error flag.
@@ -79,7 +85,6 @@ class Multiple_Blank_Lines_Sniff implements Sniff
 	public function process(File $file, $stack_ptr)
 	{
 		$blank_lines = $this->findBlankLines($file->getTokens());
-
 		$this->contiguousBlankLinesToError($file, $blank_lines);
 	}
 

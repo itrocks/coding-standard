@@ -1,6 +1,7 @@
 <?php
 namespace ITRocks\Coding_Standard\Sniffs\Classes;
 
+use ITRocks\Coding_Standard\Sniffs\Tools\Token_Navigator;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
@@ -9,6 +10,8 @@ use PHP_CodeSniffer\Sniffs\Sniff;
  */
 class Implements_Order_Sniff implements Sniff
 {
+	//----------------------------------------------------------------------------------------- ERROR
+	const ERROR = 'AutoFixable : Implemented interfaces must be listed alphabetically';
 
 	//-------------------------------------------------------------------------- getInterfaceFullName
 	/**
@@ -39,25 +42,32 @@ class Implements_Order_Sniff implements Sniff
 	 */
 	public function process(File $file, $stack_ptr)
 	{
-		$end        = $file->findNext(T_OPEN_CURLY_BRACKET, $stack_ptr+2);
+		$end        = $file->findNext(T_OPEN_CURLY_BRACKET, $stack_ptr + 2);
 		$interfaces = [];
 		$scope      = $stack_ptr;
+		$token_navigator = new Token_Navigator($file, $stack_ptr);
 
 		while ($scope < $end) {
 			$interface = $this->getInterfaceFullName($file, $scope);
 
 			if (!empty($interface)) {
-				$interfaces[] = $interface;
+				$interfaces[$scope] = $interface;
 			}
 			$scope++;
 		}
 
-		$sorted = $interfaces;
-		asort($interfaces);
+		$un_sorted = array_values($interfaces);
+		$sorted    = array_values($interfaces);
+		asort($sorted);
 
-		if ($sorted !== $interfaces) {
-			$error_message = 'Implemented interfaces must be listed alphabetically';
-			$file->addError($error_message, $stack_ptr, 'invalid');
+		if ($un_sorted !== $sorted) {
+			$fix = $file->addFixableError(self::ERROR, $stack_ptr, 'Invalid');
+			if ($fix) {
+				$scope = $stack_ptr + 2;
+				$file->fixer->replaceToken($scope, join(', ', $sorted));
+				$scope++;
+				$token_navigator->clean($scope, $end-2);
+			}
 		}
 	}
 

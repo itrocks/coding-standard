@@ -1,5 +1,5 @@
 <?php
-namespace ITRocks\Coding_Standard\Tests\Classes;
+namespace ITRocks\Coding_Standard\Tests\Classes\Order;
 
 class Foo_Class
 {

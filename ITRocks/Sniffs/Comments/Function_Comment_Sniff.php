@@ -13,13 +13,13 @@ class Function_Comment_Sniff implements Sniff
 	const ERROR_MISSING_TYPE = 'Missing type';
 
 	//----------------------------------------------------------------------------------- ERROR_ORDER
-	const ERROR_ORDER = 'PHPdoc param must begin with the variable name followed by its type';
+	const ERROR_ORDER = 'AutoFixable : PHPdoc param must begin with the variable name followed by its type';
 
 	//--------------------------------------------------------------------------------- ERROR_PATTERN
 	const ERROR_PATTERN = '@param should be $property type comment';
 
 	//------------------------------------------------------------------------------- ERROR_PRIMITIVE
-	const ERROR_PRIMITIVE = 'Incorrect primitive %s use %s';
+	const ERROR_PRIMITIVE = 'AutoFixable : Incorrect primitive %s use %s';
 
 	//------------------------------------------------------------------------------------ PRIMITIVES
 	const PRIMITIVES = [
@@ -78,11 +78,7 @@ class Function_Comment_Sniff implements Sniff
 	 */
 	public function orderError(File $file, $stack_ptr)
 	{
-		$fix = $file->addFixableError(
-			self::ERROR_ORDER,
-			$stack_ptr + 2,
-			'Invalid'
-		);
+		$fix = $file->addFixableError(self::ERROR_ORDER, $stack_ptr + 2, 'Invalid');
 		$this->fixPhpDoc($file, $stack_ptr, $fix);
 	}
 
@@ -92,6 +88,9 @@ class Function_Comment_Sniff implements Sniff
 	 */
 	public function process(File $file, $stack_ptr)
 	{
+		$this->property = '';
+		$this->type     = '';
+		$this->comment  = '';
 		if ($file->getTokens()[$stack_ptr]['content'] === '@param') {
 			$phpdoc = $file->getTokens()[$stack_ptr + 2]['content'];
 			$match  = preg_match(static::REGEX_PARAM, $phpdoc, $matches);
@@ -168,14 +167,17 @@ class Function_Comment_Sniff implements Sniff
 	 */
 	public function toPhpDoc()
 	{
-		$phpdoc = $this->property;
+		$phpdoc = [];
+		if ($this->property) {
+			$phpdoc[] = $this->property;
+		}
 		if (!empty($this->type)) {
-			$phpdoc .= ' ' . $this->type;
+			$phpdoc[] = $this->type;
 		}
 		if (!empty($this->comment)) {
-			$phpdoc .= ' ' . $this->comment;
+			$phpdoc[] = $this->comment;
 		}
-		return $phpdoc;
+		return join(' ', $phpdoc);
 	}
 
 }

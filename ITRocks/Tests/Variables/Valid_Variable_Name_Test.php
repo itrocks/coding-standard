@@ -2,12 +2,19 @@
 namespace ITRocks\Coding_Standard\Tests\Variables;
 
 use ITRocks\Coding_Standard\Sniffs\Variables\Valid_Variable_Name_Sniff;
+use ITRocks\Coding_Standard\Tests\Error;
+use ITRocks\Coding_Standard\Tests\Sniff_Test_Case;
 
 /**
  * Class Valid_Variable_Name_Test.
+ *
+ * @see Valid_Variable_Name_Sniff
  */
-class Valid_Variable_Name_Test extends \PHPUnit_Framework_TestCase
+class Valid_Variable_Name_Test extends Sniff_Test_Case
 {
+
+	//---------------------------------------------------------------------------------------- SOURCE
+	const SOURCE = 'Coding_Standard.Variables.Valid_Variable_Name_.Invalid';
 
 	//---------------------------------------------------------------------------------------- $sniff
 	/**
@@ -17,22 +24,39 @@ class Valid_Variable_Name_Test extends \PHPUnit_Framework_TestCase
 	 */
 	private $sniff;
 
+	//----------------------------------------------------------------------------- getExpectedErrors
+	/**
+	 * @return Error[]
+	 * @see testExpectedErrors
+	 */
+	public function getExpectedErrors()
+	{
+		return [
+			new Error(7, sprintf(Valid_Variable_Name_Sniff::INVALID_FORMAT, 'Property', '$bAr'), static::SOURCE),
+			new Error(11, sprintf(Valid_Variable_Name_Sniff::INVALID_FORMAT, 'Variable', '$fOo'), static::SOURCE),
+			new Error(12, sprintf(Valid_Variable_Name_Sniff::INVALID_FORMAT, 'Double quoted variable', '$fOo'),
+				static::SOURCE)
+		];
+	}
+
 	//----------------------------------------------------------------------------------------- setUp
 	/**
-	 * Before each test.
+	 * {@inheritdoc}
 	 */
 	public function setUp()
 	{
+		parent::setUp();
 		$this->sniff = new Valid_Variable_Name_Sniff();
 	}
 
 	//-------------------------------------------------------------------------------------- tearDown
 	/**
-	 * After each test.
+	 * {@inheritdoc}
 	 */
 	public function tearDown()
 	{
 		$this->sniff = null;
+		parent::tearDown();
 	}
 
 	//------------------------------------------------------------------------------- testIsSnakeCase
@@ -85,7 +109,6 @@ class Valid_Variable_Name_Test extends \PHPUnit_Framework_TestCase
 			['$foo__bar', false],
 		];
 	}
-
 	//-------------------------------------------------------------------------- variableNameProvider
 	/**
 	 * Provides several variables names for ::testIsSnakeCase().

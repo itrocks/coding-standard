@@ -50,7 +50,8 @@ class Constant_Comment_Separator_Sniff extends Comment_Separator_Sniff
 			return;
 		}
 
-		parent::process($file, $stack_ptr);
+		$name = $this->getConstantName($file, $stack_ptr);
+		$this->findError($file, $stack_ptr, $name);
 	}
 
 	//-------------------------------------------------------------------------------------- register

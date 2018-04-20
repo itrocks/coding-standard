@@ -13,14 +13,14 @@ trait Comment_Separator
 	//------------------------------------------------------------------------------------ $end_types
 	protected $end_types = [T_SEMICOLON, T_CLOSE_CURLY_BRACKET, T_OPEN_CURLY_BRACKET];
 
-	//------------------------------------------------------------------------------ $invalid_message
-	public static $invalid_message = 'Comment separator for %s %s is invalid';
-
 	//--------------------------------------------------------------------------------------- $length
 	public $length = 94;
 
-	//------------------------------------------------------------------------------ $missing_message
-	public static $missing_message = 'Comment separator is missing for %s %s';
+	//------------------------------------------------------------------------------------- $messages
+	public static $messages = [
+		'Invalid' => 'AutoFixable : Comment separator for %s %s is invalid',
+		'Missing' => 'AutoFixable : Comment separator is missing for %s %s'
+	];
 
 	//----------------------------------------------------------------------------------------- error
 	/**
@@ -45,22 +45,9 @@ trait Comment_Separator
 			$type = 'property';
 		}
 
-		switch ($error_type) {
-			case 'invalid':
-				$error_message = sprintf(static::$invalid_message, $type, $name);
-				break;
-
-			case 'missing':
-				$error_message = sprintf(static::$missing_message, $type, $name);
-				break;
-
-			default:
-				$error_message = 'Unknown error';
-		}
-
 		return [
 			'type'    => $error_type,
-			'message' => $error_message
+			'message' => sprintf(static::$messages[$error_type], $type, $name)
 		];
 	}
 
@@ -75,7 +62,7 @@ trait Comment_Separator
 	 */
 	protected function errorInvalidComment(File $file, $stack_ptr, $name, $comment_pos)
 	{
-		$error = $this->error($file, $stack_ptr, $name, 'invalid');
+		$error = $this->error($file, $stack_ptr, $name, 'Invalid');
 		$fix   = $file->addFixableError($error['message'], $stack_ptr, $error['type']);
 		if ($fix) {
 			$file->fixer->replaceToken($comment_pos, $this->getCommentSeparator($name));
@@ -93,7 +80,7 @@ trait Comment_Separator
 	 */
 	protected function errorMissingComment(File $file, $stack_ptr, $name, $comment_pos)
 	{
-		$error = $this->error($file, $stack_ptr, $name, 'missing');
+		$error = $this->error($file, $stack_ptr, $name, 'Missing');
 		$fix   = $file->addFixableError($error['message'], $stack_ptr, $error['type']);
 		if ($fix) {
 			$file->fixer->addContentBefore($comment_pos, $this->getCommentSeparator($name));
@@ -130,37 +117,10 @@ trait Comment_Separator
 			}
 		}
 		if (!$found) {
-			$tokens = $token_navigator->getTokens($line, $line);
+			$tokens = $token_navigator->getTokens($line);
 			$first  = array_keys($tokens)[0];
 			$this->errorMissingComment($file, $stack_ptr, $name, $first);
 		}
-	}
-
-	//--------------------------------------------------------------------------- findPreviousComment
-	/**
-	 * Tries to find the first previous comment.
-	 * Returns its value if found, null otherwise.
-	 *
-	 * @param $file       File    The current parsed file object.
-	 * @param $stack_ptr  integer The current pointer position.
-	 * @return null|integer
-	 */
-	protected function findPreviousComment(File $file, $stack_ptr)
-	{
-		$end         = $file->findPrevious($this->end_types, $stack_ptr);
-		$comment_pos = $file->findPrevious(T_COMMENT, $stack_ptr, $end);
-		$tokens      = $file->getTokens();
-
-		if (!empty($comment_pos)) {
-			if (substr($tokens[$comment_pos]['content'], 0, 2) == '//') {
-				return $comment_pos;
-			}
-			elseif (substr($tokens[$comment_pos]['content'], 0, 2) == '/*') {
-				return $this->findPreviousComment($file, $comment_pos - 1);
-			}
-		}
-
-		return null;
 	}
 
 	//--------------------------------------------------------------------------- getCommentSeparator

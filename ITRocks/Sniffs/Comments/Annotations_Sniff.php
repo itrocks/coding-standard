@@ -17,7 +17,7 @@ class Annotations_Sniff implements Sniff
 	const ERROR_BLANK_LINE_ANNOTATIONS = 'There must be no blank lines between annotations';
 
 	//------------------------------------------------------------ ERROR_BLANK_LINE_BELOW_DESCRIPTION
-	const ERROR_BLANK_LINE_BELOW_DESCRIPTION = 'There must be a blank lines between description and annotations';
+	const ERROR_BLANK_LINE_BELOW_DESCRIPTION = 'AutoFixable : There must be a blank lines between description and annotations';
 
 	//-------------------------------------------------------------------------------- findBlankLines
 	/**
@@ -59,29 +59,24 @@ class Annotations_Sniff implements Sniff
 	public function process(File $phpcs_file, $stack_ptr)
 	{
 		$token_navigator = new Token_Navigator($phpcs_file, $stack_ptr);
-		$tokens = $phpcs_file->getTokens();
-		$closer = $phpcs_file->findNext(T_DOC_COMMENT_CLOSE_TAG, $stack_ptr);
+		$tokens          = $phpcs_file->getTokens();
+		$closer          = $phpcs_file->findNext(T_DOC_COMMENT_CLOSE_TAG, $stack_ptr);
 
 		if (false !== $next = $phpcs_file->findNext($this->register(), $stack_ptr + 1, $closer)) {
 			$first  = $tokens[$stack_ptr]['content'];
 			$second = $tokens[$next]['content'];
 
 			if ($first > $second) {
-				$phpcs_file->addError(
-					self::ERROR_ANNOTATIONS_ORDER,
-					$stack_ptr,
-					'Invalid'
-				);
+				$phpcs_file->addError(self::ERROR_ANNOTATIONS_ORDER, $stack_ptr, 'Invalid');
 			}
 
-			if ($tokens[$next]['line'] - $tokens[$stack_ptr]['line'] != 1
-				&& $this->findBlankLines($tokens, $stack_ptr, $next)
+			if ($tokens[$next]['line'] - $tokens[$stack_ptr]['line'] != 1 && $this->findBlankLines($tokens,
+					$stack_ptr, $next)
 			) {
-				$phpcs_file->addError(
-					self::ERROR_BLANK_LINE_ANNOTATIONS,
-					$next,
-					'Invalid'
-				);
+				$fix = $phpcs_file->addError(self::ERROR_BLANK_LINE_ANNOTATIONS, $next, 'Invalid');
+				if ($fix) {
+					$token_navigator->cleanLine($tokens[$stack_ptr]['line'] + 1, $tokens[$next]['line'] - 1);
+				}
 			}
 		}
 
@@ -97,9 +92,9 @@ class Annotations_Sniff implements Sniff
 				$stack_ptr,
 				'Invalid'
 			);
-			if($fix){
+			if ($fix) {
 				$first_token = $phpcs_file->findPrevious(T_DOC_COMMENT_STAR, $stack_ptr);
-				$phpcs_file->fixer->addContentBefore($first_token, '*'.$phpcs_file->eolChar);
+				$phpcs_file->fixer->addContentBefore($first_token, '*' . $phpcs_file->eolChar);
 			}
 		}
 	}

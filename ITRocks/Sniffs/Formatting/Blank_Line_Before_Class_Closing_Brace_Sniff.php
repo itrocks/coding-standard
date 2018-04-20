@@ -13,24 +13,28 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 class Blank_Line_Before_Class_Closing_Brace_Sniff implements Sniff
 {
 
+	//----------------------------------------------------------------------------------------- ERROR
+	const ERROR = 'AutoFixable : There must be exactly one blank line before class closing brace';
+
 	//--------------------------------------------------------------------------------------- process
 	/**
 	 * {@inheritdoc}
 	 */
 	public function process(File $file, $stack_ptr)
 	{
-		$tokens           = $file->getTokens();
-		$closing_brace    = $tokens[$stack_ptr]['scope_closer'];
-		$previous_content = $file->findPrevious(T_WHITESPACE, ($closing_brace - 1), null, true);
+		$tokens = $file->getTokens();
+		if (array_key_exists('scope_closer', $tokens[$stack_ptr])) {
+			$closing_brace    = $tokens[$stack_ptr]['scope_closer'];
+			$previous_content = $file->findPrevious(T_WHITESPACE, ($closing_brace - 1), null, true);
 
-		if ($previous_content !== $tokens[$stack_ptr]['scope_opener']
-			&& $tokens[$previous_content]['line'] !== ($tokens[$closing_brace]['line'] - 2)
-		) {
-			$file->addError(
-				'There must be exactly one blank line before class closing brace',
-				$closing_brace,
-				'Invalid'
-			);
+			if ($previous_content !== $tokens[$stack_ptr]['scope_opener']
+				&& $tokens[$previous_content]['line'] !== ($tokens[$closing_brace]['line'] - 2)
+			) {
+				$fix = $file->addFixableError(self::ERROR, $closing_brace, 'Invalid');
+				if ($fix) {
+					$file->fixer->addNewlineBefore($closing_brace);
+				}
+			}
 		}
 	}
 
