@@ -1,20 +1,15 @@
-image: php:7.1
+image: registry.bappli.com/images/php-7.2:latest
 
 cache:
   paths:
     - vendor/
 
 before_script:
-  - apt-get update -yqq && apt-get install -y git zip
-
-  # Install and run Composer
-  - curl -sS https://getcomposer.org/installer | php
   - php composer.phar install
 
 code-coverage:
   stage: quality
   script:
-    - pecl install xdebug
     - docker-php-ext-enable xdebug
     - vendor/bin/phpunit --configuration $CI_PROJECT_DIR/phpunit.xml.dist --coverage-text --colors=never
 
