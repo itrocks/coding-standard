@@ -1,6 +1,7 @@
 <?php
 namespace ITRocks\Coding_Standard\Sniffs\Classes;
 
+use ITRocks\Coding_Standard\Sniffs\Tools\Clever_String_Compare;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
@@ -40,8 +41,7 @@ class Method_Order_Sniff implements Sniff
 				);
 
 				$current_method_name = $tokens[$scope]['content'];
-
-				if (strcasecmp($current_method_name, end($correct_methods)) < 0) {
+				if (Clever_String_Compare::camelCase($current_method_name, end($correct_methods)) < 0) {
 					$misplaced_methods[$current_method_name] = $scope;
 				}
 				else {
@@ -52,7 +52,7 @@ class Method_Order_Sniff implements Sniff
 
 		foreach ($misplaced_methods as $method_name => $scope) {
 			foreach ($correct_methods as $correct_method_name) {
-				if (strcasecmp($method_name, $correct_method_name) < 0) {
+				if (Clever_String_Compare::camelCase($method_name, $correct_method_name) < 0) {
 					$file->addError(self::ERROR, $scope, 'Invalid', [$method_name, $correct_method_name]);
 					break;
 				}

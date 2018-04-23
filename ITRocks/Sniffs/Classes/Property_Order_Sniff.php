@@ -1,6 +1,7 @@
 <?php
 namespace ITRocks\Coding_Standard\Sniffs\Classes;
 
+use ITRocks\Coding_Standard\Sniffs\Tools\Clever_String_Compare;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\AbstractVariableSniff;
 
@@ -39,7 +40,8 @@ class Property_Order_Sniff extends AbstractVariableSniff
 		$i                    = array_search($property, static::$properties);
 
 		// Check if previous property is alphabetically ordered.
-		if (isset(static::$properties[$i - 1]) && static::$properties[$i - 1] > $property) {
+		if (isset(static::$properties[$i - 1])
+			&& Clever_String_Compare::snakeCase(static::$properties[$i - 1], $property) > 0) {
 			$previous_property = static::$properties[$i - 1];
 			$file->addError(self::ERROR_PROPERTY_ORDER, $stack_ptr, 'Invalid', [$property, $previous_property]);
 		}

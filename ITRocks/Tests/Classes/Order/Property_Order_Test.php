@@ -22,10 +22,10 @@ class Property_Order_Test extends Sniff_Test_Case
 	public function getExpectedErrors()
 	{
 		return [
-			new Error(13, sprintf(Property_Order_Sniff::ERROR_PROPERTY_ORDER, '$_callable', '$boolean'),
+			new Error(16, sprintf(Property_Order_Sniff::ERROR_PROPERTY_ORDER, '$_callable', '$boolean'),
 				static::SOURCE),
-			new Error(18, sprintf(Property_Order_Sniff::ERROR_PROPERTY_ORDER, '$daa', '$foo'), static::SOURCE),
-			new Error(20, sprintf(Property_Order_Sniff::ERROR_PROPERTY_ORDER, '$caa', '$daa'), static::SOURCE),
+			new Error(22, sprintf(Property_Order_Sniff::ERROR_PROPERTY_ORDER, '$daa', '$foo'), static::SOURCE),
+			new Error(25, sprintf(Property_Order_Sniff::ERROR_PROPERTY_ORDER, '$caa', '$daa'), static::SOURCE),
 		];
 	}
 

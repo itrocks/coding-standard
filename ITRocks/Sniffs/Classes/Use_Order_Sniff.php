@@ -13,9 +13,35 @@ class Use_Order_Sniff implements Sniff
 	//----------------------------------------------------------------------------------------- ERROR
 	const ERROR = 'AutoFixable : Use statement "%s" should be before "%s"';
 
+	//----------------------------------------------------------------------------------------- fixIt
+	/**
+	 * Fix order of uses statements
+	 *
+	 * @param $file            File
+	 * @param $stack_ptr       integer
+	 * @param $uses            string[]
+	 * @param $token_navigator Token_Navigator
+	 */
+	private function fixIt(File $file, $stack_ptr, array $uses, Token_Navigator $token_navigator)
+	{
+		$lines = array_keys($uses);
+		$uses  = array_values($uses);
+		asort($uses);
+		$content = '';
+		foreach ($uses as $use) {
+			$content .= "use $use;\n";
+		}
+
+		$file->fixer->replaceToken($stack_ptr, $content);
+		foreach ($lines as $line) {
+			$token_navigator->cleanLine($line);
+		}
+	}
+
 	//--------------------------------------------------------------------------------------- process
 	/**
 	 * Make sure use statements are alphabetically ordered.
+	 *
 	 * {@inheritdoc}
 	 */
 	public function process(File $phpcs_file, $stack_ptr)
@@ -51,17 +77,7 @@ class Use_Order_Sniff implements Sniff
 		}
 
 		if ($fix) {
-			$lines = array_keys($uses);
-			$uses  = array_values($uses);
-			asort($uses);
-			$content = '';
-			foreach ($uses as $use) {
-				$content .= "use $use;\n";
-			}
-			$phpcs_file->fixer->replaceToken($stack_ptr, $content);
-			foreach ($lines as $line) {
-				$token_navigator->cleanLine($line);
-			}
+			$this->fixIt($phpcs_file, $stack_ptr, $uses, $token_navigator);
 		}
 
 		return $very_end;

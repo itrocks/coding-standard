@@ -1,6 +1,7 @@
 <?php
 namespace ITRocks\Coding_Standard\Sniffs\Classes\Constant_Order;
 
+use ITRocks\Coding_Standard\Sniffs\Tools\Clever_String_Compare;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
@@ -29,7 +30,7 @@ class Const_Order_Sniff implements Sniff
 		$previous_constant = '';
 
 		foreach ($elements as $const_object) {
-			if (strcasecmp($const_object->name, $previous_constant) < 0) {
+			if (Clever_String_Compare::snakeCase($const_object->name, $previous_constant) < 0) {
 				$file->addError(self::ERR_MESSAGE, $const_object->stack_ptr, 'Invalid', [$type, $previous_constant]);
 				break;
 			}

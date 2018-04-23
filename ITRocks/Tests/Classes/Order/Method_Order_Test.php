@@ -22,8 +22,11 @@ class Method_Order_Test extends Sniff_Test_Case
 	public function getExpectedErrors()
 	{
 		return [
+			new Error(15,
+				'Methods must be ordered alphabetically: meThod02MisPlacedBis() must declared before method01().',
+				static::SOURCE),
 			new Error(51,
-				'Methods must be ordered alphabetically: method02misplaced() must declared before meThod02MisPlacedBis().',
+				'Methods must be ordered alphabetically: method02misplaced() must declared before method03().',
 				static::SOURCE),
 			new Error(55,
 				'Methods must be ordered alphabetically: method03misplaced() must declared before method04().',
