@@ -6,6 +6,9 @@ namespace ITRocks\Coding_Standard\Sniffs\Tools;
  */
 class Clever_String_Compare
 {
+	//------------------------------------------------------------------------------ CAMEL_CASE_REGEX
+	const CAMEL_CASE_REGEX = "/((?<=[a-z])(?=[A-Z])|(?=[A-Z][a-z]))/";
+
 	//------------------------------------------------------------------------------------- camelCase
 	/**
 	 * Orders camel case strings by comparing each word
@@ -17,10 +20,7 @@ class Clever_String_Compare
 	 */
 	public static function camelCase($string_a, $string_b)
 	{
-		return static::strings(
-			preg_split("/((?<=[a-z])(?=[A-Z])|(?=[A-Z][a-z]))/", $string_a),
-			preg_split("/((?<=[a-z])(?=[A-Z])|(?=[A-Z][a-z]))/", $string_b)
-		);
+		return static::strings(static::splitCamelCase($string_a), static::splitCamelCase($string_b));
 	}
 
 	//------------------------------------------------------------------------------------- snakeCase
@@ -34,10 +34,19 @@ class Clever_String_Compare
 	 */
 	public static function snakeCase($string_a, $string_b)
 	{
-		return static::strings(
-			explode('_', $string_a),
-			explode('_', $string_b)
-		);
+		return static::strings(explode('_', $string_a), explode('_', $string_b));
+	}
+
+	//-------------------------------------------------------------------------------- splitCamelCase
+	/**
+	 * Splits string among a camel Case pattern
+	 *
+	 * @param $string string
+	 * @return array[]|false|string[]
+	 */
+	public static function splitCamelCase($string)
+	{
+		return preg_split(self::CAMEL_CASE_REGEX, $string);
 	}
 
 	//--------------------------------------------------------------------------------------- strings
