@@ -67,7 +67,7 @@ class Annotations_Sniff implements Sniff
 			$first  = $tokens[$stack_ptr]['content'];
 			$second = $tokens[$next]['content'];
 
-			if ($first > $second) {
+			if (($first > $second) && (substr($first, 0, 13) !== '@noinspection')) {
 				$phpcs_file->addError(self::ERROR_ANNOTATIONS_ORDER, $stack_ptr, 'Invalid');
 			}
 
