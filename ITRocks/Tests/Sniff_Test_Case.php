@@ -7,6 +7,7 @@ use PHP_CodeSniffer\Ruleset;
 use PHPUnit_Framework_TestCase;
 use ReflectionClass;
 use ReflectionException;
+use ReflectionProperty;
 
 /**
  * Class Sniff_TestCase
@@ -64,6 +65,11 @@ abstract class Sniff_Test_Case extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		$property = new ReflectionProperty(Config::class, 'overriddenDefaults');
+		$property->setAccessible(true);
+		$property->setValue([]);
+		$property->setAccessible(false);
+
 		$config            = new Config();
 		$config->standards = [__DIR__ . '/../../ITRocks'];
 		$ruleset           = new Ruleset($config);
@@ -129,6 +135,8 @@ abstract class Sniff_Test_Case extends PHPUnit_Framework_TestCase
 		$this->tested_file->process();
 		$errors   = static::sortErrors(static::getErrors());
 		$expected = static::sortErrors($this->getExpectedErrors());
+		array_unshift($errors,   $this->tested_file->path);
+		array_unshift($expected, $this->tested_file->path);
 		$this->assertEquals($expected, $errors);
 	}
 
