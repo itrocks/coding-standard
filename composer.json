@@ -24,9 +24,9 @@
   "minimum-stability": "stable",
   "require": {},
   "require-dev": {
-    "squizlabs/php_codesniffer": "3.*",
+    "squizlabs/php_codesniffer": "^3.0",
     "phpunit/phpunit": "5.*",
-    "brainmaestro/composer-git-hooks": "2.*"
+    "brainmaestro/composer-git-hooks": "^2.4"
   },
   "scripts": {
     "cghooks": "vendor/bin/cghooks",
