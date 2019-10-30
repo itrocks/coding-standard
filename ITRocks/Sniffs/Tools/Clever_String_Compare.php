@@ -71,6 +71,12 @@ class Clever_String_Compare
 		$string_a = array_splice($strings_a, 0, 1)[0];
 		$string_b = array_splice($strings_b, 0, 1)[0];
 		$result   = strcmp($string_a, $string_b);
+		if ($result < 0) {
+			$result = -1;
+		}
+		if ($result > 0) {
+			$result = 1;
+		}
 		return $result === 0 ? static::strings($strings_a, $strings_b) : $result;
 	}
 

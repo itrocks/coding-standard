@@ -23,8 +23,8 @@ class Clever_String_Sorter_Test extends PHPUnit_Framework_TestCase
 			'Equals empty'    => [0, '', ''],
 			'Less As than Bs' => [-1, 'foo', 'fooBar'],
 			'Less Bs than As' => [1, 'fooBar', 'foo'],
-			'A < B '          => [-4, 'barFoo', 'fooBar'],
-			'A > B'           => [4, 'fooBar', 'barFoo'],
+			'A < B '          => [-1, 'barFoo', 'fooBar'],
+			'A > B'           => [1, 'fooBar', 'barFoo'],
 		];
 	}
 
@@ -40,8 +40,8 @@ class Clever_String_Sorter_Test extends PHPUnit_Framework_TestCase
 			'Equals empty'    => [0, '', ''],
 			'Less As than Bs' => [-1, 'foo', 'foo_bar'],
 			'Less Bs than As' => [1, 'foo_bar', 'foo'],
-			'A < B '          => [-4, 'bar_foo', 'foo_bar'],
-			'A > B'           => [4, 'foo_bar', 'bar_foo'],
+			'A < B '          => [-1, 'bar_foo', 'foo_bar'],
+			'A > B'           => [1, 'foo_bar', 'bar_foo'],
 		];
 	}
 
@@ -57,8 +57,8 @@ class Clever_String_Sorter_Test extends PHPUnit_Framework_TestCase
 			'Equals empty'    => [0, [], []],
 			'Less As than Bs' => [-1, ['foo'], ['foo', 'bar']],
 			'Less Bs than As' => [1, ['foo', 'bar'], ['foo']],
-			'A < B '          => [-4, ['bar', 'foo'], ['foo', 'bar']],
-			'A > B'           => [4, ['foo', 'bar'], ['bar', 'foo']],
+			'A < B '          => [-1, ['bar', 'foo'], ['foo', 'bar']],
+			'A > B'           => [1, ['foo', 'bar'], ['bar', 'foo']],
 		];
 	}
 
