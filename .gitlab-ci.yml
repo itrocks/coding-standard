@@ -1,4 +1,4 @@
-image: registry.bappli.com/images/php/7.2:latest
+image: registry.bappli.com/images/php/8.0:latest
 
 cache:
   paths:
@@ -10,7 +10,8 @@ before_script:
 code-coverage:
   stage: quality
   script:
-    - docker-php-ext-enable xdebug
+    ## Only possible with official php image
+    - docker-php-ext-enable xdebug || true
     - vendor/bin/phpunit --configuration $CI_PROJECT_DIR/phpunit.xml.dist --coverage-text --colors=never
 
 coding-standard:
