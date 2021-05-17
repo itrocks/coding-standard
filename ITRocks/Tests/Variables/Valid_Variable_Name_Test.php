@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace ITRocks\Coding_Standard\Tests\Variables;
 
 use ITRocks\Coding_Standard\Sniffs\Variables\Valid_Variable_Name_Sniff;
@@ -43,7 +43,7 @@ class Valid_Variable_Name_Test extends Sniff_Test_Case
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 		$this->sniff = new Valid_Variable_Name_Sniff();
@@ -53,7 +53,7 @@ class Valid_Variable_Name_Test extends Sniff_Test_Case
 	/**
 	 * {@inheritdoc}
 	 */
-	public function tearDown()
+	public function tearDown() : void
 	{
 		$this->sniff = null;
 		parent::tearDown();

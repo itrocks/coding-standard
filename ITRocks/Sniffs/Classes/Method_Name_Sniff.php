@@ -59,7 +59,7 @@ class Method_Name_Sniff implements Sniff
 		$method_name = $tokens[$stack_ptr + 2]['content'];
 
 		if (!$this->isValid($method_name)) {
-			$file->addError(self::ERROR, $stack_ptr, 'Invalid', $method_name);
+			$file->addError(self::ERROR, $stack_ptr, 'Invalid',array($method_name));
 		}
 	}
 

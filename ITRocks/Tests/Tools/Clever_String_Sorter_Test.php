@@ -2,18 +2,18 @@
 namespace ITRocks\Coding_Standard\Tests\Tools;
 
 use ITRocks\Coding_Standard\Sniffs\Tools\Clever_String_Compare;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class CleverString_Comparator_Test
  *
  * @see Clever_String_Compare
  */
-class Clever_String_Sorter_Test extends PHPUnit_Framework_TestCase
+class Clever_String_Sorter_Test extends TestCase
 {
 	//----------------------------------------------------------------------------- camelCaseProvider
 	/**
-	 * @return string[]
+	 * @return array[]
 	 * @see testCamelCase
 	 */
 	public function camelCaseProvider()
@@ -30,7 +30,7 @@ class Clever_String_Sorter_Test extends PHPUnit_Framework_TestCase
 
 	//----------------------------------------------------------------------------- snakeCaseProvider
 	/**
-	 * @return string[]
+	 * @return array[]
 	 * @see testSnakeCase
 	 */
 	public function snakeCaseProvider()
@@ -47,7 +47,7 @@ class Clever_String_Sorter_Test extends PHPUnit_Framework_TestCase
 
 	//------------------------------------------------------------------------------- stringsProvider
 	/**
-	 * @return string[]
+	 * @return array[]
 	 * @see testStrings
 	 */
 	public function stringsProvider()

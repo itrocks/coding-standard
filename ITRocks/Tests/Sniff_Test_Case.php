@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 namespace ITRocks\Coding_Standard\Tests;
 
 use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Files\DummyFile;
 use PHP_CodeSniffer\Ruleset;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionProperty;
@@ -12,7 +12,7 @@ use ReflectionProperty;
 /**
  * Class Sniff_TestCase
  */
-abstract class Sniff_Test_Case extends PHPUnit_Framework_TestCase
+abstract class Sniff_Test_Case extends TestCase
 {
 
 	//--------------------------------------------------------------------------- $path_to_fixed_file
@@ -63,7 +63,7 @@ abstract class Sniff_Test_Case extends PHPUnit_Framework_TestCase
 	 * @throws ReflectionException
 	 * @throws \PHP_CodeSniffer\Exceptions\RuntimeException
 	 */
-	public function setUp()
+	public function setUp() : void
 	{
 		$property = new ReflectionProperty(Config::class, 'overriddenDefaults');
 		$property->setAccessible(true);

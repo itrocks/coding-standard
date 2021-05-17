@@ -81,7 +81,7 @@ class Upper_Snake_Case_Sniff implements Sniff
 		$class_name = $tokens[$stack_ptr + 2]['content'];
 
 		if (!$this->isValidUpperSnakeCase($class_name)) {
-			$file->addError(self::ERROR, $stack_ptr, 'Invalid', $class_name);
+			$file->addError(self::ERROR, $stack_ptr, 'Invalid', array($class_name));
 		}
 	}
 

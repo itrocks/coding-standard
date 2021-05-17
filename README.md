@@ -1,4 +1,4 @@
-# ITRocks PHP CodeSNiffer Codeing Standard 
+# ITRocks PHP CodeSNiffer Coding Standard 
 
 [![pipeline status](https://gitlab.bappli.com/itrocks/coding-standard/badges/master/pipeline.svg)](https://gitlab.bappli.com/itrocks/coding-standard/commits/master) [![coverage report](https://gitlab.bappli.com/itrocks/coding-standard/badges/master/coverage.svg)](https://gitlab.bappli.com/itrocks/coding-standard/commits/master)
 
@@ -9,7 +9,7 @@ A coding standard to check against the ITRocks coding standards.
 This standard can be installed with Composer dependency manager:
 
 1. Install Composer
-2. Install coding standard as a dependcy of your project
+2. Install coding standard as a dependency of your project
 
 TODO
 ```
@@ -52,6 +52,11 @@ vendor/bin/phpcs -i
 vendor/bin/phpcs --standard=ITRocks /path/to/code
 ```
 
+You can check that this tools himself respect ITRocks standard
+```
+vendor/bin/phpcs --standard=ITRocks --extensions=php $CI_PROJECT_DIR/ITRocks
+```
+
 ## 2. Debug CI
 
 * Install container
@@ -90,15 +95,33 @@ vendor/bin/phpcs --standard=ITRocks /path/to/code
   ```
 
 ## 3. Run unit tests
-From project's root, create a simlink in phpcs standards directory:
+
+### From the command line
+
+Simply run
 ```
-ln -s ITRocks/ vendor/squizlabs/php_codesniffer/src/Standards
+vendor/bin/phpunit
 ```
 
-Then, run unit tests as following:
-```
+N.B: To run php unit test with php 8, we need phpunit 9 at least. 
+But with phpunit 9 and php_codesniffer 3.6, we can't launch php_codesniffer tests as
+they are not yet compatible with phpunit 9. So launching all test using the AllTest.php and 
+a symlink like this will not work:
+``` bash
+ln -s ITRocks/ vendor/squizlabs/php_codesniffer/src/Standards
 vendor/bin/phpunit --filter ITRocks* vendor/squizlabs/php_codesniffer/tests/AllTests.php
 ```
+Php_codesniffer 3.6 require for the moment phpunit 7 for his internal tests which is not compatible 
+with PHP 8. 
+
+### From PHPStorm, with PHP installed locally
+
+Right-click on "phpunit.xml.dist" and select "Run phpunit.xml.dist"
+Configure Interpretor as local cli "PHP 8.0"
+
+### From PHPStorm, using Docker
+
+TODO
 
 
 ## 4. PhpStorm integration

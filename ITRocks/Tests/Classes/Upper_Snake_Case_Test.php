@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace ITRocks\Coding_Standard\Tests\Classes;
 
 use ITRocks\Coding_Standard\Sniffs\Classes\Upper_Snake_Case_Sniff;
@@ -92,7 +92,7 @@ class Upper_Snake_Case_Test extends Sniff_Test_Case
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 		$this->sniff = new Upper_Snake_Case_Sniff();
@@ -102,7 +102,7 @@ class Upper_Snake_Case_Test extends Sniff_Test_Case
 	/**
 	 * {@inheritdoc}
 	 */
-	public function tearDown()
+	public function tearDown() : void
 	{
 		$this->sniff = null;
 		parent::tearDown();
@@ -117,7 +117,7 @@ class Upper_Snake_Case_Test extends Sniff_Test_Case
 	public function testFormatUpperSnakeCase($class_name, $expected)
 	{
 		$actual = $this->sniff->formatUpperSnakeCase($class_name);
-		$this->assertEquals($expected, $actual, $class_name);
+		$this->assertEquals($expected, $actual, 'Unexpected class name: '.$class_name);
 	}
 
 	//--------------------------------------------------------------------- testIsValidUpperSnakeCase
@@ -129,7 +129,7 @@ class Upper_Snake_Case_Test extends Sniff_Test_Case
 	public function testIsValidUpperSnakeCase($class_name, $expected)
 	{
 		$actual = $this->sniff->isValidUpperSnakeCase($class_name);
-		$this->assertEquals($expected, $actual, $class_name);
+		$this->assertEquals($expected, $actual, 'Unexpected class name: '.$class_name);
 	}
 
 }
