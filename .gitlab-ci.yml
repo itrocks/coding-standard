@@ -57,5 +57,9 @@ code-coverage:
   script:
     - php -version
     ## Only possible with official php image
-    - docker-php-ext-enable xdebug || true
+    - php -m|grep xdebug
+    - >
+      if [[ $? -ne 0 ]]; then
+        docker-php-ext-enable xdebug
+      fi
     - vendor/bin/phpunit --configuration $CI_PROJECT_DIR/phpunit.xml.dist --coverage-text --colors=never
