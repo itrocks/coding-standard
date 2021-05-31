@@ -15,6 +15,9 @@ use ReflectionProperty;
 abstract class Sniff_Test_Case extends TestCase
 {
 
+	//--------------------------------------------------------------------------------------- VERBOSE
+	const VERBOSE = false;
+
 	//--------------------------------------------------------------------------- $path_to_fixed_file
 	/**
 	 * @var string
@@ -123,6 +126,10 @@ abstract class Sniff_Test_Case extends TestCase
 		$this->tested_file->process();
 		$this->tested_file->fixer->fixFile();
 		$diff = $this->tested_file->fixer->generateDiff($this->path_to_fixed_file);
+		if(self::VERBOSE && $diff != ''){
+			// Helper for debugging
+			echo $this->tested_file->fixer->getContents();
+		}
 		$this->assertEquals('', $diff);
 	}
 
