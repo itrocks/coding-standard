@@ -1,3 +1,8 @@
+stages:
+  - test
+  - retrocompatibility
+  - quality
+
 image: registry.bappli.com/images/php/8.0:latest
 
 cache:
@@ -7,23 +12,50 @@ cache:
 before_script:
   - composer install
 
+coding-standard_php80:
+  stage: test
+  script:
+    - php -version
+    - vendor/bin/phpcs --standard=ITRocks --extensions=php $CI_PROJECT_DIR/ITRocks
+
+test_php80:
+  stage: test
+  script:
+    - php -version
+    - vendor/bin/phpunit --configuration $CI_PROJECT_DIR/phpunit.xml.dist
+
+coding-standard_php73:
+  stage: retrocompatibility
+  image: registry.bappli.com/images/php/7.3:latest
+  script:
+    - php -version
+    - vendor/bin/phpcs --standard=ITRocks --extensions=php $CI_PROJECT_DIR/ITRocks
+
+test_php73:
+  stage: retrocompatibility
+  image: registry.bappli.com/images/php/7.3:latest
+  script:
+    - php -version
+    - vendor/bin/phpunit --configuration $CI_PROJECT_DIR/phpunit.xml.dist
+
+coding-standard_php74:
+  stage: retrocompatibility
+  image: registry.bappli.com/images/php/7.4:latest
+  script:
+    - php -version
+    - vendor/bin/phpcs --standard=ITRocks --extensions=php $CI_PROJECT_DIR/ITRocks
+
+test_php74:
+  stage: retrocompatibility
+  image: registry.bappli.com/images/php/7.4:latest
+  script:
+    - php -version
+    - vendor/bin/phpunit --configuration $CI_PROJECT_DIR/phpunit.xml.dist
+
 code-coverage:
   stage: quality
   script:
+    - php -version
     ## Only possible with official php image
     - docker-php-ext-enable xdebug || true
     - vendor/bin/phpunit --configuration $CI_PROJECT_DIR/phpunit.xml.dist --coverage-text --colors=never
-
-coding-standard:
-  stage: test
-  script:
-    - vendor/bin/phpcs --standard=ITRocks --extensions=php $CI_PROJECT_DIR/ITRocks
-
-test:
-  stage: test
-  script:
-    - vendor/bin/phpunit --configuration $CI_PROJECT_DIR/phpunit.xml.dist
-
-stages:
-  - test
-  - quality
