@@ -28,8 +28,7 @@ class Opening_Function_Brace_Sniff extends OpeningFunctionBraceBsdAllmanSniff
 
 	//-------------------------------------------------------------------------------- ERROR_SPACING3
 	const ERROR_SPACING3 = 'AutoFixable : There must be one single space between closing parenthesis and return type separator';
-
-
+	
 	//--------------------------------------------------------------------------------------- process
 	/**
 	 * {@inheritdoc}
