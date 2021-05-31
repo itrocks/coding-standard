@@ -1,7 +1,9 @@
 stages:
+  - composer_checks
   - test
   - retrocompatibility
   - quality
+  - security
 
 image: registry.bappli.com/images/php/8.0:latest
 
@@ -10,52 +12,63 @@ cache:
     - vendor/
 
 before_script:
+  - php -version
+  - composer --version
   - composer install
+
+composer2_check_platform_reqs:
+  stage: composer_checks
+  script:
+    - composer check-platform-reqs
+
+composer2_validate:
+  stage: composer_checks
+  script:
+    - composer validate
+
+composer2_outdated:
+  stage: composer_checks
+  allow_failure: true
+  script:
+    - composer outdated --strict
 
 coding-standard_php80:
   stage: test
   script:
-    - php -version
     - vendor/bin/phpcs --standard=ITRocks --extensions=php $CI_PROJECT_DIR/ITRocks
 
 test_php80:
   stage: test
   script:
-    - php -version
     - vendor/bin/phpunit --configuration $CI_PROJECT_DIR/phpunit.xml.dist
 
 coding-standard_php73:
   stage: retrocompatibility
   image: registry.bappli.com/images/php/7.3:latest
   script:
-    - php -version
     - vendor/bin/phpcs --standard=ITRocks --extensions=php $CI_PROJECT_DIR/ITRocks
 
 test_php73:
   stage: retrocompatibility
   image: registry.bappli.com/images/php/7.3:latest
   script:
-    - php -version
     - vendor/bin/phpunit --configuration $CI_PROJECT_DIR/phpunit.xml.dist
 
 coding-standard_php74:
   stage: retrocompatibility
   image: registry.bappli.com/images/php/7.4:latest
   script:
-    - php -version
     - vendor/bin/phpcs --standard=ITRocks --extensions=php $CI_PROJECT_DIR/ITRocks
 
 test_php74:
   stage: retrocompatibility
   image: registry.bappli.com/images/php/7.4:latest
   script:
-    - php -version
     - vendor/bin/phpunit --configuration $CI_PROJECT_DIR/phpunit.xml.dist
 
 code-coverage:
   stage: quality
   script:
-    - php -version
     ## Only possible with official php image
     - php -m|grep xdebug
     - >
@@ -63,3 +76,14 @@ code-coverage:
         docker-php-ext-enable xdebug
       fi
     - vendor/bin/phpunit --configuration $CI_PROJECT_DIR/phpunit.xml.dist --coverage-text --colors=never
+
+vulnerabilities:
+  stage: security
+  allow_failure: true
+  before_script:
+    # The global "before_script" is skipped on purpose
+    - export LPSC_VERSION=$(curl -s https://api.github.com/repos/fabpot/local-php-security-checker/releases/latest | grep '\"tag_name\":' | sed -E 's/.*"([^"]+)".*/\1/;s/^v//')
+    - curl -LSs https://github.com/fabpot/local-php-security-checker/releases/download/v${LPSC_VERSION}/local-php-security-checker_${LPSC_VERSION}_linux_amd64 > $CI_PROJECT_DIR/local-php-security-checker
+    - chmod u+x $CI_PROJECT_DIR/local-php-security-checker
+  script:
+    - $CI_PROJECT_DIR/local-php-security-checker
