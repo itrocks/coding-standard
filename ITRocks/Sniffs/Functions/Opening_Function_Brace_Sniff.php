@@ -11,6 +11,9 @@ use PHP_CodeSniffer\Standards\Generic\Sniffs\Functions\OpeningFunctionBraceBsdAl
 class Opening_Function_Brace_Sniff extends OpeningFunctionBraceBsdAllmanSniff
 {
 
+	//---------------------------------------------------------------------------------- ERROR_INDENT
+	const ERROR_INDENT = 'AutoFixable : return type must be indent if directly on next line';
+
 	//------------------------------------------------------------------------------- ERROR_SAME_LINE
 	const ERROR_SAME_LINE = 'AutoFixable : Opening brace must be on the same line as closing parenthesis';
 
@@ -28,7 +31,10 @@ class Opening_Function_Brace_Sniff extends OpeningFunctionBraceBsdAllmanSniff
 
 	//-------------------------------------------------------------------------------- ERROR_SPACING3
 	const ERROR_SPACING3 = 'AutoFixable : There must be one single space between closing parenthesis and return type separator';
-	
+
+	//-------------------------------------------------------------------------------- SPACES_PER_TAB
+	const SPACES_PER_TAB = 4 ;
+
 	//--------------------------------------------------------------------------------------- process
 	/**
 	 * {@inheritdoc}
@@ -65,6 +71,38 @@ class Opening_Function_Brace_Sniff extends OpeningFunctionBraceBsdAllmanSniff
 								$token_navigator->clean($i, $i);
 						}
 						$file->fixer->addContent($parenthesis_closer, ' ');
+					}
+				}
+				else if ($tokens[$parenthesis_closer + 1]['content'] == "\n") {
+					// Check indent (one more than for function)
+					$return_indent = 0 ;
+					for($i = $parenthesis_closer + 2 ; ; $i++){
+						if($tokens[$i]['type'] == "T_WHITESPACE"){
+							$return_indent += $tokens[$i]['length'];
+						}
+						else {
+							break;
+						}
+					}
+					$function_indent = 0 ;
+					for($i = $stack_ptr -1 ; ; $i--){
+						if($tokens[$i]['type'] != "T_WHITESPACE" || $tokens[$i]['content'] == "\n"){
+							break ;
+						}
+						$function_indent += $tokens[$i]['length'] ;
+					}
+					if($return_indent - $function_indent != self::SPACES_PER_TAB){
+						$fix = $file->addFixableError(self::ERROR_INDENT, $stack_ptr, 'Invalid');
+						if($fix){
+							for ($i = $parenthesis_closer + 2; $i < $return_type_separator; $i++) {
+								$token_navigator->clean($i, $i);
+							}
+							$padding_content = '' ;
+							for($return_indent = 0 ; $return_indent <= $function_indent; $return_indent += self::SPACES_PER_TAB){
+								$padding_content .= '    ';
+							}
+							$file->fixer->addContent($parenthesis_closer + 1, $padding_content);
+						}
 					}
 				}
 

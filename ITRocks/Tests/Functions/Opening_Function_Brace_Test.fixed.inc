@@ -111,6 +111,17 @@ class Foo
 
 	}
 
+	//--------------------------------------------------------------------- case035multipleParameters
+	/**
+	 * Test case KO: multiple line declaration, closing parenthesis and opening bracket should be
+	 * on same line when no return type
+	 */
+	function case035multipleParameters($foobar1, $foobar2, $foobar3, $foobar4, $foobar5, $foobar6,
+		$foobar7, $foobar8, $foobar9, $foobar10, $foobar11, $foobar12, $foobar13, $foobar14
+	) {
+
+	}
+
 	//-------------------------------------------------------------------- case040basicWithReturnType
 	/**
 	 * Test case OK: one line declaration with return type
@@ -271,5 +282,65 @@ class Foo
 	{
 
 	}
+
+	//------------------------------------------------------------------ case092complexWithReturnType
+	/**
+	 * Test case KO: missing indentation
+	 */
+	function case092complexWithReturnType($foobar1, $foobar2, $foobar3, $foobar4, $foobar5, $foobar6)
+		: string
+	{
+
+	}
+
+}
+
+	//----------------------------------------------------------------------- case100externalFunction
+/**
+ * Test case OK: external function
+ */
+function case100externalFunction(string $base_class)
+{
+
+}
+
+	//----------------------------------------------------------------------- case101externalFunction
+/**
+ * Test case OK: external function
+ */
+function case101externalFunction(string $base_class, string $feature_name) : ?string
+{
+
+}
+
+	//----------------------------------------------------------------------- case102externalFunction
+/**
+ * Test case OK: external function
+ */
+function case102externalFunction(
+	string $base_class, string $feature_name, string $suffix = 'Controller',
+	string $extension = 'php', bool $class_form = true
+) : ?string
+{
+
+}
+
+	//----------------------------------------------------------------------- case103externalFunction
+/**
+ * Test case OK: external function
+ */
+function case103externalFunction(string $base_class, string $feature_name, string $suffix)
+	: string|OtheClass
+{
+
+}
+
+	//----------------------------------------------------------------------- case104externalFunction
+/**
+ * Test case KO: missing indentation
+ */
+function case104externalFunction(string $base_class, string $feature_name, string $suffix)
+	: string|OtheClass
+{
 
 }
