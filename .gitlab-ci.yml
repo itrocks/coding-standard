@@ -42,6 +42,21 @@ test_php80:
   script:
     - vendor/bin/phpunit --configuration $CI_PROJECT_DIR/phpunit.xml.dist
 
+# Execution check only for PHP 7.2. Test are not retro compatible (need PHP > 7.3)
+coding-standard_php72:
+  stage: retrocompatibility
+  image: registry.bappli.com/images/php/8.0:latest
+  before_script:
+    # We use 8.0 image for composer
+    - composer --version
+    - composer install
+    # Then go back to php7.2 for execution
+    - apt-get install -y php7.2 php7.2-xml
+    - update-alternatives --set php /usr/bin/php7.2
+    - php -version
+  script:
+    - vendor/bin/phpcs --standard=ITRocks --extensions=php $CI_PROJECT_DIR/ITRocks
+
 coding-standard_php73:
   stage: retrocompatibility
   image: registry.bappli.com/images/php/7.3:latest
