@@ -42,7 +42,7 @@ test_php80:
   script:
     - vendor/bin/phpunit --configuration $CI_PROJECT_DIR/phpunit.xml.dist
 
-# Execution check only for PHP 7.2. Test are not retro compatible (need PHP > 7.3)
+# Execution check only for PHP 7.2. Test are not retro compatible (need PHP >= 7.3)
 coding-standard_php72:
   stage: retrocompatibility
   image: registry.bappli.com/images/php/7.2:latest

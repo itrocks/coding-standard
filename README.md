@@ -42,6 +42,12 @@ git clone https://gitlab.bappli.com/itrocks/coding-standard
 cd coding-standards && composer install
 ```
 
+/!\ Test (phpunit 9) are compatible only for PHP >= 7.3. 
+To use this with PHP 7.2 (without unit test), use : 
+```bash
+composer install --no-dev
+```
+
 3. Check the installed coding standards for "ITRocks"
 ```bash
 vendor/bin/phpcs -i
