@@ -293,6 +293,36 @@ class Foo
 
 	}
 
+	//------------------------------------------------------------------ case093complexWithReturnType
+	/**
+	 * Test case OK: function with modifier and parameter on one line and return type on the next line
+	 */
+	public function case093complexWithReturnType($foobar1, $foobar2, $foobar3, $foobar4)
+		: string
+	{
+
+	}
+
+	//------------------------------------------------------------------ case094complexWithReturnType
+	/**
+	 * Test case OK: function with modifier and parameter on one line and return type on the next line
+	 */
+	public static function case094complexWithReturnType($foobar1, $foobar2, $foobar3, $foobar4)
+		: string
+	{
+
+	}
+
+	//------------------------------------------------------------------ case095complexWithReturnType
+	/**
+	 * Test case KO: missing indentation
+	 */
+	public static function case095complexWithReturnType($foobar1, $foobar2, $foobar3, $foobar4)
+		: string
+	{
+
+	}
+
 }
 
 	//----------------------------------------------------------------------- case100externalFunction

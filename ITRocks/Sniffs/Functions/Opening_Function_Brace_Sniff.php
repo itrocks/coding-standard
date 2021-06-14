@@ -12,7 +12,7 @@ class Opening_Function_Brace_Sniff extends OpeningFunctionBraceBsdAllmanSniff
 {
 
 	//---------------------------------------------------------------------------------- ERROR_INDENT
-	const ERROR_INDENT = 'AutoFixable : return type must be indent if directly on next line';
+	const ERROR_INDENT = 'AutoFixable : return type must be indented if directly on next line';
 
 	//------------------------------------------------------------------------------- ERROR_SAME_LINE
 	const ERROR_SAME_LINE = 'AutoFixable : Opening brace must be on the same line as closing parenthesis';
@@ -86,10 +86,15 @@ class Opening_Function_Brace_Sniff extends OpeningFunctionBraceBsdAllmanSniff
 					}
 					$function_indent = 0 ;
 					for($i = $stack_ptr -1 ; ; $i--){
-						if($tokens[$i]['type'] != "T_WHITESPACE" || $tokens[$i]['content'] == "\n"){
+						if($tokens[$i]['content'] == "\n"){
 							break ;
 						}
-						$function_indent += $tokens[$i]['length'] ;
+						if($tokens[$i]['type'] == "T_WHITESPACE"){
+							$function_indent += $tokens[$i]['length'] ;
+						}
+						else {
+							$function_indent = 0 ;
+						}
 					}
 					if($return_indent - $function_indent != self::SPACES_PER_TAB){
 						$fix = $file->addFixableError(self::ERROR_INDENT, $stack_ptr, 'Invalid');

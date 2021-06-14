@@ -57,7 +57,8 @@ class Opening_Function_Brace_Test extends Sniff_Test_Case
 			NEW Error(260, Opening_Function_Brace_Sniff::ERROR_SAME_LINE2, static::SOURCE),
 			NEW Error(283, Opening_Function_Brace_Sniff::ERROR_SAME_LINE2, static::SOURCE),
 			NEW Error(292, Opening_Function_Brace_Sniff::ERROR_INDENT, static::SOURCE),
-			NEW Error(344, Opening_Function_Brace_Sniff::ERROR_INDENT, static::SOURCE),
+			NEW Error(322, Opening_Function_Brace_Sniff::ERROR_INDENT, static::SOURCE),
+			NEW Error(374, Opening_Function_Brace_Sniff::ERROR_INDENT, static::SOURCE),
 		];
 	}
 
