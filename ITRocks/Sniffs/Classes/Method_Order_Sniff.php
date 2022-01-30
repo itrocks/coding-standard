@@ -41,6 +41,12 @@ class Method_Order_Sniff implements Sniff
 				);
 
 				$current_method_name = $tokens[$scope]['content'];
+				if ($current_method_name === '&') {
+					$scope = $file->findNext(T_STRING, $scope + 1, $end);
+					if ($scope) {
+						$current_method_name = $tokens[$scope]['content'];
+					}
+				}
 				if (Clever_String_Compare::camelCase($current_method_name, end($correct_methods)) < 0) {
 					$misplaced_methods[$current_method_name] = $scope;
 				}

@@ -166,6 +166,12 @@ trait Comment_Separator
 
 		if ($position) {
 			$element_name = $file->getTokens()[$position]['content'];
+			if ($element_name === '&') {
+				$position = $file->findNext(T_STRING, $position + 1, $end);
+				if ($position) {
+					$element_name = $file->getTokens()[$position]['content'];
+				}
+			}
 		}
 
 		return $element_name;
