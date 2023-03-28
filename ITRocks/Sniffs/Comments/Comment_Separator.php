@@ -99,6 +99,14 @@ trait Comment_Separator
 		$token_navigator = new Token_Navigator($file, $stack_ptr);
 		$line            = $file->getTokens()[$stack_ptr]['line'];
 
+		// Is there attribute(s) before
+		$tokens = $token_navigator->getTokens($line - 1, $line - 1, T_ATTRIBUTE_END);
+		while (count($tokens) > 0) {
+			$open_tag = $file->findPrevious(T_ATTRIBUTE, $stack_ptr);
+			$line     = $file->getTokens()[$open_tag]['line'];
+			$tokens   = $token_navigator->getTokens($line - 1, $line - 1, T_ATTRIBUTE_END);
+		}
+
 		// Is there doc before
 		$tokens = $token_navigator->getTokens($line - 1, $line - 1, T_DOC_COMMENT_CLOSE_TAG);
 		if (count($tokens) > 0) {
