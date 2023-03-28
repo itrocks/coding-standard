@@ -1,43 +1,35 @@
 {
-  "name": "itrocks/coding_standard",
-  "description": "CodeSniffer ruleset for the ITRocks 2+ coding standard",
-  "type": "phpcodesniffer-standard",
-  "license": "MIT",
-  "autoload": {
-    "psr-4": {
-      "ITRocks\\Coding_Standard\\": [
-        "ITRocks"
-      ]
-    }
-  },
-  "authors": [
-    {
-      "name": "Goulven Le Dû",
-      "email": "goulven.ledu@bappli.com"
-    }
-  ],
-  "extra": {
-    "hooks": {
-      "pre-push": "vendor/bin/phpcs --standard=ITRocks --extensions=php ./ITRocks && echo 'Codding standard check OK'"
-    }
-  },
-  "minimum-stability": "stable",
-  "require": {
-    "brainmaestro/composer-git-hooks": "^2.4",
-    "squizlabs/php_codesniffer": "^3.0"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "9.*"
-  },
-  "scripts": {
-    "cghooks": "vendor/bin/cghooks",
-    "post-install-cmd": [
-      "php vendor/bin/phpcs --config-set installed_paths `realpath ./ITRocks`",
-      "vendor/bin/cghooks add --ignore-lock"
-    ],
-    "post-update-cmd": [
-      "php vendor/bin/phpcs --config-set installed_paths `realpath ./ITRocks`",
-      "vendor/bin/cghooks update"
-    ]
-  }
+	"authors": [
+		{ "email": "baptiste@pillot.fr",               "name": "Baptiste Pillot"         },
+		{ "email": "goulven.ledu@bappli.com",          "name": "Goulven Le Dû"           },
+		{ "email": "jean.ledrogo@bappli.com",          "name": "Jean Le Drogo"           },
+		{ "email": "thomas.desaintexupery@bappli.com", "name": "Thomas de Saint-Exupery" }
+	],
+	"autoload": { "psr-4": { "ITRocks\\Coding_Standard\\": ["ITRocks"] } },
+	"description": "CodeSniffer ruleset for the ITRocks 0.2+ coding standard",
+	"extra": { "hooks": {
+		"pre-push": "vendor/bin/phpcs --standard=ITRocks --extensions=php ./ITRocks && echo 'Codding standard check OK'"
+	}},
+	"license":           "LGPL-3.0-or-later",
+	"minimum-stability": "stable",
+  "name":              "itrocks/coding_standard",
+	"require": {
+		"brainmaestro/composer-git-hooks": "^2.4",
+		"squizlabs/php_codesniffer": "^3.0"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "9.*"
+	},
+	"scripts": {
+		"cghooks": "vendor/bin/cghooks",
+		"post-install-cmd": [
+			"php vendor/bin/phpcs --config-set installed_paths `realpath ./ITRocks`",
+			"vendor/bin/cghooks add --ignore-lock"
+		],
+		"post-update-cmd": [
+			"php vendor/bin/phpcs --config-set installed_paths `realpath ./ITRocks`",
+			"vendor/bin/cghooks update"
+		]
+	},
+  "type": "phpcodesniffer-standard"
 }
