@@ -2,16 +2,14 @@
 namespace ITRocks\Coding_Standard\Tests;
 
 use PHP_CodeSniffer\Config;
+use PHP_CodeSniffer\Exceptions\RuntimeException;
 use PHP_CodeSniffer\Files\DummyFile;
+use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Ruleset;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use ReflectionException;
 use ReflectionProperty;
 
-/**
- * Class Sniff_TestCase
- */
 abstract class Sniff_Test_Case extends TestCase
 {
 
@@ -19,24 +17,15 @@ abstract class Sniff_Test_Case extends TestCase
 	const VERBOSE = false;
 
 	//--------------------------------------------------------------------------- $path_to_fixed_file
-	/**
-	 * @var string
-	 */
-	private $path_to_fixed_file;
+	private string $path_to_fixed_file;
 
 	//---------------------------------------------------------------------------------- $tested_file
-	/**
-	 * The PHP_CodeSniffer_File object containing parsed contents of the test case file.
-	 *
-	 * @var \PHP_CodeSniffer\Files\File
-	 */
-	public $tested_file;
+	/** The PHP_CodeSniffer_File object containing parsed contents of the test case file. */
+	public File $tested_file;
 
 	//------------------------------------------------------------------------------------- getErrors
-	/**
-	 * @return Error[]
-	 */
-	public function getErrors()
+	/** @return Error[] */
+	public function getErrors() : array
 	{
 		$parsed_errors = [];
 		foreach ($this->tested_file->getErrors() as $line => $line_errors) {
@@ -54,7 +43,7 @@ abstract class Sniff_Test_Case extends TestCase
 	 * @return Error[]
 	 * @see testExpectedErrors
 	 */
-	abstract public function getExpectedErrors();
+	abstract public function getExpectedErrors() : array;
 
 	//----------------------------------------------------------------------------------------- setUp
 	/**
@@ -63,15 +52,12 @@ abstract class Sniff_Test_Case extends TestCase
 	 * directory and with the same name, using the .inc extension.
 	 *
 	 * @return void
-	 * @throws ReflectionException
-	 * @throws \PHP_CodeSniffer\Exceptions\RuntimeException
+	 * @throws RuntimeException
 	 */
 	public function setUp() : void
 	{
 		$property = new ReflectionProperty(Config::class, 'overriddenDefaults');
-		$property->setAccessible(true);
 		$property->setValue([]);
-		$property->setAccessible(false);
 
 		$config            = new Config();
 		$config->standards = [__DIR__ . '/../../ITRocks'];
@@ -95,10 +81,10 @@ abstract class Sniff_Test_Case extends TestCase
 
 	//------------------------------------------------------------------------------------ sortErrors
 	/**
-	 * @param $errors Error[]
+	 * @param Error[] $errors
 	 * @return Error[]
 	 */
-	public static function sortErrors(array $errors)
+	public static function sortErrors(array $errors) : array
 	{
 		usort($errors, function ($a, $b) {
 			$r = $a->line - $b->line;
@@ -115,10 +101,8 @@ abstract class Sniff_Test_Case extends TestCase
 	}
 
 	//----------------------------------------------------------------------------------- testAutoFix
-	/**
-	 * Tests auto fixed file
-	 */
-	public function testAutoFix()
+	/** Tests auto fixed file. */
+	public function testAutoFix() : void
 	{
 		if (!is_file($this->path_to_fixed_file)) {
 			$this->markTestSkipped('Missing fixed file ' . $this->path_to_fixed_file);
@@ -134,10 +118,8 @@ abstract class Sniff_Test_Case extends TestCase
 	}
 
 	//------------------------------------------------------------------------------------ testErrors
-	/**
-	 * Tests all expected errors
-	 */
-	public function testErrors()
+	/** Tests all expected errors. */
+	public function testErrors() : void
 	{
 		$this->tested_file->process();
 		$errors   = static::sortErrors(static::getErrors());

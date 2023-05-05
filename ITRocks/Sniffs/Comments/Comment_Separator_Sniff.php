@@ -5,7 +5,6 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
- * Class Comment_Separator_Sniff.
  * Make sure class's methods & constants have a valid comment separator.
  */
 class Comment_Separator_Sniff implements Sniff
@@ -18,7 +17,7 @@ class Comment_Separator_Sniff implements Sniff
 	 *
 	 * {@inheritdoc}
 	 */
-	public function process(File $file, $stack_ptr)
+	public function process(File $file, $stack_ptr) : void
 	{
 		$name = $this->getFunctionName($file, $stack_ptr);
 		$this->findError($file, $stack_ptr, $name);
@@ -29,7 +28,7 @@ class Comment_Separator_Sniff implements Sniff
 	 * @codeCoverageIgnore
 	 * {@inheritdoc}
 	 */
-	public function register()
+	public function register() : array
 	{
 		return [T_FUNCTION];
 	}

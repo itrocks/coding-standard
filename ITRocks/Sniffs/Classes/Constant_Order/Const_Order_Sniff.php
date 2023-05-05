@@ -12,20 +12,18 @@ class Const_Order_Sniff implements Sniff
 {
 
 	//----------------------------------------------------------------------------------- ERR_MESSAGE
-	/**
-	 * Default error message.
-	 */
+	/** Default error message */
 	const ERR_MESSAGE = 'This %s must be declared before constant %s';
 
 	//------------------------------------------------------------------------------------ checkOrder
 	/**
 	 * Check order of given elements and add an error if necessary. Stop at first error encountered.
 	 *
-	 * @param $elements Const_Object[] : A list of Const_Object to compare.
-	 * @param $file     File           : The current parsed file.
-	 * @param $type     string         : The type to use in error message (constant or group).
+	 * @param Const_Object[] $elements A list of Const_Object to compare.
+	 * @param File           $file     The current parsed file.
+	 * @param string         $type     The type to use in error message (constant or group).
 	 */
-	private function checkOrder(array $elements, File $file, $type)
+	private function checkOrder(array $elements, File $file, string $type) : void
 	{
 		$previous_constant = '';
 
@@ -44,10 +42,10 @@ class Const_Order_Sniff implements Sniff
 	/**
 	 * Return an array composed of first element of each group in $groups.
 	 *
-	 * @param $groups array : A list of Const_Object[]
+	 * @param Const_Object[] $groups
 	 * @return Const_Object[]
 	 */
-	private function getFirstElementOfGroups(array $groups)
+	private function getFirstElementOfGroups(array $groups) : array
 	{
 		$elements = [];
 
@@ -62,12 +60,8 @@ class Const_Order_Sniff implements Sniff
 	/**
 	 * Find all constants in the file and group them.
 	 * Return an array of Const_Object collections.
-	 *
-	 * @param $file      File
-	 * @param $stack_ptr integer
-	 * @return array
 	 */
-	private function groupConstants(File $file, $stack_ptr)
+	private function groupConstants(File $file, int $stack_ptr) : array
 	{
 		$const_position = $file->findNext(T_CONST, $stack_ptr + 1);
 		$group          = [];
@@ -116,7 +110,7 @@ class Const_Order_Sniff implements Sniff
 	 *
 	 * {@inheritdoc}
 	 */
-	public function process(File $file, $stack_ptr)
+	public function process(File $file, $stack_ptr) : void
 	{
 		$groups = $this->groupConstants($file, $stack_ptr);
 
@@ -135,7 +129,7 @@ class Const_Order_Sniff implements Sniff
 	 * @codeCoverageIgnore
 	 * {@inheritdoc}
 	 */
-	public function register()
+	public function register() : array
 	{
 		return [
 			T_CLASS,

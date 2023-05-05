@@ -6,8 +6,6 @@ use ITRocks\Coding_Standard\Tests\Error;
 use ITRocks\Coding_Standard\Tests\Sniff_Test_Case;
 
 /**
- * Class Irrelevant_Comment_Separator_Test
- *
  * @see Irrelevant_Comment_Separator_Sniff
  */
 class Irrelevant_Comment_Separator_Test extends Sniff_Test_Case
@@ -18,10 +16,11 @@ class Irrelevant_Comment_Separator_Test extends Sniff_Test_Case
 
 	//----------------------------------------------------------------------------- getExpectedErrors
 	/**
-	 * @return Error[]
+	 * {@inheritcoc}
+	 *
 	 * @see testExpectedErrors
 	 */
-	public function getExpectedErrors()
+	public function getExpectedErrors() : array
 	{
 		return [
 			new Error(10, Irrelevant_Comment_Separator_Sniff::IRRELEVANT_SEPARATOR, self::SOURCE),

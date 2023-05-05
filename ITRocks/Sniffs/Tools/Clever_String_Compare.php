@@ -1,11 +1,9 @@
 <?php
 namespace ITRocks\Coding_Standard\Sniffs\Tools;
 
-/**
- * Class Clever_String_Sorter
- */
 class Clever_String_Compare
 {
+
 	//------------------------------------------------------------------------------ CAMEL_CASE_REGEX
 	const CAMEL_CASE_REGEX = "/((?<=[a-z])(?=[A-Z])|(?=[A-Z][a-z]))/";
 
@@ -13,12 +11,9 @@ class Clever_String_Compare
 	/**
 	 * Orders camel case strings by comparing each word
 	 *
-	 * @param $string_a string
-	 * @param $string_b string
-	 * @return integer
 	 * @see strings
 	 */
-	public static function camelCase($string_a, $string_b)
+	public static function camelCase(string $string_a, string $string_b) : int
 	{
 		return static::strings(static::splitCamelCase($string_a), static::splitCamelCase($string_b));
 	}
@@ -27,12 +22,9 @@ class Clever_String_Compare
 	/**
 	 * Orders snake case strings by comparing each word
 	 *
-	 * @param $string_a string
-	 * @param $string_b string
-	 * @return integer
 	 * @see strings
 	 */
-	public static function snakeCase($string_a, $string_b)
+	public static function snakeCase(string $string_a, string $string_b) : int
 	{
 		return static::strings(explode('_', $string_a), explode('_', $string_b));
 	}
@@ -41,10 +33,9 @@ class Clever_String_Compare
 	/**
 	 * Splits string among a camel Case pattern
 	 *
-	 * @param $string string
 	 * @return array[]|false|string[]
 	 */
-	public static function splitCamelCase($string)
+	public static function splitCamelCase(string $string) : array|false
 	{
 		return preg_split(self::CAMEL_CASE_REGEX, $string);
 	}
@@ -53,12 +44,11 @@ class Clever_String_Compare
 	/**
 	 * Compare to array of strings
 	 *
-	 * @param $strings_a string[]
-	 * @param $strings_b string[]
-	 * @return integer
-	 * @see strcmp()
+	 * @param string[] $strings_a
+	 * @param string[] $strings_b
+	 * @see strcmp
 	 */
-	public static function strings(array $strings_a, array $strings_b)
+	public static function strings(array $strings_a, array $strings_b) : int
 	{
 		$strings_a = array_values($strings_a);
 		$strings_b = array_values($strings_b);

@@ -6,12 +6,11 @@ use ITRocks\Coding_Standard\Tests\Error;
 use ITRocks\Coding_Standard\Tests\Sniff_Test_Case;
 
 /**
- * Class Blank_Lines_Test
- *
  * @see Opening_Function_Brace_Sniff
  */
 class Opening_Function_Brace_Test extends Sniff_Test_Case
 {
+
 	//---------------------------------------------------------------------------------------- SOURCE
 	const SOURCE = 'Coding_Standard.Functions.Opening_Function_Brace_.Invalid';
 
@@ -29,10 +28,11 @@ class Opening_Function_Brace_Test extends Sniff_Test_Case
 
 	//----------------------------------------------------------------------------- getExpectedErrors
 	/**
-	 * @return Error[]
+	 * {@inheritdoc}
+	 *
 	 * @see testExpectedErrors
 	 */
-	public function getExpectedErrors()
+	public function getExpectedErrors() : array
 	{
 		return [
 			NEW Error(22, 'Opening brace should be on a new line', static::SOURCE2),

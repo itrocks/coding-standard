@@ -5,8 +5,6 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
- * Class Multiple_Blank_Lines_Sniff.
- *
  * Ensures to forbid multiple blank lines.
  */
 class Multiple_Blank_Lines_Sniff implements Sniff
@@ -19,10 +17,10 @@ class Multiple_Blank_Lines_Sniff implements Sniff
 	/**
 	 * Add error on contiguous blank lines.
 	 *
-	 * @param $file        File  The parsed file
-	 * @param $blank_lines array The blank lines found in file
+	 * @param File     $file        The parsed file
+	 * @param string[] $blank_lines The blank lines found in file
 	 */
-	private function contiguousBlankLinesToError(File $file, array $blank_lines)
+	private function contiguousBlankLinesToError(File $file, array $blank_lines) : void
 	{
 		$error  = false;
 		$tokens = $file->getTokens();
@@ -53,15 +51,14 @@ class Multiple_Blank_Lines_Sniff implements Sniff
 	 * Find all blank lines in the given token list.
 	 * Blank lines in comment doc are looked for too.
 	 *
-	 * @param $tokens     array
-	 * @param $white_list array
-	 * @return array
+	 * @param array{'line':int,'code':string} $tokens
+	 * @return string[]
 	 */
-	private function findBlankLines(
-		array $tokens, $white_list = [T_WHITESPACE, T_DOC_COMMENT_WHITESPACE, T_DOC_COMMENT_STAR]
-	) {
+	private function findBlankLines(array $tokens) : array
+	{
 		$blank_lines = [];
 		$ignored     = [];
+		$white_list  = [T_WHITESPACE, T_DOC_COMMENT_WHITESPACE, T_DOC_COMMENT_STAR];
 
 		foreach ($tokens as $token) {
 			if (!in_array($token['line'], $ignored)) {
@@ -79,10 +76,8 @@ class Multiple_Blank_Lines_Sniff implements Sniff
 	}
 
 	//--------------------------------------------------------------------------------------- process
-	/**
-	 * {@inheritdoc}
-	 */
-	public function process(File $file, $stack_ptr)
+	/** {@inheritdoc} */
+	public function process(File $file, $stack_ptr) : void
 	{
 		$blank_lines = $this->findBlankLines($file->getTokens());
 		$this->contiguousBlankLinesToError($file, $blank_lines);
@@ -93,7 +88,7 @@ class Multiple_Blank_Lines_Sniff implements Sniff
 	 * @codeCoverageIgnore
 	 * {@inheritdoc}
 	 */
-	public function register()
+	public function register() : array
 	{
 		return [
 			T_CLASS,

@@ -10,6 +10,7 @@ use PHP_CodeSniffer\Sniffs\Sniff;
  */
 class Namespace_Sniff implements Sniff
 {
+
 	//------------------------------------------------------------------------------------ ERROR_LINE
 	const ERROR_LINE = 'AutoFixable : Namespace should be on line ';
 
@@ -23,7 +24,7 @@ class Namespace_Sniff implements Sniff
 	 *
 	 * {@inheritdoc}
 	 */
-	public function process(File $phpcs_file, $stack_ptr)
+	public function process(File $phpcs_file, $stack_ptr) : void
 	{
 		$tokens      = $phpcs_file->getTokens();
 		$namespace   = $tokens[$stack_ptr];
@@ -57,7 +58,7 @@ class Namespace_Sniff implements Sniff
 	 * @codeCoverageIgnore
 	 * {@inheritdoc}
 	 */
-	public function register()
+	public function register() : array
 	{
 		return [T_NAMESPACE];
 	}

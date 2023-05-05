@@ -3,37 +3,23 @@ namespace ITRocks\Coding_Standard\Sniffs\Tools;
 
 use PHP_CodeSniffer\Files\File;
 
-/**
- * Class Token_Navigation
- */
 class Token_Navigator
 {
 	//----------------------------------------------------------------------------------------- $file
-	/**
-	 * @var File
-	 */
-	public $file;
+	public File $file;
 
 	//--------------------------------------------------------------------------------- $lined_tokens
-	/**
-	 * @var array
-	 */
-	public $lined_tokens;
+	public ?array $lined_tokens;
 
 	//------------------------------------------------------------------------------------ $stack_ptr
-	/**
-	 * @var integer
-	 */
-	public $stack_ptr;
+	public int $stack_ptr;
 
 	//----------------------------------------------------------------------------------- __construct
 	/**
-	 * Token_Navigation constructor
-	 *
-	 * @param $file      File
-	 * @param $stack_ptr integer
+	 * @param File $file
+	 * @param int  $stack_ptr
 	 */
-	public function __construct(File $file, $stack_ptr)
+	public function __construct(File $file, int $stack_ptr)
 	{
 		$this->file         = $file;
 		$this->stack_ptr    = $stack_ptr;
@@ -41,24 +27,16 @@ class Token_Navigator
 	}
 
 	//----------------------------------------------------------------------------------------- clean
-	/**
-	 * @param $start integer
-	 * @param $end   integer
-	 */
-	public function clean($start, $end)
+	public function clean(int $start, int $end) : void
 	{
 		while ($start <= $end) {
-			$this->file->fixer->replaceToken($start, null);
+			$this->file->fixer->replaceToken($start, '');
 			$start++;
 		}
 	}
 
 	//------------------------------------------------------------------------------------- cleanLine
-	/**
-	 * @param $line_start integer
-	 * @param $line_end   integer
-	 */
-	public function cleanLine($line_start, $line_end = null)
+	public function cleanLine(int $line_start, int $line_end = null) : void
 	{
 		if (is_null($line_end)) {
 			$line_end = $line_start;
@@ -66,16 +44,13 @@ class Token_Navigator
 		for ($l = $line_end; $l <= $line_end; $l++) {
 			$tokens = $this->getLinedTokens()[$l];
 			foreach ($tokens as $scope => $token) {
-				$this->file->fixer->replaceToken($scope, null);
+				$this->file->fixer->replaceToken($scope, '');
 			}
 		}
 	}
 
 	//-------------------------------------------------------------------------------- getLinedTokens
-	/**
-	 * @return array|null
-	 */
-	public function getLinedTokens()
+	public function getLinedTokens() : array
 	{
 		if (!$this->lined_tokens) {
 			$this->lined_tokens = [];
@@ -91,13 +66,8 @@ class Token_Navigator
 	}
 
 	//------------------------------------------------------------------------------------- getTokens
-	/**
-	 * @param $line_start integer
-	 * @param $line_end   integer|null
-	 * @param $types      array|string|null
-	 * @return array
-	 */
-	public function getTokens($line_start, $line_end = null, $types = null)
+	public function getTokens(int $line_start, int $line_end = null, array|string $types = null)
+		: array
 	{
 		if (is_null($line_end)) {
 			$line_end = $line_start;
@@ -124,15 +94,11 @@ class Token_Navigator
 	}
 
 	//-------------------------------------------------------------------------------------- moveLine
-	/**
-	 * @param $source integer
-	 * @param $target integer
-	 */
-	public function moveLine($source, $target)
+	public function moveLine(int $source, int $target) : void
 	{
 		$tokens  = $this->getLinedTokens()[$source];
 		$content = '';
-		foreach ($tokens as $scope => $token) {
+		foreach ($tokens as $token) {
 			$content .= $token['content'];
 		}
 		$target_pos = array_keys($this->getLinedTokens()[$target])[0];

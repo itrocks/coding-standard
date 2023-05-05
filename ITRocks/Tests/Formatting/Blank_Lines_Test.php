@@ -7,8 +7,6 @@ use ITRocks\Coding_Standard\Tests\Error;
 use ITRocks\Coding_Standard\Tests\Sniff_Test_Case;
 
 /**
- * Class Blank_Lines_Test
- *
  * @see Multiple_Blank_Lines_Sniff
  * @see Blank_Line_Before_Class_Closing_Brace_Sniff
  */
@@ -23,10 +21,11 @@ class Blank_Lines_Test extends Sniff_Test_Case
 
 	//----------------------------------------------------------------------------- getExpectedErrors
 	/**
-	 * @return Error[]
+	 * {@inheritdoc}
+	 *
 	 * @see testExpectedErrors
 	 */
-	public function getExpectedErrors()
+	public function getExpectedErrors() : array
 	{
 		return [
 			NEW Error(16, Multiple_Blank_Lines_Sniff::ERROR, static::SOURCE_MULTIPLE),

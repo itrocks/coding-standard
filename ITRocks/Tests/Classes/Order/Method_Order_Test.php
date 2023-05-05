@@ -6,20 +6,17 @@ use ITRocks\Coding_Standard\Tests\Error;
 use ITRocks\Coding_Standard\Tests\Sniff_Test_Case;
 
 /**
- * Class Scope_Order_Sniff_Test
- *
  * @see Method_Order_Sniff
  */
 class Method_Order_Test extends Sniff_Test_Case
 {
+
 	//---------------------------------------------------------------------------------------- SOURCE
 	const SOURCE = 'Coding_Standard.Classes.Method_Order_.Invalid';
 
 	//----------------------------------------------------------------------------- getExpectedErrors
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getExpectedErrors()
+	/** {@inheritdoc} */
+	public function getExpectedErrors() : array
 	{
 		return [
 			new Error(15,

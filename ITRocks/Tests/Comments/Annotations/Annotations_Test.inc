@@ -28,9 +28,9 @@ class Dummy_Class
 	/**
 	 * I should have written a blank line
 	 * below this one
-	 * @param $a string Let's write a param comment that will take more than one line to be display, thus checking
+	 * @param string $a Let's write a param comment that will take more than one line to be display, thus checking
 	 *           that a multi-lines comment is not triggering empty line between 2 annotations
-	 * @param $b string
+	 * @param string $b
 	 */
 	public function foo($a, $b)
 	{

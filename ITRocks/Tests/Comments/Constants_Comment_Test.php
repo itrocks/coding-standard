@@ -7,8 +7,6 @@ use ITRocks\Coding_Standard\Tests\Error;
 use ITRocks\Coding_Standard\Tests\Sniff_Test_Case;
 
 /**
- * Class Function_Comment_Test.
- *
  * @see Function_Comment_Sniff
  */
 class Constants_Comment_Test extends Sniff_Test_Case
@@ -20,10 +18,8 @@ class Constants_Comment_Test extends Sniff_Test_Case
 	const SOURCE_MISSING = 'Coding_Standard.Comments.Constant_Comment_Separator_.Missing';
 
 	//----------------------------------------------------------------------------- getExpectedErrors
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getExpectedErrors()
+	/** {@inheritdoc} */
+	public function getExpectedErrors() : array
 	{
 		return [
 			new Error(9, sprintf(Constant_Comment_Separator_Sniff::$messages['Missing'], 'const', 'A'),

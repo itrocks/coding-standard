@@ -22,10 +22,10 @@ class Dummy_Class
 
 	//--------------------------------------------------------------------------------------- boolean
 	/**
-	 * @param $a bool
-	 * @param $b Bool
-	 * @param $c Boolean this is a comment
-	 * @param $d boolean
+	 * @param bool    $a
+	 * @param Bool    $b
+	 * @param Boolean $c this is a comment
+	 * @param boolean $d
 	 */
 	public function boolean($a, $b, $c, $d)
 	{
@@ -45,10 +45,11 @@ class Dummy_Class
 
 	//--------------------------------------------------------------------------------------- integer
 	/**
-	 * @param $a int
-	 * @param $b Int
-	 * @param $c Integer
-	 * @param $d integer
+	 * @param int     $a
+	 * @param Int     $b
+	 * @param Integer $c
+	 * @param integer $d
+	 * @param bool
 	 * @return
 	 */
 	public function integer($a, $b, $c, $d)
@@ -58,8 +59,9 @@ class Dummy_Class
 
 	//---------------------------------------------------------------------------------------- string
 	/**
-	 * @param $a String
-	 * @param $b string
+	 * @param String $a
+	 * @param string $b
+	 * @param bool With comment
 	 * @param
 	 */
 	public function string($a, $b)

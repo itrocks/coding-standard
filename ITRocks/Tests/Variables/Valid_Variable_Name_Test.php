@@ -6,8 +6,6 @@ use ITRocks\Coding_Standard\Tests\Error;
 use ITRocks\Coding_Standard\Tests\Sniff_Test_Case;
 
 /**
- * Class Valid_Variable_Name_Test.
- *
  * @see Valid_Variable_Name_Sniff
  */
 class Valid_Variable_Name_Test extends Sniff_Test_Case
@@ -17,19 +15,16 @@ class Valid_Variable_Name_Test extends Sniff_Test_Case
 	const SOURCE = 'Coding_Standard.Variables.Valid_Variable_Name_.Invalid';
 
 	//---------------------------------------------------------------------------------------- $sniff
-	/**
-	 * Instance of the sniff to test.
-	 *
-	 * @var Valid_Variable_Name_Sniff
-	 */
-	private $sniff;
+	/** Instance of the sniff to test. */
+	private ?Valid_Variable_Name_Sniff $sniff;
 
 	//----------------------------------------------------------------------------- getExpectedErrors
 	/**
-	 * @return Error[]
+	 * {@inheritdoc}
+	 *
 	 * @see testExpectedErrors
 	 */
-	public function getExpectedErrors()
+	public function getExpectedErrors() : array
 	{
 		return [
 			new Error(7, sprintf(Valid_Variable_Name_Sniff::INVALID_FORMAT, 'Property', '$bAr'), static::SOURCE),
@@ -40,9 +35,7 @@ class Valid_Variable_Name_Test extends Sniff_Test_Case
 	}
 
 	//----------------------------------------------------------------------------------------- setUp
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setUp() : void
 	{
 		parent::setUp();
@@ -50,9 +43,7 @@ class Valid_Variable_Name_Test extends Sniff_Test_Case
 	}
 
 	//-------------------------------------------------------------------------------------- tearDown
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function tearDown() : void
 	{
 		$this->sniff = null;
@@ -64,13 +55,10 @@ class Valid_Variable_Name_Test extends Sniff_Test_Case
 	 * Test Valid_Variable_Name_Sniff::isSnakeCase() in several cases.
 	 *
 	 * @dataProvider variableNameProvider
-	 * @param $name     string
-	 * @param $expected string
 	 */
-	public function testIsSnakeCase($name, $expected)
+	public function testIsSnakeCase(string $name, bool $expected) : void
 	{
 		$actual = $this->sniff->isSnakeCase($name);
-
 		$this->assertEquals($expected, $actual, $name);
 	}
 
@@ -79,13 +67,10 @@ class Valid_Variable_Name_Test extends Sniff_Test_Case
 	 * Test Valid_Variable_Name_Sniff::isUpperCase() in several cases.
 	 *
 	 * @dataProvider uppercaseProvider
-	 * @param $name     string
-	 * @param $expected string
 	 */
-	public function testIsUpperCase($name, $expected)
+	public function testIsUpperCase(string $name, bool $expected) : void
 	{
 		$actual = $this->sniff->isUpperCase($name);
-
 		$this->assertEquals($expected, $actual, $name);
 	}
 
@@ -93,19 +78,19 @@ class Valid_Variable_Name_Test extends Sniff_Test_Case
 	/**
 	 * Provides several variable names for ::testIsUpperCase().
 	 *
-	 * @return array
+	 * @return array<array{string,bool}>
 	 */
-	public function uppercaseProvider()
+	public function uppercaseProvider() : array
 	{
 		return [
-			['', false],
-			['$foo', false],
-			['$Foo', false],
-			['$fOo', false],
-			['$FOO', true],
-			['$FOO_BAR', true],
-			['$foo_bar', false],
-			['$foo_Bar', false],
+			['',          false],
+			['$foo',      false],
+			['$Foo',      false],
+			['$fOo',      false],
+			['$FOO',      true],
+			['$FOO_BAR',  true],
+			['$foo_bar',  false],
+			['$foo_Bar',  false],
 			['$foo__bar', false],
 		];
 	}
@@ -113,18 +98,18 @@ class Valid_Variable_Name_Test extends Sniff_Test_Case
 	/**
 	 * Provides several variables names for ::testIsSnakeCase().
 	 *
-	 * @return array
+	 * @return array<array{string,bool}>
 	 */
-	public function variableNameProvider()
+	public function variableNameProvider() : array
 	{
 		return [
-			['', false],
-			['$foo', true],
-			['$Foo', false],
-			['$fOo', false],
-			['$FOO', false],
-			['$foo_bar', true],
-			['$foo_Bar', false],
+			['',          false],
+			['$foo',      true],
+			['$Foo',      false],
+			['$fOo',      false],
+			['$FOO',      false],
+			['$foo_bar',  true],
+			['$foo_Bar',  false],
 			['$foo__bar', true],
 		];
 	}

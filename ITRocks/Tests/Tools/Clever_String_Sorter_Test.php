@@ -5,18 +5,17 @@ use ITRocks\Coding_Standard\Sniffs\Tools\Clever_String_Compare;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class CleverString_Comparator_Test
- *
  * @see Clever_String_Compare
  */
 class Clever_String_Sorter_Test extends TestCase
 {
+
 	//----------------------------------------------------------------------------- camelCaseProvider
 	/**
-	 * @return array[]
+	 * @return array<string,array{int,string,string}>
 	 * @see testCamelCase
 	 */
-	public function camelCaseProvider()
+	public function camelCaseProvider() : array
 	{
 		return [
 			'Equals'          => [0, 'fooBar', 'fooBar'],
@@ -30,10 +29,10 @@ class Clever_String_Sorter_Test extends TestCase
 
 	//----------------------------------------------------------------------------- snakeCaseProvider
 	/**
-	 * @return array[]
+	 * @return array<string,array{int,string,string}>
 	 * @see testSnakeCase
 	 */
-	public function snakeCaseProvider()
+	public function snakeCaseProvider() : array
 	{
 		return [
 			'Equals'          => [0, 'foo_bar', 'foo_bar'],
@@ -47,10 +46,10 @@ class Clever_String_Sorter_Test extends TestCase
 
 	//------------------------------------------------------------------------------- stringsProvider
 	/**
-	 * @return array[]
+	 * @return array<string,array{int,array<string>,array<string>}>
 	 * @see testStrings
 	 */
-	public function stringsProvider()
+	public function stringsProvider() : array
 	{
 		return [
 			'Equals'          => [0, ['foo', 'bar'], ['foo', 'bar']],
@@ -63,37 +62,22 @@ class Clever_String_Sorter_Test extends TestCase
 	}
 
 	//--------------------------------------------------------------------------------- testCamelCase
-	/**
-	 * @dataProvider camelCaseProvider
-	 * @param $expected  integer
-	 * @param $strings_a string
-	 * @param $strings_b string
-	 */
-	public function testCamelCase($expected, $strings_a, $strings_b)
+	/** @dataProvider camelCaseProvider */
+	public function testCamelCase(int $expected, string $strings_a, string $strings_b) : void
 	{
 		$this->assertEquals($expected, Clever_String_Compare::camelCase($strings_a, $strings_b));
 	}
 
 	//--------------------------------------------------------------------------------- testSnakeCase
-	/**
-	 * @dataProvider snakeCaseProvider
-	 * @param $expected  integer
-	 * @param $strings_a string
-	 * @param $strings_b string
-	 */
-	public function testSnakeCase($expected, $strings_a, $strings_b)
+	/** @dataProvider snakeCaseProvider */
+	public function testSnakeCase(int $expected, string $strings_a, string $strings_b)
 	{
 		$this->assertEquals($expected, Clever_String_Compare::snakeCase($strings_a, $strings_b));
 	}
 
 	//----------------------------------------------------------------------------------- testStrings
-	/**
-	 * @dataProvider stringsProvider
-	 * @param $expected  integer
-	 * @param $strings_a string[]
-	 * @param $strings_b string[]
-	 */
-	public function testStrings($expected, $strings_a, $strings_b)
+	/** @dataProvider stringsProvider */
+	public function testStrings(int $expected, array $strings_a, array $strings_b)
 	{
 		$this->assertEquals($expected, Clever_String_Compare::strings($strings_a, $strings_b));
 	}

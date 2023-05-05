@@ -4,9 +4,6 @@ namespace ITRocks\Coding_Standard\Sniffs\Variables;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\AbstractVariableSniff;
 
-/**
- * Class Valid_Variable_Name_Sniff.
- */
 class Valid_Variable_Name_Sniff extends AbstractVariableSniff
 {
 
@@ -14,12 +11,8 @@ class Valid_Variable_Name_Sniff extends AbstractVariableSniff
 	const INVALID_FORMAT = '%s %s is not in valid snake case format.';
 
 	//----------------------------------------------------------------------------------- $white_list
-	/**
-	 * List of variable names that should not be validated.
-	 *
-	 * @var array
-	 */
-	public $white_list = [
+	/** @var string[] List of variable names that should not be validated. */
+	public array $white_list = [
 		'$GLOBALS',
 		'$_SERVER',
 		'$_GET',
@@ -35,10 +28,9 @@ class Valid_Variable_Name_Sniff extends AbstractVariableSniff
 	/**
 	 * Returns whether the variable is in snake_case.
 	 *
-	 * @param $name string The variable name.
-	 * @return $name boolean
+	 * @param string $name The variable name.
 	 */
-	public function isSnakeCase($name)
+	public function isSnakeCase(string $name) : bool
 	{
 		return (bool)preg_match('#^\$[a-z0-9_]+$#', $name);
 	}
@@ -47,11 +39,10 @@ class Valid_Variable_Name_Sniff extends AbstractVariableSniff
 	/**
 	 * Returns true if property is defined as static, false otherwise.
 	 *
-	 * @param $file      File    The processed file.
-	 * @param $stack_ptr integer The token number of the current variable.
-	 * @return boolean
+	 * @param File $file      The processed file.
+	 * @param int  $stack_ptr The token number of the current variable.
 	 */
-	public function isStatic(File $file, $stack_ptr)
+	public function isStatic(File $file, int $stack_ptr) : bool
 	{
 		$is_static = false;
 		$tokens    = $file->getTokens();
@@ -68,10 +59,9 @@ class Valid_Variable_Name_Sniff extends AbstractVariableSniff
 	/**
 	 * Returns whether the variable is in upper case.
 	 *
-	 * @param $name string The name of the variable.
-	 * @return $name boolean
+	 * @param string $name The name of the variable.
 	 */
-	public function isUpperCase($name)
+	public function isUpperCase(string $name) : bool
 	{
 		return (bool)preg_match('#^\$[A-Z0-9_]+$#', $name);
 	}
@@ -80,11 +70,10 @@ class Valid_Variable_Name_Sniff extends AbstractVariableSniff
 	/**
 	 * Returns true if variable is used like something::$FOO, false otherwise.
 	 *
-	 * @param $tokens    array   The list of tokens for the current parsed document.
-	 * @param $stack_ptr integer The token number of the current variable.
-	 * @return boolean
+	 * @param array $tokens    The list of tokens for the current parsed document.
+	 * @param int   $stack_ptr The token number of the current variable.
 	 */
-	public function isUsedStatically(array $tokens, $stack_ptr)
+	public function isUsedStatically(array $tokens, int $stack_ptr) : bool
 	{
 		$used_statically = false;
 
@@ -96,10 +85,8 @@ class Valid_Variable_Name_Sniff extends AbstractVariableSniff
 	}
 
 	//------------------------------------------------------------------------------ processMemberVar
-	/**
-	 * {@inheritdoc}
-	 */
-	public function processMemberVar(File $file, $stack_ptr)
+	/** {@inheritdoc} */
+	public function processMemberVar(File $file, $stack_ptr) : void
 	{
 		$tokens        = $file->getTokens();
 		$variable_name = $tokens[$stack_ptr]['content'];
@@ -118,11 +105,12 @@ class Valid_Variable_Name_Sniff extends AbstractVariableSniff
 	/**
 	 * Called to process normal member vars.
 	 *
-	 * @param $file      File    The processed file.
-	 * @param $stack_ptr integer The token number of the current variable.
-	 * @param $type      string  Type to display in error message.
+	 * @param File   $file      The processed file.
+	 * @param int    $stack_ptr The token number of the current variable.
+	 * @param string $type      Type to display in error message.
 	 */
-	private function processSimpleVariable(File $file, $stack_ptr, $type = 'Variable')
+	private function processSimpleVariable(File $file, int $stack_ptr, string $type = 'Variable')
+		: void
 	{
 		$tokens        = $file->getTokens();
 		$variable_name = preg_replace('#.*(\$[a-zA-Z0-9_]+).*#', '$1', $tokens[$stack_ptr]['content']);
@@ -135,19 +123,15 @@ class Valid_Variable_Name_Sniff extends AbstractVariableSniff
 	}
 
 	//------------------------------------------------------------------------------- processVariable
-	/**
-	 * {@inheritdoc}
-	 */
-	public function processVariable(File $file, $stack_ptr)
+	/** {@inheritdoc} */
+	public function processVariable(File $file, $stack_ptr) : void
 	{
 		$this->processSimpleVariable($file, $stack_ptr);
 	}
 
 	//----------------------------------------------------------------------- processVariableInString
-	/**
-	 * {@inheritdoc}
-	 */
-	public function processVariableInString(File $file, $stack_ptr)
+	/** {@inheritdoc} */
+	public function processVariableInString(File $file, $stack_ptr) : void
 	{
 		$this->processSimpleVariable($file, $stack_ptr, 'Double quoted variable');
 	}

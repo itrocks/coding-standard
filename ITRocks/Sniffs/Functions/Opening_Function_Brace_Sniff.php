@@ -5,9 +5,6 @@ use ITRocks\Coding_Standard\Sniffs\Tools\Token_Navigator;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Standards\Generic\Sniffs\Functions\OpeningFunctionBraceBsdAllmanSniff;
 
-/**
- * Class Opening_Function_Brace_Sniff.
- */
 class Opening_Function_Brace_Sniff extends OpeningFunctionBraceBsdAllmanSniff
 {
 
@@ -36,13 +33,10 @@ class Opening_Function_Brace_Sniff extends OpeningFunctionBraceBsdAllmanSniff
 	const SPACES_PER_TAB = 4 ;
 
 	//--------------------------------------------------------------------------------------- process
-	/**
-	 * {@inheritdoc}
-	 */
-	public function process(File $file, $stack_ptr)
+	/** {@inheritdoc} */
+	public function process(File $file, $stack_ptr) : void
 	{
 		$tokens          = $file->getTokens();
-		$a_function_name = $tokens[$stack_ptr+2]['content'] ; // For debugging purpose
 		$token_navigator = new Token_Navigator($file, $stack_ptr);
 
 		// Does not exist for function taking no parameters.
@@ -53,9 +47,9 @@ class Opening_Function_Brace_Sniff extends OpeningFunctionBraceBsdAllmanSniff
 		$parenthesis_opener = $tokens[$stack_ptr]['parenthesis_opener'];
 		$parenthesis_closer = $tokens[$stack_ptr]['parenthesis_closer'];
 
-		if(isset($brace_opener)){
+		if (isset($brace_opener)) {
 			$return_type_separator = null ;
-			for($i=$parenthesis_closer+1 ; $i < $brace_opener ; $i++){
+			for ($i = $parenthesis_closer + 1; $i < $brace_opener; $i++) {
 				if($tokens[$i]['content'] == ':'){
 					$return_type_separator = $i ;
 					break;
@@ -64,20 +58,23 @@ class Opening_Function_Brace_Sniff extends OpeningFunctionBraceBsdAllmanSniff
 
 			if ($return_type_separator) {
 				// Spacing ") :"
-				if ($tokens[$parenthesis_closer + 1]['type'] != "T_WHITESPACE" || $tokens[$return_type_separator + 1]['length'] != 1) {
+				if (
+					($tokens[$parenthesis_closer + 1]['type'] !== 'T_WHITESPACE')
+					|| $tokens[$return_type_separator + 1]['length'] != 1
+				) {
 					$fix = $file->addFixableError(self::ERROR_SPACING3, $stack_ptr, 'Invalid');
-					if($fix){
+					if ($fix) {
 						for ($i = $parenthesis_closer + 1; $i < $return_type_separator; $i++) {
 								$token_navigator->clean($i, $i);
 						}
 						$file->fixer->addContent($parenthesis_closer, ' ');
 					}
 				}
-				else if ($tokens[$parenthesis_closer + 1]['content'] == "\n") {
+				elseif ($tokens[$parenthesis_closer + 1]['content'] == "\n") {
 					// Check indent (one more than for function)
 					$return_indent = 0 ;
-					for($i = $parenthesis_closer + 2 ; ; $i++){
-						if($tokens[$i]['type'] == "T_WHITESPACE"){
+					for ($i = $parenthesis_closer + 2 ; ; $i++) {
+						if ($tokens[$i]['type'] === 'T_WHITESPACE') {
 							$return_indent += $tokens[$i]['length'];
 						}
 						else {
@@ -85,25 +82,25 @@ class Opening_Function_Brace_Sniff extends OpeningFunctionBraceBsdAllmanSniff
 						}
 					}
 					$function_indent = 0 ;
-					for($i = $stack_ptr -1 ; ; $i--){
-						if($tokens[$i]['content'] == "\n"){
+					for ($i = $stack_ptr - 1; ; $i--) {
+						if ($tokens[$i]['content'] === "\n") {
 							break ;
 						}
-						if($tokens[$i]['type'] == "T_WHITESPACE"){
-							$function_indent += $tokens[$i]['length'] ;
+						if ($tokens[$i]['type'] === 'T_WHITESPACE') {
+							$function_indent += $tokens[$i]['length'];
 						}
 						else {
 							$function_indent = 0 ;
 						}
 					}
-					if($return_indent - $function_indent != self::SPACES_PER_TAB){
+					if (($return_indent - $function_indent) !== self::SPACES_PER_TAB) {
 						$fix = $file->addFixableError(self::ERROR_INDENT, $stack_ptr, 'Invalid');
-						if($fix){
+						if ($fix) {
 							for ($i = $parenthesis_closer + 2; $i < $return_type_separator; $i++) {
 								$token_navigator->clean($i, $i);
 							}
 							$padding_content = '' ;
-							for($return_indent = 0 ; $return_indent <= $function_indent; $return_indent += self::SPACES_PER_TAB){
+							for ($return_indent = 0 ; $return_indent <= $function_indent; $return_indent += self::SPACES_PER_TAB) {
 								$padding_content .= '    ';
 							}
 							$file->fixer->addContent($parenthesis_closer + 1, $padding_content);
@@ -112,7 +109,10 @@ class Opening_Function_Brace_Sniff extends OpeningFunctionBraceBsdAllmanSniff
 				}
 
 				// Spacing ": returntype"
-				if ($tokens[$return_type_separator + 1]['type'] != "T_WHITESPACE" || $tokens[$return_type_separator + 1]['length'] != 1) {
+				if (
+					($tokens[$return_type_separator + 1]['type'] !== 'T_WHITESPACE')
+					|| ($tokens[$return_type_separator + 1]['length'] !== 1)
+				) {
 					$fix = $file->addFixableError(
 						self::ERROR_SPACING2, $return_type_separator + 1, 'Invalid'
 					);
@@ -127,7 +127,7 @@ class Opening_Function_Brace_Sniff extends OpeningFunctionBraceBsdAllmanSniff
 				}
 
 				// Opening brace must be on next line when having a return type
-				if ($tokens[$brace_opener]['line'] != $tokens[$return_type_separator]['line'] + 1) {
+				if ($tokens[$brace_opener]['line'] !== $tokens[$return_type_separator]['line'] + 1) {
 					$fix = $file->addFixableError(self::ERROR_SAME_LINE2, $stack_ptr, 'Invalid');
 					if ($fix) {
 						// Clean spacing
@@ -146,10 +146,10 @@ class Opening_Function_Brace_Sniff extends OpeningFunctionBraceBsdAllmanSniff
 			}
 			else {
 				// No return type
-				if ($tokens[$parenthesis_closer]['line'] != $tokens[$parenthesis_opener]['line']) {
+				if ($tokens[$parenthesis_closer]['line'] !== $tokens[$parenthesis_opener]['line']) {
 					// Multiple line function declaration
 					// Closing parenthesis must return to new line
-					if ($tokens[$parenthesis_closer - 1]['type'] != "T_WHITESPACE") {
+					if ($tokens[$parenthesis_closer - 1]['type'] !== 'T_WHITESPACE') {
 						$fix = $file->addFixableError(self::ERROR_SAME_LINE3, $stack_ptr, 'Invalid');
 						if ($fix) {
 							$file->fixer->addNewlineBefore($parenthesis_closer);

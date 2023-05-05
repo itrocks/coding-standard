@@ -24,12 +24,12 @@ class Annotations_Sniff implements Sniff
 	/**
 	 * Returns true if there is at least one blank line between 2 annotations.
 	 *
-	 * @param $tokens array   The token list.
-	 * @param $start  integer Where to start search for.
-	 * @param $stop   integer Where to stop search for.
-	 * @return boolean
+	 * @param array $tokens The token list.
+	 * @param int   $start  Where to start search for.
+	 * @param int   $stop   Where to stop search for.
+	 * @return bool
 	 */
-	private function findBlankLines(array $tokens, $start, $stop)
+	private function findBlankLines(array $tokens, int $start, int $stop) : bool
 	{
 		$current_line = $tokens[$stop]['line'];
 		$line         = '';
@@ -54,10 +54,8 @@ class Annotations_Sniff implements Sniff
 	}
 
 	//--------------------------------------------------------------------------------------- process
-	/**
-	 * {@inheritdoc}
-	 */
-	public function process(File $phpcs_file, $stack_ptr)
+	/** {@inheritdoc} */
+	public function process(File $phpcs_file, $stack_ptr) : void
 	{
 		$token_navigator = new Token_Navigator($phpcs_file, $stack_ptr);
 		$tokens          = $phpcs_file->getTokens();
@@ -67,7 +65,7 @@ class Annotations_Sniff implements Sniff
 			$first  = $tokens[$stack_ptr]['content'];
 			$second = $tokens[$next]['content'];
 
-			if (($first > $second) && (substr($first, 0, 13) !== '@noinspection')) {
+			if (($first > $second) && (!str_starts_with($first, '@noinspection'))) {
 				$phpcs_file->addError(self::ERROR_ANNOTATIONS_ORDER, $stack_ptr, 'Invalid');
 			}
 
@@ -102,12 +100,10 @@ class Annotations_Sniff implements Sniff
 
 	//-------------------------------------------------------------------------------------- register
 	/**
-	 * efefef
-	 *
 	 * @codeCoverageIgnore
 	 * {@inheritdoc}
 	 */
-	public function register()
+	public function register() : array
 	{
 		return [T_DOC_COMMENT_TAG];
 	}

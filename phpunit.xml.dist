@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         backupGlobals="false"
-         bootstrap="vendor/squizlabs/php_codesniffer/tests/bootstrap.php"
-         colors="false"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false"
-         verbose="true"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
-  <coverage includeUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">ITRocks/Sniffs</directory>
-    </include>
-  </coverage>
-  <testsuite name="ITRocks">
-    <directory>ITRocks</directory>
-  </testsuite>
+		backupGlobals="false"
+		bootstrap="vendor/squizlabs/php_codesniffer/tests/bootstrap.php"
+		colors="false"
+		convertErrorsToExceptions="true"
+		convertNoticesToExceptions="true"
+		convertWarningsToExceptions="true"
+		processIsolation="false"
+		stopOnFailure="false"
+		verbose="true"
+		xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+	<coverage includeUncoveredFiles="true">
+		<include>
+			<directory suffix=".php">ITRocks/Sniffs</directory>
+		</include>
+	</coverage>
+	<testsuite name="it.rocks">
+		<directory>ITRocks</directory>
+	</testsuite>
 </phpunit>

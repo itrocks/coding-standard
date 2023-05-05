@@ -5,9 +5,6 @@ use ITRocks\Coding_Standard\Sniffs\Tools\Token_Navigator;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
-/**
- * Class Irrelevant_Comment_Separator_Sniff
- */
 class Irrelevant_Comment_Separator_Sniff implements Sniff
 {
 
@@ -15,17 +12,15 @@ class Irrelevant_Comment_Separator_Sniff implements Sniff
 	const IRRELEVANT_SEPARATOR = 'Autofixable : Irrelevant separator';
 
 	//--------------------------------------------------------------------------------------- process
-	/**
-	 * {@inheritdoc}
-	 */
-	public function process(File $file, $stack_ptr)
+	/** {@inheritdoc} */
+	public function process(File $file, $stack_ptr) : void
 	{
-		if (strpos($file->getTokens()[$stack_ptr]['content'], '//--') === 0) {
+		if (str_starts_with($file->getTokens()[$stack_ptr]['content'], '//--')) {
 			$found           = false;
 			$token_navigator = new Token_Navigator($file, $stack_ptr);
 			$line            = $file->getTokens()[$stack_ptr]['line'];
 			foreach ($token_navigator->getLinedTokens()[$line + 1] as $token) {
-				if ($token['code'] !== T_WHITESPACE && strpos($token['content'], '//--') !== 0) {
+				if ($token['code'] !== T_WHITESPACE && !str_starts_with($token['content'], '//--')) {
 					$found = true;
 					break;
 				}
@@ -40,10 +35,8 @@ class Irrelevant_Comment_Separator_Sniff implements Sniff
 	}
 
 	//-------------------------------------------------------------------------------------- register
-	/**
-	 * {@inheritdoc}
-	 */
-	public function register()
+	/** {@inheritdoc} */
+	public function register() : array
 	{
 		return [T_COMMENT];
 	}

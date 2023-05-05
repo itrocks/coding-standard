@@ -7,13 +7,10 @@ use ITRocks\Coding_Standard\Tests\Error;
 use ITRocks\Coding_Standard\Tests\Sniff_Test_Case;
 
 /**
- * Class CommentComment_Separator_Sniff_Test
- *
  * @see Comment_Separator_Sniff
  */
 class Comment_Separator_Test extends Sniff_Test_Case
 {
-
 	// Use the trait to be able to test its methods.
 	use Comment_Separator;
 
@@ -30,35 +27,33 @@ class Comment_Separator_Test extends Sniff_Test_Case
 	const PROPERTY_COMMENT_MISSING = 'Coding_Standard.Comments.Property_Comment_Separator_.Missing';
 
 	//----------------------------------------------------------------------------- getExpectedErrors
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getExpectedErrors()
+	/** {@inheritdoc} */
+	public function getExpectedErrors() : array
 	{
 		return [
-			new Error(4, sprintf(Comment_Separator::$messages['Missing'], 'function', 'noSeparator()'),
+			new Error(4, sprintf(self::$messages['Missing'], 'function', 'noSeparator()'),
 				self::COMMENT_MISSING),
-			new Error(12, sprintf(Comment_Separator::$messages['Missing'], 'function', 'noSeparatorWithPhpDoc()'),
+			new Error(12, sprintf(self::$messages['Missing'], 'function', 'noSeparatorWithPhpDoc()'),
 				self::COMMENT_MISSING),
-			new Error(18, sprintf(Comment_Separator::$messages['Invalid'], 'function', 'wrongSeparator()'),
+			new Error(18, sprintf(self::$messages['Invalid'], 'function', 'wrongSeparator()'),
 				self::COMMENT_INVALID),
-			new Error(27, sprintf(Comment_Separator::$messages['Invalid'], 'function', 'wrongSeparatorWithPhpDoc()'),
+			new Error(27, sprintf(self::$messages['Invalid'], 'function', 'wrongSeparatorWithPhpDoc()'),
 				self::COMMENT_INVALID),
-			new Error(34, sprintf(Comment_Separator::$messages['Missing'], 'property', '$noSeparator'),
+			new Error(34, sprintf(self::$messages['Missing'], 'property', '$noSeparator'),
 				self::PROPERTY_COMMENT_MISSING),
-			new Error(36, sprintf(Comment_Separator::$messages['Missing'], 'property', '$noSeparatorWithPhpDoc'),
+			new Error(36, sprintf(self::$messages['Missing'], 'property', '$noSeparatorWithPhpDoc'),
 				self::PROPERTY_COMMENT_MISSING),
-			new Error(39, sprintf(Comment_Separator::$messages['Invalid'], 'property', '$wrongSeparator'),
+			new Error(39, sprintf(self::$messages['Invalid'], 'property', '$wrongSeparator'),
 				self::PROPERTY_COMMENT_INVALID),
-			new Error(45, sprintf(Comment_Separator::$messages['Invalid'], 'property', '$wrongSeparatorWithPhpDoc'),
+			new Error(45, sprintf(self::$messages['Invalid'], 'property', '$wrongSeparatorWithPhpDoc'),
 				self::PROPERTY_COMMENT_INVALID),
-			new Error(47, sprintf(Comment_Separator::$messages['Missing'], 'function', 'noSeparator()'),
+			new Error(47, sprintf(self::$messages['Missing'], 'function', 'noSeparator()'),
 				self::COMMENT_MISSING),
-			new Error(55, sprintf(Comment_Separator::$messages['Missing'], 'function', 'noSeparatorWithPhpDoc()'),
+			new Error(55, sprintf(self::$messages['Missing'], 'function', 'noSeparatorWithPhpDoc()'),
 				self::COMMENT_MISSING),
-			new Error(61, sprintf(Comment_Separator::$messages['Invalid'], 'function', 'wrongSeparator()'),
+			new Error(61, sprintf(self::$messages['Invalid'], 'function', 'wrongSeparator()'),
 				self::COMMENT_INVALID),
-			new Error(70, sprintf(Comment_Separator::$messages['Invalid'], 'function', 'wrongSeparatorWithPhpDoc()'),
+			new Error(70, sprintf(self::$messages['Invalid'], 'function', 'wrongSeparatorWithPhpDoc()'),
 				self::COMMENT_INVALID),
 		];
 	}
@@ -67,9 +62,9 @@ class Comment_Separator_Test extends Sniff_Test_Case
 	/**
 	 * Provides test data for testGetCommentSeparator().
 	 *
-	 * @return array
+	 * @return array<array{string,string}>
 	 */
-	public function nameProvider()
+	public function nameProvider() : array
 	{
 		return [
 			['foo', '//' . str_repeat('-', 91) . " foo\n"],
@@ -84,10 +79,8 @@ class Comment_Separator_Test extends Sniff_Test_Case
 	 * Tests Comment_Separator::getCommentSeparator() with several test parameters.
 	 *
 	 * @dataProvider nameProvider
-	 * @param $name     string
-	 * @param $expected string
 	 */
-	public function testGetCommentSeparator($name, $expected)
+	public function testGetCommentSeparator(string $name, string $expected) : void
 	{
 		$actual = $this->getCommentSeparator($name);
 		$this->assertEquals($expected, $actual);

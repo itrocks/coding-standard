@@ -6,8 +6,6 @@ use ITRocks\Coding_Standard\Tests\Error;
 use ITRocks\Coding_Standard\Tests\Sniff_Test_Case;
 
 /**
- * Class Upper_Snake_Case_Sniff_Test
- *
  * @see Upper_Snake_Case_Sniff
  */
 class Upper_Snake_Case_Test extends Sniff_Test_Case
@@ -17,20 +15,16 @@ class Upper_Snake_Case_Test extends Sniff_Test_Case
 	const SOURCE = 'Coding_Standard.Classes.Upper_Snake_Case_.Invalid';
 
 	//---------------------------------------------------------------------------------------- $sniff
-	/**
-	 * The sniff standard to test.
-	 *
-	 * @var Upper_Snake_Case_Sniff
-	 */
-	private $sniff;
+	/** The sniff standard to test. */
+	private ?Upper_Snake_Case_Sniff $sniff;
 
 	//----------------------------------------------------------------------- classNameFormatProvider
 	/**
 	 * Provides class names for :testFormatUpperSnakeCase().
 	 *
-	 * @return array
+	 * @return array<array{null|string,string}>
 	 */
-	public function classNameFormatProvider()
+	public function classNameFormatProvider() : array
 	{
 		return [
 			[null, ''],
@@ -47,7 +41,7 @@ class Upper_Snake_Case_Test extends Sniff_Test_Case
 			['Valid_Foo_Class', 'Valid_Foo_Class'],
 			['MixedFoo_Class', 'Mixed_Foo_Class'],
 			['Mixed_FooClass', 'Mixed_Foo_Class'],
-			['Mixed_Fooclass', 'Mixed_Fooclass'],
+			['Mixed_Fooclass', 'Mixed_Fooclass']
 		];
 	}
 
@@ -55,9 +49,9 @@ class Upper_Snake_Case_Test extends Sniff_Test_Case
 	/**
 	 * Provides class names to test Upper_Snake_Case_Sniff::isValidUpperSnakeCase().
 	 *
-	 * @return array
+	 * @return array<array{int|string,bool}>
 	 */
-	public function classNameProvider()
+	public function classNameProvider() : array
 	{
 		return [
 			['foo', false],
@@ -81,7 +75,7 @@ class Upper_Snake_Case_Test extends Sniff_Test_Case
 	 * @return Error[]
 	 * @see testExpectedErrors
 	 */
-	public function getExpectedErrors()
+	public function getExpectedErrors() : array
 	{
 		return [
 			new Error(7, sprintf(Upper_Snake_Case_Sniff::ERROR, 'oFo'), static::SOURCE)
@@ -89,9 +83,7 @@ class Upper_Snake_Case_Test extends Sniff_Test_Case
 	}
 
 	//----------------------------------------------------------------------------------------- setUp
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setUp() : void
 	{
 		parent::setUp();
@@ -99,9 +91,7 @@ class Upper_Snake_Case_Test extends Sniff_Test_Case
 	}
 
 	//-------------------------------------------------------------------------------------- tearDown
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function tearDown() : void
 	{
 		$this->sniff = null;
@@ -109,12 +99,8 @@ class Upper_Snake_Case_Test extends Sniff_Test_Case
 	}
 
 	//---------------------------------------------------------------------- testFormatUpperSnakeCase
-	/**
-	 * @dataProvider classNameFormatProvider
-	 * @param $class_name string
-	 * @param $expected   string
-	 */
-	public function testFormatUpperSnakeCase($class_name, $expected)
+	/** @dataProvider classNameFormatProvider */
+	public function testFormatUpperSnakeCase(?string $class_name, string $expected) : void
 	{
 		$actual = $this->sniff->formatUpperSnakeCase($class_name);
 		$this->assertEquals($expected, $actual, 'Unexpected class name: '.$class_name);
@@ -123,10 +109,10 @@ class Upper_Snake_Case_Test extends Sniff_Test_Case
 	//--------------------------------------------------------------------- testIsValidUpperSnakeCase
 	/**
 	 * @dataProvider classNameProvider
-	 * @param $class_name string  : The class name to validate.
-	 * @param $expected   boolean : Expected result for the given class name.
+	 * @param int|string $class_name The class name to validate.
+	 * @param bool       $expected   Expected result for the given class name.
 	 */
-	public function testIsValidUpperSnakeCase($class_name, $expected)
+	public function testIsValidUpperSnakeCase(int|string $class_name, bool $expected) : void
 	{
 		$actual = $this->sniff->isValidUpperSnakeCase($class_name);
 		$this->assertEquals($expected, $actual, 'Unexpected class name: '.$class_name);

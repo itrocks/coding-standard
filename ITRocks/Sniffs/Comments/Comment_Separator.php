@@ -5,19 +5,14 @@ use ITRocks\Coding_Standard\Sniffs\Tools\Token_Navigator;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Util\Tokens;
 
-/**
- * Trait Comment_Separator.
- */
 trait Comment_Separator
 {
-	//------------------------------------------------------------------------------------ $end_types
-	protected $end_types = [T_SEMICOLON, T_CLOSE_CURLY_BRACKET, T_OPEN_CURLY_BRACKET];
 
 	//--------------------------------------------------------------------------------------- $length
-	public $length = 94;
+	public int $length = 94;
 
 	//------------------------------------------------------------------------------------- $messages
-	public static $messages = [
+	public static array $messages = [
 		'Invalid' => 'AutoFixable : Comment separator for %s %s is invalid',
 		'Missing' => 'AutoFixable : Comment separator is missing for %s %s'
 	];
@@ -27,13 +22,13 @@ trait Comment_Separator
 	 * Adds an error at the given position for the given element name.
 	 * The type of element is guessed from tokens list.
 	 *
-	 * @param $file       File    The current parsed file object.
-	 * @param $stack_ptr  integer The current pointer position.
-	 * @param $name       string  The name of the element.
-	 * @param $error_type string  Type of the error (invalid or missing)
-	 * @return array
+	 * @param File   $file       The current parsed file object.
+	 * @param int    $stack_ptr  The current pointer position.
+	 * @param string $name       The name of the element.
+	 * @param string $error_type Type of the error (invalid or missing)
+	 * @return array{'type':string,'message':string}
 	 */
-	private function error(File $file, $stack_ptr, $name, $error_type)
+	private function error(File $file, int $stack_ptr, string $name, string $error_type) : array
 	{
 		$token = $file->getTokens()[$stack_ptr]['type'];
 		$type  = substr(strtolower($token), 2);
@@ -55,12 +50,13 @@ trait Comment_Separator
 	/**
 	 * Adds an invalid comment error for given element.
 	 *
-	 * @param $file        File    The current parsed file object.
-	 * @param $stack_ptr   integer The current pointer position.
-	 * @param $name        string  The name of the element.
-	 * @param $comment_pos integer The position of the comment
+	 * @param File   $file        The current parsed file object.
+	 * @param int    $stack_ptr   The current pointer position.
+	 * @param string $name        The name of the element.
+	 * @param int    $comment_pos The position of the comment.
 	 */
-	protected function errorInvalidComment(File $file, $stack_ptr, $name, $comment_pos)
+	protected function errorInvalidComment(File $file, int $stack_ptr, string $name, int $comment_pos)
+		: void
 	{
 		$error = $this->error($file, $stack_ptr, $name, 'Invalid');
 		$fix   = $file->addFixableError($error['message'], $stack_ptr, $error['type']);
@@ -73,12 +69,13 @@ trait Comment_Separator
 	/**
 	 * Adds a missing comment error for given element.
 	 *
-	 * @param $file        File    The current parsed file object.
-	 * @param $stack_ptr   integer The current pointer position.
-	 * @param $name        string  The name of the element.
-	 * @param $comment_pos integer The position of the comment
+	 * @param File   $file        The current parsed file object.
+	 * @param int    $stack_ptr   The current pointer position.
+	 * @param string $name        The name of the element.
+	 * @param int    $comment_pos The position of the comment.
 	 */
-	protected function errorMissingComment(File $file, $stack_ptr, $name, $comment_pos)
+	protected function errorMissingComment(File $file, int $stack_ptr, string $name, int $comment_pos)
+		: void
 	{
 		$error = $this->error($file, $stack_ptr, $name, 'Missing');
 		$fix   = $file->addFixableError($error['message'], $stack_ptr, $error['type']);
@@ -90,11 +87,11 @@ trait Comment_Separator
 
 	//------------------------------------------------------------------------------------- findError
 	/**
-	 * @param $file      File
-	 * @param $stack_ptr integer
-	 * @param $name      string
+	 * @param File   $file      The current parsed file object.
+	 * @param int    $stack_ptr The current pointer position.
+	 * @param string $name      The name of the element.
 	 */
-	public function findError(File $file, $stack_ptr, $name)
+	public function findError(File $file, int $stack_ptr, string $name) : void
 	{
 		$token_navigator = new Token_Navigator($file, $stack_ptr);
 		$line            = $file->getTokens()[$stack_ptr]['line'];
@@ -132,13 +129,8 @@ trait Comment_Separator
 	}
 
 	//--------------------------------------------------------------------------- getCommentSeparator
-	/**
-	 * Generates a comment separator for the given name.
-	 *
-	 * @param $name string
-	 * @return string
-	 */
-	public function getCommentSeparator($name)
+	/** Generates a comment separator for the given name. */
+	public function getCommentSeparator(string $name) : string
 	{
 		return '//' . str_repeat('-', $this->length - strlen($name)) . ' ' . $name . chr(10);
 	}
@@ -147,12 +139,8 @@ trait Comment_Separator
 	/**
 	 * Get the constant name starting search from $start position.
 	 * A class constant declaration always ends by a semicolon.
-	 *
-	 * @param $file  File
-	 * @param $start integer
-	 * @return string
 	 */
-	public function getConstantName(File $file, $start)
+	public function getConstantName(File $file, int $start) : string
 	{
 		return $this->getElementName($file, $start, T_SEMICOLON);
 	}
@@ -161,12 +149,9 @@ trait Comment_Separator
 	/**
 	 * Get the name of an element starting search from $start.
 	 *
-	 * @param $file      File
-	 * @param $start     integer
-	 * @param $stop_type mixed The element type ending the declaration of the searched element.
-	 * @return string
+	 * @param mixed $stop_type The element type ending the declaration of the searched element.
 	 */
-	private function getElementName(File $file, $start, $stop_type)
+	private function getElementName(File $file, int $start, mixed $stop_type) : string
 	{
 		$element_name = '';
 		$end          = $file->findNext($stop_type, $start);
@@ -183,19 +168,14 @@ trait Comment_Separator
 		}
 
 		return $element_name;
-
 	}
 
 	//------------------------------------------------------------------------------- getFunctionName
 	/**
 	 * Get the function name starting search from $start position.
 	 * A function declaration is always followed by an opening bracket.
-	 *
-	 * @param $file  File
-	 * @param $start integer
-	 * @return string
 	 */
-	public function getFunctionName(File $file, $start)
+	public function getFunctionName(File $file, int $start) : string
 	{
 		return $this->getElementName($file, $start, T_CLOSE_CURLY_BRACKET);
 	}

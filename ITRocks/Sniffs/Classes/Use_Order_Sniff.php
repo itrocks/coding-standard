@@ -6,23 +6,22 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
- * Class Use_Order_Sniff.
+ * Make sure use statements are alphabetically ordered.
  */
 class Use_Order_Sniff implements Sniff
 {
+
 	//----------------------------------------------------------------------------------------- ERROR
 	const ERROR = 'AutoFixable : Use statement "%s" should be before "%s"';
 
 	//----------------------------------------------------------------------------------------- fixIt
 	/**
-	 * Fix order of uses statements
+	 * Fix order of uses statements.
 	 *
-	 * @param $file            File
-	 * @param $stack_ptr       integer
-	 * @param $uses            string[]
-	 * @param $token_navigator Token_Navigator
+	 * @param string[] $uses
 	 */
-	private function fixIt(File $file, $stack_ptr, array $uses, Token_Navigator $token_navigator)
+	private function fixIt(File $file, int $stack_ptr, array $uses, Token_Navigator $token_navigator)
+		: void
 	{
 		$lines = array_keys($uses);
 		$uses  = array_values($uses);
@@ -39,12 +38,8 @@ class Use_Order_Sniff implements Sniff
 	}
 
 	//--------------------------------------------------------------------------------------- process
-	/**
-	 * Make sure use statements are alphabetically ordered.
-	 *
-	 * {@inheritdoc}
-	 */
-	public function process(File $phpcs_file, $stack_ptr)
+	/** {@inheritdoc} */
+	public function process(File $phpcs_file, $stack_ptr) : false|int
 	{
 		$fix             = false;
 		$token_navigator = new Token_Navigator($phpcs_file, $stack_ptr);
@@ -88,7 +83,7 @@ class Use_Order_Sniff implements Sniff
 	 * @codeCoverageIgnore
 	 * {@inheritdoc}
 	 */
-	public function register()
+	public function register() : array
 	{
 		return [
 			T_USE,

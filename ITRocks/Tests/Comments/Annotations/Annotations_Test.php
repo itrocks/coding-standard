@@ -6,20 +6,17 @@ use ITRocks\Coding_Standard\Tests\Error;
 use ITRocks\Coding_Standard\Tests\Sniff_Test_Case;
 
 /**
- * Class Function_Comment_Test
- *
  * @see Annotations_Sniff
  */
 class Annotations_Test extends Sniff_Test_Case
 {
+
 	//---------------------------------------------------------------------------------------- SOURCE
 	const SOURCE = 'Coding_Standard.Comments.Annotations_.Invalid';
 
 	//----------------------------------------------------------------------------- getExpectedErrors
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getExpectedErrors()
+	/** {@inheritdoc} */
+	public function getExpectedErrors() : array
 	{
 		return [
 			new Error(6, Annotations_Sniff::ERROR_ANNOTATIONS_ORDER, static::SOURCE),

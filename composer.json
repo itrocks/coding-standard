@@ -5,8 +5,8 @@
 		{ "email": "jean.ledrogo@bappli.com",          "name": "Jean Le Drogo"           },
 		{ "email": "thomas.desaintexupery@bappli.com", "name": "Thomas de Saint-Exupery" }
 	],
-	"autoload": { "psr-4": { "ITRocks\\Coding_Standard\\": ["ITRocks"] } },
-	"description": "CodeSniffer ruleset for the ITRocks 0.2+ coding standard",
+	"autoload": { "psr-4": { "ITRocks\\Coding_Standard\\": ["ITRocks/"] } },
+	"description": "CodeSniffer ruleset for the it.rocks 0.2+ coding standard",
 	"extra": { "hooks": {
 		"pre-push": "vendor/bin/phpcs --standard=ITRocks --extensions=php ./ITRocks && echo 'Codding standard check OK'"
 	}},
@@ -15,6 +15,7 @@
   "name":              "itrocks/coding-standard",
 	"require": {
 		"brainmaestro/composer-git-hooks": "^2.4",
+		"php": ">=8.1",
 		"squizlabs/php_codesniffer": "^3.0"
 	},
 	"require-dev": {

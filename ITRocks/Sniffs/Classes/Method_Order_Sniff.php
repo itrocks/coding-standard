@@ -6,7 +6,6 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
- * Class Scope_Order_Sniff.
  * Make sure methods of class/interface are ordered alphabetically.
  */
 class Method_Order_Sniff implements Sniff
@@ -16,10 +15,8 @@ class Method_Order_Sniff implements Sniff
 	const ERROR = 'Methods must be ordered alphabetically: %s() must declared before %s().';
 
 	//--------------------------------------------------------------------------------------- process
-	/**
-	 * {@inheritdoc}
-	 */
-	public function process(File $file, $stack_ptr)
+	/** {@inheritdoc} */
+	public function process(File $file, $stack_ptr) : void
 	{
 		$tokens            = $file->getTokens();
 		$function          = $stack_ptr;
@@ -71,7 +68,7 @@ class Method_Order_Sniff implements Sniff
 	 * @codeCoverageIgnore
 	 * {@inheritdoc}
 	 */
-	public function register()
+	public function register() : array
 	{
 		return [
 			T_CLASS,

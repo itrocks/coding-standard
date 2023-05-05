@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="ITRocks">
-    <description>The ITRocks coding standards.</description>
+<ruleset name="it.rocks">
+    <description>The it.rocks coding standards.</description>
 
     <!-- PHP code MUST use only UTF-8 without BOM. -->
     <rule ref="Generic.Files.ByteOrderMark"/>

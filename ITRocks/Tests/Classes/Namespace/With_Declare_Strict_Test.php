@@ -12,17 +12,16 @@ use ITRocks\Coding_Standard\Tests\Sniff_Test_Case;
  */
 class With_Declare_Strict_Test extends Sniff_Test_Case
 {
+
 	//---------------------------------------------------------------------------------------- SOURCE
 	const SOURCE = 'Coding_Standard.Classes.Namespace_.Invalid';
 
 	//----------------------------------------------------------------------------- getExpectedErrors
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getExpectedErrors()
+	/** {@inheritdoc} */
+	public function getExpectedErrors() : array
 	{
 		return [
-			new Error(6, Namespace_Sniff::ERROR_LINE.'2', static::SOURCE),
+			new Error(6, Namespace_Sniff::ERROR_LINE . '2', static::SOURCE),
 		];
 	}
 

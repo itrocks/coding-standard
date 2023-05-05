@@ -6,8 +6,6 @@ use ITRocks\Coding_Standard\Tests\Error;
 use ITRocks\Coding_Standard\Tests\Sniff_Test_Case;
 
 /**
- * Class Method_Name_Test
- *
  * @see Method_Name_Sniff
  */
 class Method_Name_Test extends Sniff_Test_Case
@@ -21,7 +19,7 @@ class Method_Name_Test extends Sniff_Test_Case
 	 * @return Error[]
 	 * @see testExpectedErrors
 	 */
-	public function getExpectedErrors()
+	public function getExpectedErrors() : array
 	{
 		return [
 			new Error(26, sprintf(Method_Name_Sniff::ERROR, 'not_good'), static::SOURCE),

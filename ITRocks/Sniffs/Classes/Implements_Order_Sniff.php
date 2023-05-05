@@ -10,6 +10,7 @@ use PHP_CodeSniffer\Sniffs\Sniff;
  */
 class Implements_Order_Sniff implements Sniff
 {
+
 	//----------------------------------------------------------------------------------------- ERROR
 	const ERROR = 'AutoFixable : Implemented interfaces must be listed alphabetically';
 
@@ -17,11 +18,9 @@ class Implements_Order_Sniff implements Sniff
 	/**
 	 * Get the full name of an interface, even if its declared using full namespace.
 	 *
-	 * @param $file  File    The current file.
-	 * @param $start integer
-	 * @return string
+	 * @param File $file The current file.
 	 */
-	private function getInterfaceFullName(File $file, &$start)
+	private function getInterfaceFullName(File $file, int &$start) : string
 	{
 		$interface = '';
 		$tokens    = $file->getTokens();
@@ -37,10 +36,8 @@ class Implements_Order_Sniff implements Sniff
 	}
 
 	//--------------------------------------------------------------------------------------- process
-	/**
-	 * {@inheritdoc}
-	 */
-	public function process(File $file, $stack_ptr)
+	/** {@inheritdoc} */
+	public function process(File $file, $stack_ptr) : void
 	{
 		$end        = $file->findNext(T_OPEN_CURLY_BRACKET, $stack_ptr + 2);
 		$interfaces = [];
@@ -76,7 +73,7 @@ class Implements_Order_Sniff implements Sniff
 	 * @codeCoverageIgnore
 	 * {@inheritdoc}
 	 */
-	public function register()
+	public function register() : array
 	{
 		return [T_IMPLEMENTS];
 	}

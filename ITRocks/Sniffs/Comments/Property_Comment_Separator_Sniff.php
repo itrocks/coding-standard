@@ -5,7 +5,6 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\AbstractVariableSniff;
 
 /**
- * Class Property_Comment_Separator_Sniff.
  * Make sure class's properties have a valid comment separator.
  */
 class Property_Comment_Separator_Sniff extends AbstractVariableSniff
@@ -18,7 +17,7 @@ class Property_Comment_Separator_Sniff extends AbstractVariableSniff
 	 *
 	 * {@inheritdoc}
 	 */
-	protected function processMemberVar(File $phpcs_file, $stack_ptr)
+	protected function processMemberVar(File $phpcs_file, $stack_ptr) : void
 	{
 		$tokens   = $phpcs_file->getTokens();
 		$property = $tokens[$stack_ptr]['content'];
@@ -31,18 +30,18 @@ class Property_Comment_Separator_Sniff extends AbstractVariableSniff
 	 *
 	 * {@inheritdoc}
 	 */
-	protected function processVariable(File $phpcs_file, $stack_ptr)
+	protected function processVariable(File $phpcs_file, $stack_ptr) : void
 	{
 		// Don't care about normal variables.
 	}
 
 	//----------------------------------------------------------------------- processVariableInString
 	/**
-	 * Called to process variables found in double quoted strings or heredocs.
+	 * Called to process variables found in double-quoted strings or heredocs.
 	 *
 	 * {@inheritdoc}
 	 */
-	protected function processVariableInString(File $phpcs_file, $stack_ptr)
+	protected function processVariableInString(File $phpcs_file, $stack_ptr) : void
 	{
 		// Don't care about variables in double quotes.
 	}

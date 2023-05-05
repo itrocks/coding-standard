@@ -3,33 +3,18 @@ namespace ITRocks\Coding_Standard\Tests;
 
 class Error
 {
+
 	//----------------------------------------------------------------------------------------- $line
-	/**
-	 * @var integer
-	 */
-	public $line;
+	public int $line;
 
 	//-------------------------------------------------------------------------------------- $message
-	/**
-	 * @var string
-	 */
-	public $message;
+	public string $message;
 
 	//--------------------------------------------------------------------------------------- $source
-	/**
-	 * @var string
-	 */
-	public $source;
+	public string $source;
 
 	//----------------------------------------------------------------------------------- __construct
-	/**
-	 * Error constructor
-	 *
-	 * @param $line    integer
-	 * @param $message string
-	 * @param $source  string
-	 */
-	public function __construct($line, $message, $source)
+	public function __construct(int $line, string $message, string $source)
 	{
 		$this->line    = $line;
 		$this->message = $message;

@@ -5,7 +5,6 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
- * Class Upper_Snake_Case_Sniff
  * Make sure class names are in valid upper snake case.
  */
 class Upper_Snake_Case_Sniff implements Sniff
@@ -15,13 +14,8 @@ class Upper_Snake_Case_Sniff implements Sniff
 	const ERROR = "%s is not in valid Upper_Snake_Case format";
 
 	//-------------------------------------------------------------------------- formatUpperSnakeCase
-	/**
-	 * Format the given class name is upper snake case.
-	 *
-	 * @param $class_name string
-	 * @return string
-	 */
-	public function formatUpperSnakeCase($class_name)
+	/** Format the given class name is upper snake case. */
+	public function formatUpperSnakeCase(mixed $class_name) : string
 	{
 		$pattern = '#([A-Z])#';
 		if (!is_string($class_name)) {
@@ -45,13 +39,8 @@ class Upper_Snake_Case_Sniff implements Sniff
 	}
 
 	//------------------------------------------------------------------------- isValidUpperSnakeCase
-	/**
-	 * Returns true if given class name is a well formed upper snake case, false otherwise.
-	 *
-	 * @param $class_name string
-	 * @return  boolean
-	 */
-	public function isValidUpperSnakeCase($class_name)
+	/** Returns true if given class name is a well-formed upper snake case, false otherwise. */
+	public function isValidUpperSnakeCase(mixed $class_name) : bool
 	{
 		if (!is_string($class_name)) {
 			return false;
@@ -72,10 +61,8 @@ class Upper_Snake_Case_Sniff implements Sniff
 	}
 
 	//--------------------------------------------------------------------------------------- process
-	/**
-	 * {@inheritdoc}
-	 */
-	public function process(File $file, $stack_ptr)
+	/** {@inheritdoc} */
+	public function process(File $file, $stack_ptr) : void
 	{
 		$tokens = $file->getTokens();
 		$class_name = $tokens[$stack_ptr + 2]['content'];
@@ -90,7 +77,7 @@ class Upper_Snake_Case_Sniff implements Sniff
 	 * @codeCoverageIgnore
 	 * {@inheritdoc}
 	 */
-	public function register()
+	public function register() : array
 	{
 		return [
 			T_CLASS,
