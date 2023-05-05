@@ -31,7 +31,7 @@ class Namespace_Sniff implements Sniff
 		$line_number = $namespace['line'];
 
 		// Is there shebang
-		$line_offset = strpos($tokens[0]['content'], '#!') === 0 ? 1 : 0;
+		$line_offset = str_starts_with($tokens[0]['content'], '#!') ? 1 : 0;
 
 		// <?php on same line as namespace
 		if (isset($tokens[$stack_ptr - 1])
