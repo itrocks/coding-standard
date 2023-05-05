@@ -24,11 +24,11 @@
 	"scripts": {
 		"cghooks": "vendor/bin/cghooks",
 		"post-install-cmd": [
-			"php vendor/bin/phpcs --config-set installed_paths `realpath ./ITRocks`",
+			"vendor/bin/phpcs --config-set installed_paths `realpath vendor/itrocks/coding-standard/ITRocks`",
 			"vendor/bin/cghooks add --ignore-lock"
 		],
 		"post-update-cmd": [
-			"php vendor/bin/phpcs --config-set installed_paths `realpath ./ITRocks`",
+			"vendor/bin/phpcs --config-set installed_paths `realpath vendor/itrocks/coding-standard/ITRocks`",
 			"vendor/bin/cghooks update"
 		]
 	},
