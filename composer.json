@@ -12,7 +12,7 @@
 	}},
 	"license":           "LGPL-3.0-or-later",
 	"minimum-stability": "stable",
-  "name":              "itrocks/coding_standard",
+  "name":              "itrocks/coding-standard",
 	"require": {
 		"brainmaestro/composer-git-hooks": "^2.4",
 		"squizlabs/php_codesniffer": "^3.0"
