@@ -32,11 +32,44 @@ class Opening_Function_Brace_Sniff extends OpeningFunctionBraceBsdAllmanSniff
 	//-------------------------------------------------------------------------------- SPACES_PER_TAB
 	const SPACES_PER_TAB = 4 ;
 
+	//-------------------------------------------------------------------------- $anonymous_class_end
+	protected int $anonymous_class_end = 0;
+
 	//--------------------------------------------------------------------------------------- process
 	/** {@inheritdoc} */
 	public function process(File $file, $stack_ptr) : void
 	{
-		$tokens          = $file->getTokens();
+		$tokens     = $file->getTokens();
+		$token_code = $tokens[$stack_ptr]['code'];
+		if ($token_code === T_ANON_CLASS) {
+			$depth = 0;
+			do {
+				$stack_ptr ++;
+				$token = $tokens[$stack_ptr] ?? false;
+				if ($token === false) {
+					return;
+				}
+				if ($token['content'] === '{') {
+					$depth ++;
+				}
+				elseif ($token['content'] === '}') {
+					$depth --;
+					if (!$depth) {
+						$this->anonymous_class_end = $stack_ptr;
+						return;
+					}
+				}
+			} while ($token);
+			return;
+		}
+		elseif ($token_code === T_CLOSURE) {
+			parent::process($file, $stack_ptr);
+			return;
+		}
+		elseif ($stack_ptr < $this->anonymous_class_end) {
+			return;
+		}
+
 		$token_navigator = new Token_Navigator($file, $stack_ptr);
 
 		// Does not exist for function taking no parameters.
@@ -186,6 +219,16 @@ class Opening_Function_Brace_Sniff extends OpeningFunctionBraceBsdAllmanSniff
 			// No brace opener
 			parent::process($file, $stack_ptr);
 		}
+	}
+
+	/**
+	 * Registers the tokens that this sniff wants to listen for.
+	 *
+	 * @return int[]
+	 */
+	public function register()
+	{
+		return array_merge([T_ANON_CLASS], parent::register());
 	}
 
 }
