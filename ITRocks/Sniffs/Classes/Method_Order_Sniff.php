@@ -23,12 +23,31 @@ class Method_Order_Sniff implements Sniff
 		$correct_methods   = [];
 		$misplaced_methods = [];
 
+		$depth = 0;
 		while ($function) {
 			$end = null;
 			if (isset($tokens[$stack_ptr]['scope_closer'])) {
 				$end = $tokens[$stack_ptr]['scope_closer'];
 			}
-			$function = $file->findNext(T_FUNCTION, $function + 1, $end);
+			do {
+				$function ++;
+				$token = $tokens[$function] ?? false;
+				if (!$token) {
+					break 2;
+				}
+				if ($token['content'] === '{') {
+					$depth ++;
+				}
+				elseif ($token['content'] === '}') {
+					$depth --;
+					if (!$depth) {
+						break 2;
+					}
+				}
+				elseif ($token['code'] === T_ANON_CLASS) {
+					$this->process($file, $function);
+				}
+			} while (!(($depth === 1) && ($token['code'] === T_FUNCTION)));
 
 			if (isset($tokens[$function]['parenthesis_opener'])) {
 				$scope = $file->findNext(
