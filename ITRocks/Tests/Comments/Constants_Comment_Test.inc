@@ -1,6 +1,9 @@
 <?php
 namespace ITRocks\Coding_Standard\Tests\Comments;
 
+//------------------------------------------------------------------------------------ GA
+const GA = '';
+
 /**
  * Class Foo
  */

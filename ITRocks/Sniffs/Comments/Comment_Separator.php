@@ -61,7 +61,9 @@ trait Comment_Separator
 		$error = $this->error($file, $stack_ptr, $name, 'Invalid');
 		$fix   = $file->addFixableError($error['message'], $stack_ptr, $error['type']);
 		if ($fix) {
-			$file->fixer->replaceToken($comment_pos, $this->getCommentSeparator($name));
+			$file->fixer->replaceToken(
+				$comment_pos, $this->getCommentSeparator($name, $file, $stack_ptr)
+			);
 		}
 	}
 
@@ -80,7 +82,7 @@ trait Comment_Separator
 		$error = $this->error($file, $stack_ptr, $name, 'Missing');
 		$fix   = $file->addFixableError($error['message'], $stack_ptr, $error['type']);
 		if ($fix) {
-			$file->fixer->addContentBefore($comment_pos, $this->getCommentSeparator($name));
+			$file->fixer->addContentBefore($comment_pos, $this->getCommentSeparator($name, $file, $stack_ptr));
 			$file->fixer->addNewlineBefore($comment_pos);
 		}
 	}
@@ -116,7 +118,7 @@ trait Comment_Separator
 		foreach ($tokens as $pos => $token) {
 			if ($token['code'] === T_COMMENT) {
 				$found = true;
-				if ($token['content'] != $this->getCommentSeparator($name)) {
+				if ($token['content'] != $this->getCommentSeparator($name, $file, $stack_ptr)) {
 					$this->errorInvalidComment($file, $stack_ptr, $name, $pos);
 				}
 			}
@@ -130,9 +132,22 @@ trait Comment_Separator
 
 	//--------------------------------------------------------------------------- getCommentSeparator
 	/** Generates a comment separator for the given name. */
-	public function getCommentSeparator(string $name) : string
+	public function getCommentSeparator(string $name, File $file = null, int $stack_ptr = null) : string
 	{
-		return '//' . str_repeat('-', $this->length - strlen($name)) . ' ' . $name . chr(10);
+		$remove = 0;
+		if ($file) {
+			$tokens = $file->getTokens();
+			while ($stack_ptr && !str_contains($tokens[$stack_ptr]['content'], "\n")) {
+				$stack_ptr --;
+			}
+			if (str_ends_with($tokens[$stack_ptr]['content'], "\n")) {
+				$stack_ptr ++;
+			}
+			$content = $tokens[$stack_ptr]['orig_content'] ?? $tokens[$stack_ptr]['content'];
+			$tabs    = substr_count($content, "\t") ?: substr_count($content, '  ');
+			$remove  = ($tabs - 1) * 2;
+		}
+		return '//' . str_repeat('-', $this->length - strlen($name) - $remove) . ' ' . $name . chr(10);
 	}
 
 	//------------------------------------------------------------------------------- getConstantName

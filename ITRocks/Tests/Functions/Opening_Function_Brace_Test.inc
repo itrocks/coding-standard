@@ -327,7 +327,7 @@ class Foo
 
 }
 
-	//----------------------------------------------------------------------- case100externalFunction
+//------------------------------------------------------------------------- case100externalFunction
 /**
  * Test case OK: external function
  */
@@ -336,7 +336,7 @@ function case100externalFunction(string $base_class)
 
 }
 
-	//----------------------------------------------------------------------- case101externalFunction
+//------------------------------------------------------------------------- case101externalFunction
 /**
  * Test case OK: external function
  */
@@ -345,7 +345,7 @@ function case101externalFunction(string $base_class, string $feature_name) : ?st
 
 }
 
-	//----------------------------------------------------------------------- case102externalFunction
+//------------------------------------------------------------------------- case102externalFunction
 /**
  * Test case OK: external function
  */
@@ -357,7 +357,7 @@ function case102externalFunction(
 
 }
 
-	//----------------------------------------------------------------------- case103externalFunction
+//------------------------------------------------------------------------- case103externalFunction
 /**
  * Test case OK: external function
  */
@@ -367,7 +367,7 @@ function case103externalFunction(string $base_class, string $feature_name, strin
 
 }
 
-	//----------------------------------------------------------------------- case104externalFunction
+//------------------------------------------------------------------------- case104externalFunction
 /**
  * Test case KO: missing indentation
  */

@@ -22,9 +22,11 @@ class Constants_Comment_Test extends Sniff_Test_Case
 	public function getExpectedErrors() : array
 	{
 		return [
-			new Error(9, sprintf(Constant_Comment_Separator_Sniff::$messages['Missing'], 'const', 'A'),
+			new Error(5, sprintf(Constant_Comment_Separator_Sniff::$messages['Invalid'], 'const', 'GA'),
+				static::SOURCE_INVALID),
+			new Error(12, sprintf(Constant_Comment_Separator_Sniff::$messages['Missing'], 'const', 'A'),
 				static::SOURCE_MISSING),
-			new Error(12, sprintf(Constant_Comment_Separator_Sniff::$messages['Invalid'], 'const', 'B'),
+			new Error(15, sprintf(Constant_Comment_Separator_Sniff::$messages['Invalid'], 'const', 'B'),
 				static::SOURCE_INVALID),
 		];
 	}
