@@ -96,10 +96,19 @@ trait Comment_Separator
 	public function findError(File $file, int $stack_ptr, string $name) : void
 	{
 		$token_navigator = new Token_Navigator($file, $stack_ptr);
-		$line            = $file->getTokens()[$stack_ptr]['line'];
+		$line   = $file->getTokens()[$stack_ptr]['line'];
+
+		// Is indentation 0 (global) or 1 (class) ? If not: it is an anonymous/closure: don't care
+		$tokens = $token_navigator->getTokens($line, $line);
+		$token  = reset($tokens);
+		if ($token['code'] === T_WHITESPACE) {
+			if (substr_count($token['orig_content'] ?? $token['content'], "\t") > 1) {
+				return;
+			}
+		}
 
 		// Is there attribute(s) before ?
-		$tokens  = $token_navigator->getTokens($line - 1, $line - 1, T_ATTRIBUTE_END);
+		$tokens = $token_navigator->getTokens($line - 1, $line - 1, T_ATTRIBUTE_END);
 		while ($line && $tokens) {
 			$open_tag = $file->findPrevious(T_ATTRIBUTE, array_key_last($tokens));
 			$line     = $file->getTokens()[$open_tag]['line'];
@@ -123,6 +132,7 @@ trait Comment_Separator
 				}
 			}
 		}
+
 		if (!$found) {
 			$tokens = $token_navigator->getTokens($line);
 			$first  = array_keys($tokens)[0];
