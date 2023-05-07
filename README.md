@@ -87,6 +87,11 @@ vendor/bin/phpunit
 
 Right-click on "phpunit.xml.dist" and select "Run phpunit.xml.dist".
 
+This works only for coding-standard being installed into a dependency of your project. If you want
+to run tests on a standalone mode, you have to change this file path into the phpunit.xml.dist file :
+- for dependency : bootstrap="../../../vendor/squizlabs/php_codesniffer/tests/bootstrap.php"
+- for standalone : bootstrap="vendor/squizlabs/php_codesniffer/tests/bootstrap.php"
+
 ## 3. PhpStorm integration
 
 After having [cloned this project on your disk](#12-stand-alone),
