@@ -80,7 +80,7 @@ class Valid_Variable_Name_Test extends Sniff_Test_Case
 	 *
 	 * @return array<array{string,bool}>
 	 */
-	public function uppercaseProvider() : array
+	public static function uppercaseProvider() : array
 	{
 		return [
 			['',          false],
@@ -100,7 +100,7 @@ class Valid_Variable_Name_Test extends Sniff_Test_Case
 	 *
 	 * @return array<array{string,bool}>
 	 */
-	public function variableNameProvider() : array
+	public static function variableNameProvider() : array
 	{
 		return [
 			['',          false],

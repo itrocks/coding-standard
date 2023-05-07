@@ -24,7 +24,7 @@ class Upper_Snake_Case_Test extends Sniff_Test_Case
 	 *
 	 * @return array<array{null|string,string}>
 	 */
-	public function classNameFormatProvider() : array
+	public static function classNameFormatProvider() : array
 	{
 		return [
 			[null, ''],
@@ -51,7 +51,7 @@ class Upper_Snake_Case_Test extends Sniff_Test_Case
 	 *
 	 * @return array<array{int|string,bool}>
 	 */
-	public function classNameProvider() : array
+	public static function classNameProvider() : array
 	{
 		return [
 			['foo', false],

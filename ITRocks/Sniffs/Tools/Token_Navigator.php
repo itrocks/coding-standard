@@ -5,6 +5,7 @@ use PHP_CodeSniffer\Files\File;
 
 class Token_Navigator
 {
+
 	//----------------------------------------------------------------------------------------- $file
 	public File $file;
 

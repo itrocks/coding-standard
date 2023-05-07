@@ -15,7 +15,7 @@ class Clever_String_Sorter_Test extends TestCase
 	 * @return array<string,array{int,string,string}>
 	 * @see testCamelCase
 	 */
-	public function camelCaseProvider() : array
+	public static function camelCaseProvider() : array
 	{
 		return [
 			'Equals'          => [0, 'fooBar', 'fooBar'],
@@ -32,7 +32,7 @@ class Clever_String_Sorter_Test extends TestCase
 	 * @return array<string,array{int,string,string}>
 	 * @see testSnakeCase
 	 */
-	public function snakeCaseProvider() : array
+	public static function snakeCaseProvider() : array
 	{
 		return [
 			'Equals'          => [0, 'foo_bar', 'foo_bar'],
@@ -49,7 +49,7 @@ class Clever_String_Sorter_Test extends TestCase
 	 * @return array<string,array{int,array<string>,array<string>}>
 	 * @see testStrings
 	 */
-	public function stringsProvider() : array
+	public static function stringsProvider() : array
 	{
 		return [
 			'Equals'          => [0, ['foo', 'bar'], ['foo', 'bar']],

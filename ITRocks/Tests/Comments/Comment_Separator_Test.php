@@ -64,7 +64,7 @@ class Comment_Separator_Test extends Sniff_Test_Case
 	 *
 	 * @return array<array{string,string}>
 	 */
-	public function nameProvider() : array
+	public static function nameProvider() : array
 	{
 		return [
 			['foo', '//' . str_repeat('-', 91) . " foo\n"],
